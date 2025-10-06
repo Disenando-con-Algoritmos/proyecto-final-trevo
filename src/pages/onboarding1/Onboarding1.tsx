@@ -1,7 +1,14 @@
+import ContinueButton from "../../components/ContinueButton";
+
 export default function Onboarding1 () {
     return(
-        <div id="onboarding1-page">
-            <h1 className="text-4xl">onboarding 1</h1>
+        <div id="full-page">
+            <div id="boarding-container">
+                <div id="boarding2-continer">
+                    
+                </div>
+                <ContinueButton />
+            </div>
         </div>
     );
 }
