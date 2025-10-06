@@ -10,7 +10,7 @@ export default function Onboarding1 () {
                 <div id="boarding2-continer">
                     <ContinueButton />
                     <p>
-                        <Link to="entrypoint">
+                        <Link className="underline" to="entrypoint">
                             skip
                         </Link>
                     </p>
