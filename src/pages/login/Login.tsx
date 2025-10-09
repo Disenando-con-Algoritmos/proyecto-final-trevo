@@ -1,11 +1,17 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, InputAdornment, IconButton,} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import fondoLogin from "./fongoL.png";
 
 export default function Login() {
     const formRef = useRef(null);
     const nav = useNavigate();
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event) => event.preventDefault(); 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,7 +30,7 @@ export default function Login() {
         <div className="flex min-h-screen">
             <div
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
-                style={{
+                style={{   
                     backgroundImage: `url(${fondoLogin})`,
                     backgroundPosition: "center 92%",
                 }}
@@ -41,45 +47,48 @@ export default function Login() {
                     ref={formRef}
                     onSubmit={handleSubmit}
                     className="flex flex-col justify-center items-center gap-3 w-[400px] max-w-md font-[poppins]">
+                    
                     <TextField
                         fullWidth
                         label="Enter email or username"
                         variant="outlined"
                         className="font-[poppins]"
-                        name="username" sx={{
-                            "& .MuiOutlinedInput-root": {
-                                borderRadius: "0.75rem",
-                            },
-                            "& fieldset": {
-                                borderColor: "#9b7ff5",
-                            },
-                            "& .MuiInputBase-input": {
-                                color: "#aaa",
-                            },
-                            "& .MuiInputLabel-root": {
-                                color: "#aaa",
-                            },
-                        }}/>
+                        color="secondary" focused 
+                        name="username"
+                        sx={{input: { color: "white" }
+                        }}
+                    />
+
                     <TextField
                         fullWidth
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         label="Password"
                         variant="outlined"
+                        color="secondary" focused
                         className="font-[poppins]"
-                        name="password" sx={{
-                            "& .MuiOutlinedInput-root": {
-                                borderRadius: "0.75rem",
-                            },
-                            "& fieldset": {
-                                borderColor: "#9b7ff5",
-                            },
-                            "& .MuiInputBase-input": {
-                                color: "#aaa",
-                            },
-                            "& .MuiInputLabel-root": {
-                                color: "#aaa",
-                            },
+                        name="password"
+                        sx={{
+                            input: { color: "white" },
+                        }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                    //handleClickShowPassword
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        //handleMouseDownPassword
+                                        edge="end">
+                                        {showPassword ? (
+                                            <Visibility sx={{ color: "purple" }} />
+                                        ) : (
+                                            <VisibilityOff sx={{ color: "white" }} />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
                         }}/>
+
                     <div className="flex items-center mb-2 self-start">
                         <input
                             id="remember-me"
@@ -99,14 +108,11 @@ export default function Login() {
                         
                         sx={{
                             fontFamily: "Poppins",
-                            borderRadius: "1    rem",
+                            borderRadius: "12px",
                             backgroundColor: "#9b7ff5",
                             color: "white",
                             paddingY: "10px",
                             paddingX: "90px",
-                            "&:hover": {
-                                backgroundColor: "#b28eff",
-                            },
                         }}>
                     Log in
                     </Button>
