@@ -1,3 +1,4 @@
+
 export default function EntryPoint () {
     return(
         <div id="entrypoint-page">
