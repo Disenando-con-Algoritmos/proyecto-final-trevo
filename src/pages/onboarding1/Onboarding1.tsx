@@ -5,10 +5,11 @@ import ContinueButton from "../../components/ContinueButton";
 
 import image1 from "./image1.png";
 import image2 from "./image2.png";
+import background from "./background.png";
 
 export default function Onboarding1 () {
     return(
-        <div id="full-page" className="h-screen flex items-center justify-center">
+        <div id="full-page" className="h-screen flex items-center justify-center bg-cover bg-center"style={{ backgroundImage: `url(${background})` }}>
             <div id="boarding1-container" className="w-120 h-150 bg-[#9872F0] rounded-3xl shadow-lg relative">
                 <img src={image1} alt="onboarding ilustration" className="absolute top-1/3 left-65 transform -translate-x-1/2 -translate-y-1/3 w-80 h-55 object-contain" />
                 <img src={image2} alt="onboarding title" className="absolute left-1/2 transform -translate-x-1/2 w-70 h-auto object-contain top-[5%]"/>
