@@ -5,6 +5,8 @@ import NavBar from "../../components/NavBar";
 import PostCard from "../../components/PostCard";
 import type { Posttype } from "../../types/postTypes";
 import { getPosts } from "../../services/postServices";
+import InstructorCard from "../../components/InstructorCard";
+import WorkoutCard from "../../components/WorkoutCard";
 
 import ContainerHashtag from "./ContainerHashtag";
 
@@ -42,6 +44,21 @@ export default function Home () {
                 {posts.map((post: Posttype) => {
                     return <PostCard key={post.id} post={post} />;
                 })}
+            </div>
+
+            <div className="mt-25" id="extra-info">
+                <p className="text-[#CAD83B] text-[17px] mb-1">Instructors</p>
+                <div className="flex gap-5 flex-col">
+                    <InstructorCard/>
+                    <InstructorCard/>
+                </div>
+                <p className="text-[#CAD83B] text-[17px] mb-1 mt-7">Workouts</p>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                    <WorkoutCard/>
+                    <WorkoutCard/>
+                    <WorkoutCard/>
+                    <WorkoutCard/>
+                </div>
             </div>
         </div>
     );

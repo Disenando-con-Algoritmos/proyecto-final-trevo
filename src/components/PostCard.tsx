@@ -7,8 +7,9 @@ export default function PostCard({ post }: { post: Posttype }) {
         <div className="w-[400px] mx-auto text-white rounded-2xl p-4 mt-2 font-sans">
             <div className="flex items-center gap-2 mb-4 font-[neulis]">
                 <img src={post.profilepic} alt="profile" className="w-10 h-10 rounded-full object-cover" />
-                <div>
+                <div className="flex flex-row gap-4 items-center">
                     <h2 className="font-medium text-[16px]">{post.username}</h2>
+                    <p className="font-[poppins] text-[10px]">{post.date}</p>
                 </div>
             </div>
 
