@@ -1,6 +1,7 @@
 import { Bell } from "lucide-react";
 
 import NavBar from "../../components/NavBar";
+import PostCard from "../../components/PostCard";
 
 import ContainerHashtag from "./ContainerHashtag";
 
@@ -22,6 +23,10 @@ export default function Home () {
                     <ContainerHashtag text="#motivation"/>
                     <ContainerHashtag text="#runnies"/>
                 </div>
+            </div>
+
+            <div className="ml-[320px] mt-[200px] top-0 bg-[#1E1E1E] w-[600px] h-min">
+                <PostCard/>
             </div>
         </div>
     );
