@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "profilepic": "https://randomuser.me/api/portraits/women/44.jpg",
+        "username": "Hellen Ramirez",
+        "description": "Just completed the pull + Abs workout, let’s keep goingg!!",
+        "image": "https://i.pinimg.com/736x/6b/20/33/6b20330c8d99b7693db57da5a927dea7.jpg",
+        "likes": 10,
+        "comments": 1,
+        "hashtag": "#gym"
+    },
+    {
+        "id": 2,
+        "profilepic": "https://randomuser.me/api/portraits/women/45.jpg",
+        "username": "Johanna Palacios",
+        "description": "My lunch today! Fueling my body with something healthy 💚 Hope you eat something that makes you feel good too!",
+        "image": "https://i.pinimg.com/736x/cd/d5/45/cdd545113d17582732686c488f7ece66.jpg",
+        "likes": 3,
+        "comments": 2,
+        "hashtag": "#foodie"
+    },
+    {
+        "id": 3,
+        "profilepic": "https://randomuser.me/api/portraits/women/47.jpg",
+        "username": "Andrea Melendez",
+        "description": "Morning run finished! Sometimes the hardest step is just putting on your shoes.",
+        "image": "https://i.pinimg.com/1200x/22/39/79/2239794a721f16215acc4c7a252af6d9.jpg",
+        "likes": 11,
+        "comments": 0,
+        "hashtag": "#runnies"
+    },
+    {
+        "id": 4,
+        "profilepic": "https://randomuser.me/api/portraits/men/46.jpg",
+        "username": "Alex Perea",
+        "description": "First 2 km run! Out of breath, but full of motivation. Wanna go and run together?",
+        "image": "https://i.pinimg.com/736x/b8/59/49/b85949c7abaa50046d394f122c2673a1.jpg",
+        "likes": 4,
+        "comments": 2,
+        "hashtag": "#runnies"
+    },
+    {
+        "id": 5,
+        "profilepic": "https://randomuser.me/api/portraits/women/48.jpg",
+        "username": "Camila Uribe",
+        "description": "Day 1 at the gym! Not strong yet, but already proud I showed up.",
+        "image": "https://i.pinimg.com/736x/b0/55/b1/b055b121a2566edd5cc43c7f607a5636.jpg",
+        "likes": 16,
+        "comments": 0,
+        "hashtag": "#runnies"
+    },
+    {
+        "id": 6,
+        "profilepic": "https://randomuser.me/api/portraits/men/47.jpg",
+        "username": "Carlos Blond",
+        "description": "Learning to cook healthier meals. It feels good to fuel my body right.",
+        "image": "https://i.pinimg.com/1200x/0b/c5/23/0bc523a2ee577e2f8a27339d3abf20cc.jpg",
+        "likes": 6,
+        "comments": 1,
+        "hashtag": "#runnies"
+    },
+    {
+        "id": 7,
+        "profilepic": "https://randomuser.me/api/portraits/women/50.jpg",
+        "username": "Manuela Rodriguez",
+        "description": "I just love a pilates day with my mom and some friends is just so magical",
+        "image": "https://i.pinimg.com/736x/33/21/1f/33211ff572c7bdf2eb3d74442ecd05d2.jpg",
+        "likes": 19,
+        "comments": 5,
+        "hashtag": "#runnies"
+    }
+]
