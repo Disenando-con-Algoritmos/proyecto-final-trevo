@@ -1,0 +1,61 @@
+import { Home, Search, Dumbbell, User, Plus, LogOut } from "lucide-react";
+import { Link } from "react-router";
+
+export default function NavBar() {
+    return (
+        <div className="min-h-screen w-[300px] bg-[#121212] flex flex-col font-[neulis] text-white">
+            <h1 className="text-[42px] font-bold text-[#CAD83B] px-6 pt-8 pb-2 pl-7">Trevo</h1>
+
+            <ul className="menu p-4 pl-12 flex flex-col justify-center w-full divide-y divide-[#9872F0]">
+                <li className="py-3">
+                    <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                        <Home size={20} />
+                        <span>Home</span>
+                    </a>
+                </li>
+
+                <Link to="/auth/discover/instructors">
+                    <li className="py-2">
+                        <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                            <Search size={20} />
+                            <span>Discover</span>
+                        </a>
+                    </li>
+                </Link>
+
+                <Link to="/auth/myworkouts">
+                    <li className="py-2">
+                        <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                            <Dumbbell size={20} />
+                            <span>My workouts</span>
+                        </a>
+                    </li>
+                </Link>
+
+                <Link to="/auth/profile">
+                    <li className="py-2">
+                        <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                            <User size={20} />
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                </Link>
+
+                <li className="py-2">
+                    <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                        <Plus size={20} />
+                        <span>Create</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div className="flex flex-col ">
+                <img src="../public/images/homecharacter.png" alt="" className="w-[170px]" />
+                <button className="flex items-center justify-center mt-16 gap-5 text-white hover:opacity-80 transition cursor-pointer">
+                    <LogOut size={18} />
+                    <span>Log out</span>
+                </button>
+            </div>
+        </div>
+    );
+}
