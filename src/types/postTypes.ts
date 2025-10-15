@@ -5,7 +5,7 @@ type Posttype = {
     date: string;
     description: string;
     image: string;
-    likes: string;
+    likes: number;
     hashtag: string;
     comments: comment;
 };
