@@ -7,39 +7,34 @@ export default function NavBar() {
             <h1 className="text-[42px] font-bold text-[#CAD83B] px-6 pt-8 pb-2 pl-7">Trevo</h1>
 
             <ul className="menu p-4 pl-12 flex flex-col justify-center w-full divide-y divide-[#9872F0]">
-                <li className="py-3">
-                    <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+
+                <li className="py-2">
+                    <Link to="/auth/home" className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
                         <Home size={20} />
                         <span>Home</span>
-                    </a>
+                    </Link>
                 </li>
 
-                <Link to="/auth/discover/instructors">
-                    <li className="py-2">
-                        <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
-                            <Search size={20} />
-                            <span>Discover</span>
-                        </a>
-                    </li>
-                </Link>
+                <li className="py-2">
+                    <Link to="/auth/discover/instructors" className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                        <Search size={20} />
+                        <span>Discover</span>
+                    </Link>
+                </li>
 
-                <Link to="/auth/myworkouts">
-                    <li className="py-2">
-                        <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
-                            <Dumbbell size={20} />
-                            <span>My workouts</span>
-                        </a>
-                    </li>
-                </Link>
+                <li className="py-2">
+                    <Link to="/auth/myworkouts" className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                        <Dumbbell size={20} />
+                        <span>My workouts</span>
+                    </Link>
+                </li>
 
-                <Link to="/auth/profile">
-                    <li className="py-2">
-                        <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
-                            <User size={20} />
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                </Link>
+                <li className="py-2">
+                    <Link to="/auth/profile" className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                        <User size={20} />
+                        <span>Profile</span>
+                    </Link>
+                </li>
 
                 <li className="py-2">
                     <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
@@ -50,7 +45,7 @@ export default function NavBar() {
             </ul>
 
             <div className="flex flex-col ">
-                <img src="../public/images/homecharacter.png" alt="" className="w-[170px]" />
+                <img src="../public/assets/homecharacter.png" alt="" className="w-[170px]" />
                 <button className="flex items-center justify-center mt-16 gap-5 text-white hover:opacity-80 transition cursor-pointer">
                     <LogOut size={18} />
                     <span>Log out</span>
