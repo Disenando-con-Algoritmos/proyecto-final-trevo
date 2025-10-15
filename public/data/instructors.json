@@ -1,0 +1,44 @@
+[
+    {   
+        "image": "",
+        "trainer": "Kayla Manousselis",
+        "price": "$20.00/month",
+        "description": "Transform your body and mind with personalized, high-energy workouts...",
+        "rating": 5
+    },
+    {   
+        "image": "",
+        "trainer": "Mariana Ceroni",
+        "price": "$13.99/month",
+        "description": "Train with me and reach your goals with discipline, motivation, and fun...",
+        "rating": 3
+    },
+    {   
+        "image": "",
+        "trainer": "Georgio Vasco",
+        "price": "$33.00/month",
+        "description": "Effective, tailored routines designed for your level to see real results...",
+        "rating": 4
+    },
+    {
+        "image": "",
+        "trainer": "Isabelle Cardona",
+        "price": "$15.99/month",
+        "description": "Burn fat, build muscle, and boost energy with programs designed just for you...",
+        "rating": 4
+    },
+    {
+        "image": "",
+        "trainer": "Anne Gauregi",
+        "price": "$8.90/month",
+        "description": "Guaranteed motivation and consistency, so you never feel alone in your journey...",
+        "rating": 2
+    },
+    {
+        "image": "",
+        "trainer": "Kevin Andrade",
+        "price": "$28.00/month",
+        "description": "I’ll help you achieve the body you’ve always wanted—safely and effectively...",
+        "rating": 5
+    }
+]

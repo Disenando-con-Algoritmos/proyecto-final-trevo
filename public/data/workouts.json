@@ -1,0 +1,50 @@
+[
+    {
+        "category": "Pilates",
+        "workouts": 28
+    },
+    {
+        "category": "Calisthenics",
+        "workouts": 22
+    },
+    {
+        "category": "Gym",
+        "workouts": 84
+    },
+    {
+        "category": "HIIT",
+        "workouts": 36
+    },
+    {
+        "category": "Stretching",
+        "workouts": 17
+    },
+    {
+        "category": "Yoga",
+        "workouts": 15
+    },
+    {
+        "category": "Senior fitness",
+        "workouts": 17
+    },
+    {
+        "category": "Face yoga",
+        "workouts": 15
+    },
+    {
+        "category": "Walking",
+        "workouts": 21
+    },
+    {
+        "category": "Running",
+        "workouts": 23
+    },
+    {
+        "category": "Tai-Chi",
+        "workouts": 12
+    },
+    {
+        "category": "Dancing",
+        "workouts": 43
+    }
+]

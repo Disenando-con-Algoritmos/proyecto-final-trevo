@@ -29,7 +29,7 @@ export default function Home () {
             
             <div id="info" className="fixed top-0 left-[330px] bg-[#1E1E1E] w-[580px] h-[200px] overflow-y-auto">
                 <div className="flex flex-row gap-35 mt-15 mb-2 items-center">
-                    <h1 className="text-[#CAD83B] text-[50px]">Hello, Sophia!</h1>
+                    <h1 className="text-[#CAD83B] text-[50px]">Hi, sophiarose!</h1>
                     <Bell size={28} />
                 </div>
                 <div className="flex flex-row gap-2" id="containers">
