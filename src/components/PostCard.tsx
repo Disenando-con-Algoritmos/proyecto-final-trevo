@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
 
 import type { Posttype } from "../types/postTypes";
@@ -6,10 +6,27 @@ import type { Posttype } from "../types/postTypes";
 export default function PostCard({ post }: { post: Posttype }) {
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes);
+    const [showComments, setShowComments] = useState(false);
+    const [comments, setComments] = useState<string[]>([]);
+    const [newComment, setNewComment] = useState("");
 
     const toggleLike = () => {
-        setLiked(!liked);
-        setLikeCount((prev) => prev + (liked ? -1 : 1));
+        if (liked) {
+            setLiked(false);
+            setLikeCount(likeCount - 1);
+        } else {
+            setLiked(true);
+            setLikeCount(likeCount + 1);
+        }
+    };
+
+    const toggleComments = () => setShowComments(!showComments);
+
+    const handleAddComment = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (newComment.trim() === "") return;
+        setComments([...comments, newComment]);
+        setNewComment("");
     };
 
     return (
@@ -33,13 +50,13 @@ export default function PostCard({ post }: { post: Posttype }) {
             <div className="flex items-center justify-between text-gray-300 text-sm">
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
-                        <Heart className={`w-5 h-5 cursor-pointer transition-colors ${liked ? "fill-[#9872F0] text-[#9872F0]" : "hover:text-[#7f5fc9]"}`} onClick={toggleLike} />
+                        <Heart className={`w-5 h-5 cursor-pointer transition-transform duration-150 ${liked ? "fill-pink-500 text-pink-500 scale-110" : "hover:text-pink-500"}`} onClick={toggleLike} />
                         <span>{likeCount}</span>
                     </div>
 
-                    <div className="flex items-center gap-1">
-                        <MessageCircle className="w-5 h-5 cursor-pointer hover:text-blue-400 transition-colors" />
-                        <span>{post.comments}</span>
+                    <div className="flex items-center gap-1 cursor-pointer hover:text-blue-400 transition-colors" onClick={toggleComments}>
+                        <MessageCircle className="w-5 h-5" />
+                        <span>{comments.length}</span>
                     </div>
                 </div>
 
@@ -48,6 +65,30 @@ export default function PostCard({ post }: { post: Posttype }) {
                     <Share2 className="w-5 h-5 cursor-pointer hover:text-gray-200 transition-colors" />
                 </div>
             </div>
+
+            {/* Comment Section uwu */}
+            {showComments && (
+                <div className="mt-4 border-t border-gray-700 pt-3">
+                    <form onSubmit={handleAddComment} className="flex gap-2 mb-3">
+                        <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Add a comment..." className="w-full bg-[#2b2b2b] text-sm text-white p-2 rounded-lg outline-none" />
+                        <button type="submit" className="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-lg text-sm">
+                            Post
+                        </button>
+                    </form>
+
+                    <div className="space-y-2 max-h-32 overflow-y-auto">
+                        {comments.length > 0 ? (
+                            comments.map((c, i) => (
+                                <p key={i} className="text-sm text-gray-300 bg-[#2b2b2b] p-2 rounded-lg">
+                                    <span className="font-semibold text-white">You:</span> {c}
+                                </p>
+                            ))
+                        ) : (
+                            <p className="text-gray-500 text-sm text-center">No comments yet. Be the first!</p>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

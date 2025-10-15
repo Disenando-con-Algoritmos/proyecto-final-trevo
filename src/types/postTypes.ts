@@ -1,13 +1,21 @@
 type Posttype = {
-    id: string;
+    id: number;
     profilepic: string;
     username: string;
     date: string;
     description: string;
     image: string;
     likes: string;
-    comments: number;
     hashtag: string;
+    comments: comment;
 };
 
-export type { Posttype };
+type comment = {
+    id: number;
+    username: string;
+    profilepic: string;
+    comment: string;
+    like: number;
+}
+
+export type { Posttype, comment };
