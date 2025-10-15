@@ -52,16 +52,21 @@ const router = createBrowserRouter(
                     Component: Profile,
                 },
                 {
-                    path: "instructors",
-                    Component: Instructors,
-                },
-                {
-                    path: "workouts",
-                    Component: Workouts,
-                },
-                {
                     path: "myworkouts",
                     Component: Myworkouts,
+                },
+                {
+                    path: "discover",
+                    children: [
+                        {
+                            path: "instructors",
+                            Component: Instructors,
+                        },
+                        {
+                            path: "workouts",
+                            Component: Workouts,
+                        },
+                    ]
                 },
             ],
         },
