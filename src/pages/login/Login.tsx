@@ -1,7 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { TextField, Button, InputAdornment, IconButton,} from "@mui/material";
+import { TextField, InputAdornment, IconButton,} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+import { BtnLogin } from "../../components/BtnLogin";
+
 import fondoLogin from "./fongoL.png";
 
 export default function Login() {
@@ -11,8 +14,9 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => event.preventDefault(); 
-
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -102,20 +106,7 @@ export default function Login() {
                         </label>
                     </div>
 
-                    <Button
-                        type="submit"
-                        variant="contained" 
-                        
-                        sx={{
-                            fontFamily: "Poppins",
-                            borderRadius: "12px",
-                            backgroundColor: "#9b7ff5",
-                            color: "white",
-                            paddingY: "10px",
-                            paddingX: "90px",
-                        }}>
-                    Log in
-                    </Button>
+                    <BtnLogin />
                     
                 </form>
             </div>
