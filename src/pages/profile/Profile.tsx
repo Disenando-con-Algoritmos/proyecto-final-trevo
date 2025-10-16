@@ -32,7 +32,7 @@ export default function Profile() {
                                     <p className="text-[18px] text-gray-300">Workouts</p>
                                 </div>
                             </div>
-                            <div id="icons" className="flex items-center space-x-6 ml-40">
+                            <div id="icons" className="flex items-center space-x-6 ml-3">
                                 <Upload size={30} color="#C8F442" />
                                 <Settings size={30} color="#C8F442" />
                             </div>
