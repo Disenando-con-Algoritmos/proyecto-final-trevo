@@ -10,8 +10,7 @@ export default function Profile() {
             </div>
 
             <div id="content" className="ml-[330px] flex flex-col p-4 min-h-screen text-white font-[neulis]">
-                <div id="info" className="w-[580px] h-[200px] bg-[#1E1E1E] p-4">
-                    <h1>hola</h1>
+                <div id="info" className="w-[1406px] h-[280px] bg-[#000000] p-4 ml-[-46px] mt-[-15px] rounded-b-[35px]">
                 </div>
             </div>
         </div>
