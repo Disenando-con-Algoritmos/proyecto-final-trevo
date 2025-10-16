@@ -70,14 +70,16 @@
                 "username": "andrea.melendez10",
                 "profilepic": "https://randomuser.me/api/portraits/women/47.jpg",
                 "comment": "Let’s gooo! I’m down for a weekend run 🏃‍♀️",
-                "likes": 3
+                "likes": 3,
+                "liked": false
             },
             {
                 "id": 2,
                 "username": "manu.rodriguez04",
                 "profilepic": "https://randomuser.me/api/portraits/women/50.jpg",
                 "comment": "That’s awesome! Keep it up 💪",
-                "likes": 2
+                "likes": 2,
+                "liked": false
             }
         ]
     },
@@ -107,7 +109,8 @@
                 "username": "joha_palacios15",
                 "profilepic": "https://randomuser.me/api/portraits/women/45.jpg",
                 "comment": "You’re inspiring me to start meal prepping again 👏",
-                "likes": 2
+                "likes": 2,
+                "liked": false
             }
         ]
     },
@@ -126,35 +129,40 @@
                 "username": "hellen.ramirez24",
                 "profilepic": "https://randomuser.me/api/portraits/women/44.jpg",
                 "comment": "That sounds so relaxing 😌 I need a pilates day soon!",
-                "likes": 5
+                "likes": 5,
+                "liked": false
             },
             {
                 "id": 2,
                 "username": "joha_palacios15",
                 "profilepic": "https://randomuser.me/api/portraits/women/45.jpg",
                 "comment": "Love that vibe 💕 family workouts are the best!",
-                "likes": 4
+                "likes": 4,
+                "liked": false
             },
             {
                 "id": 3,
                 "username": "carlos.blond99",
                 "profilepic": "https://randomuser.me/api/portraits/men/47.jpg",
                 "comment": "Never tried pilates but you’re convincing me 😅",
-                "likes": 3
+                "likes": 3,
+                "liked": false
             },
             {
                 "id": 4,
                 "username": "andrea.melendez10",
                 "profilepic": "https://randomuser.me/api/portraits/women/47.jpg",
                 "comment": "I totally agree! It’s like therapy for the body 🧘‍♀️",
-                "likes": 6
+                "likes": 6,
+                "liked": false
             },
             {
                 "id": 5,
                 "username": "alex_perea07",
                 "profilepic": "https://randomuser.me/api/portraits/men/46.jpg",
                 "comment": "You all make me want to join 😎",
-                "likes": 2
+                "likes": 2,
+                "liked": false
             }
         ]
     }

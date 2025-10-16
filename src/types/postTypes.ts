@@ -7,7 +7,7 @@ type Posttype = {
     image: string;
     likes: number;
     hashtag: string;
-    comments: comment;
+    comments: comment[];
 };
 
 type comment = {
@@ -15,7 +15,8 @@ type comment = {
     username: string;
     profilepic: string;
     comment: string;
-    like: number;
+    likes: number;
+    liked: boolean;
 }
 
 export type { Posttype, comment };

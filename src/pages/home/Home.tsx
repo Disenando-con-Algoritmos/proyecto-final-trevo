@@ -14,7 +14,8 @@ import ContainerHashtag from "./ContainerHashtag";
 
 export default function Home() {
     const [posts, setPosts] = useState<Posttype[]>([]);
-    const matches = useMediaQuery("(min-width:600px)"); 
+    const [selectedHashtag, setSelectedHashtag] = useState<string | null>(null);
+    const matches = useMediaQuery("(min-width:600px)");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,6 +24,14 @@ export default function Home() {
         };
         fetchData();
     }, []);
+
+    const handleHashtagClick = (hashtag: string) => {
+        setSelectedHashtag((prevHashtag) => (prevHashtag === hashtag ? null : hashtag));
+    };
+
+    const filteredPosts = selectedHashtag
+        ? posts.filter((post) => post.hashtag === selectedHashtag)
+        : posts;
 
     return (
         <div id="home-page" className={`min-h-screen m-0 p-0 flex ${matches ? "flex-row" : "flex-col items-center"} font-[neulis] bg-[#1E1E1E] text-white`}>
@@ -41,19 +50,19 @@ export default function Home() {
             <div id="info" className={`${matches ? "fixed top-0 left-[330px] w-[580px] h-[200px]" : "left-[20px] fixed w-full px-4 pt-10 pb-2"} bg-[#1E1E1E] overflow-y-auto`}>
                 <div className={`flex ${matches ? "flex-row gap-35 mt-15 items-center" : "mt-5 items-center flex-row "} mb-2 items-left`}>
                     <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left items-start"}`}>Hi, sophiarose!</h1>
-                    <Bell  className={matches ? "" : "ml-6"} color="#CAD83B" size={matches ? 28 : 26} />
+                    <Bell className={matches ? "" : "ml-6"} color="white" size={matches ? 28 : 26} />
                 </div>
 
                 <div id="containers" className={`flex ${matches ? "flex-row gap-2" : "flex-wrap gap-2 mt-9"}`}>
-                    <ContainerHashtag text="#gym" />
-                    <ContainerHashtag text="#foodie" />
-                    <ContainerHashtag text="#motivation" />
-                    <ContainerHashtag text="#runnies" />
+                    <ContainerHashtag text="#gym" onClick={() => handleHashtagClick("#gym")} />
+                    <ContainerHashtag text="#foodie" onClick={() => handleHashtagClick("#foodie")} />
+                    <ContainerHashtag text="#motivation" onClick={() => handleHashtagClick("#motivation")} />
+                    <ContainerHashtag text="#runnies" onClick={() => handleHashtagClick("#runnies")} />
                 </div>
             </div>
 
             <div className={`${matches ? "ml-[320px] mt-[200px] w-[600px]" : "mt-[25vh] mb-[20vh] w-[90%] mx-auto"}`}>
-                {posts.map((post: Posttype) => (
+                {filteredPosts.map((post: Posttype) => (
                     <PostCard key={post.id} post={post} />
                 ))}
             </div>
