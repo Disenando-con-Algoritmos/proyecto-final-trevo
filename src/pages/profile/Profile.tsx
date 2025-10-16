@@ -12,11 +12,11 @@ export default function Profile() {
             </div>
             <div id="content" className="ml-[330px] flex flex-col p-4 min-h-screen text-white font-[neulis]">
                 <div id="info" className="w-[1406px] h-[280px] bg-[#000000] p-8 ml-[-46px] mt-[-15px] rounded-b-[35px] flex items-center">
-                    <img src="/trevo/assets/profilepic.png" alt="profile" className="w-[150px] h-[150px] rounded-full object-cover mr-[30px] ml-10" />
+                    <img src="/trevo/assets/profilepic.png" alt="profile" className="w-[150px] h-[150px] rounded-full object-cover mr-[20px] ml-15" />
 
                     <div className="flex flex-col">
                         <div className="flex items-center space-x-12">
-                            <h2 className="text-[28px] font-semibold text-[#C8F442]">sophiarose</h2>
+                            <h2 className="text-[28px] font-semibold text-[#C8F442] ml-6">sophiarose</h2>
 
                             <div id="profile-data" className="flex space-x-16 ml-40">
                                 <div className="text-center">
