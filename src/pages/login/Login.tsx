@@ -39,7 +39,7 @@ export default function Login() {
         const password = formData.get("password") as string;
 
         const user = users.find((u) => (u.username === usernameOrEmail || u.email === usernameOrEmail) && u.password === password);
-        
+
         if (user) {
             localStorage.setItem("user", JSON.stringify(user));
             nav("/auth/home");
@@ -53,9 +53,15 @@ export default function Login() {
             <div
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
-                    backgroundImage: "url(/trevo/assets/fondol.png)",
+                    backgroundImage: "url(/trevo/assets/backgroundlogin.png)",
                 }}
             ></div>
+            <div className="absolute left-[150px] flex flex-col items-start translate-y-[200px]">
+                <img src="/trevo/assets/logintitle.png" alt="login title" className="w-[260px] md:w-[320px] lg:w-[380px] mb-6 object-contain" />
+            </div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex">
+                <img src="/trevo/assets/loginilustration.png" alt="login ilustration" className="absolute bottom-0 left-[90px] w-[35%] " />
+            </div>
 
             <div className="w-1/2 flex flex-col justify-center items-center bg-[#111] text-white p-24">
                 <h1 className="text-5xl font-medium mb-4 font-[Neulis]">Welcome Back</h1>

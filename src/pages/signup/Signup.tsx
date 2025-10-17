@@ -53,7 +53,7 @@ export default function Signup() {
             posts: 0,
             followers: 0,
             workouts: 0,
-            passwprofilePic: "/assets/default-profile.png",
+            profilePic: "https://thumbs.dreamstime.com/b/vector-de-perfil-avatar-predeterminado-foto-usuario-medios-sociales-icono-183042379.jpg",
         };
 
         const updatedUsers = [...users, newUser];
@@ -68,13 +68,18 @@ export default function Signup() {
             <div
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
-                    backgroundImage: "url(/trevo/assets/fondop.png)",
+                    backgroundImage: "url(/trevo/assets/backgroundsignup.png)",
                 }}
             ></div>
-
+            <div className="absolute left-[150px] flex flex-col items-start translate-y-[200px]">
+                <img src="/trevo/assets/logintitle.png" alt="signup title" className="w-[260px] md:w-[320px] lg:w-[380px] mb-6 object-contain" />
+            </div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex translate-y-[14px]">
+                <img src="/trevo/assets/signupilustration.png" alt="signup ilustration" className="absolute bottom-0 left-[90px] w-[35%] " />
+            </div>
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-[#111] text-white p-8 md:p-24">
-                <h1 className="text-4xl md:text-5xl font-medium mb-4 font-[Neulis] text-center md:text-left">Create account</h1>
-                <h4 className="text-white mb-1 font-[poppins] text-center md:text-left text-sm">We are here to help you reach the peaks</h4>
+                <h1 className="text-4xl md:text-5xl font-medium mb-4 font-[Neulis] text-center">Create account</h1>
+                <h4 className="text-white mb-1 font-[poppins] text-center text-sm">We are here to help you reach the peaks</h4>
                 <h4 className="text-white mb-6 font-[poppins] text-center md:text-left text-sm">of fitness. Are you ready?</h4>
                 <div className="mb-[15px]"></div>
                 <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-3 w-[90%] md:w-[400px] max-w-md font-[poppins]">

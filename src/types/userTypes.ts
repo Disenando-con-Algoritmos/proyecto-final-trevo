@@ -6,7 +6,7 @@ type userType = {
     posts: number;
     followers: number;
     workouts: number;
-    passwprofilePic: string;
+    profilePic: string;
 };
 
 export type { userType };

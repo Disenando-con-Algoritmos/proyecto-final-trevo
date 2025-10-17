@@ -19,7 +19,7 @@ export default function Onboarding1 () {
                     <h5 className="text-sm font-[poppins] w-[300px] leading-tight text-center">Post your progress and stay motivated every day</h5>
                     <ContinueButton />
                     <p>
-                        <Link className="underline font-[poppins]" to="entrypoint">
+                        <Link className="underline font-[poppins]" to="/entrypoint">
                             Skip
                         </Link>
                     </p>

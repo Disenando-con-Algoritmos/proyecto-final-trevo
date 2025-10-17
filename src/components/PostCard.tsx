@@ -3,8 +3,9 @@ import { Heart, MessageCircle, Share2 } from "lucide-react";
 
 import type { Posttype, comment } from "../types/postTypes";
 import ContainerHashtag from "../pages/home/ContainerHashtag";
+import type { userType } from "../types/userTypes";
 
-export default function PostCard({ post }: { post: Posttype }) {
+export default function PostCard({ post, currentUser }: { post: Posttype, currentUser: userType }) {
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes);
     const [showComments, setShowComments] = useState(false);
@@ -21,8 +22,8 @@ export default function PostCard({ post }: { post: Posttype }) {
 
         const commentToAdd: comment = {
             id: Date.now(),
-            username: "Tú",
-            profilepic: "/assets/default-profile.png",
+            username: currentUser.username,
+            profilepic: currentUser.profilePic,
             comment: newComment,
             likes: 0,
             liked: false,
@@ -36,7 +37,7 @@ export default function PostCard({ post }: { post: Posttype }) {
         setComments((prevComments) =>
             prevComments.map((comment) => {
                 if (comment.id === id) {
-                    const liked = comment.liked ?? false; 
+                    const liked = comment.liked ?? false;
                     const updatedLikes = liked ? comment.likes - 1 : comment.likes + 1;
                     return { ...comment, likes: updatedLikes, liked: !liked };
                 }
@@ -51,7 +52,7 @@ export default function PostCard({ post }: { post: Posttype }) {
             <div className="flex items-center gap-3 mb-3">
                 <img src={post.profilepic} alt="profile" className="w-10 h-10 rounded-full object-cover" />
                 <div>
-                    <h2 className="text-[15px] font-semibold">{post.username}</h2>
+                    <h2 className="text-[15px] font-medium">{post.username}</h2>
                     <p className="text-[10px] text-gray-400">{post.date}</p>
                 </div>
             </div>
@@ -81,7 +82,7 @@ export default function PostCard({ post }: { post: Posttype }) {
                     <ContainerHashtag text={post.hashtag} onClick={() => console.info(`Hashtag: #${post.hashtag}`)} />
 
                     <Share2 className="w-5 h-5 cursor-pointer hover:text-gray-200" />
-                
+
                 </div>
             </div>
 
@@ -103,7 +104,7 @@ export default function PostCard({ post }: { post: Posttype }) {
 
                     {/* nuevo comentario */}
                     <div className="flex gap-2 mt-2">
-                        <img src="/assets/default-profile.png" alt="you" className="w-8 h-8 rounded-full object-cover" />
+                        <img src={currentUser.profilePic} alt="you" className="w-8 h-8 rounded-full object-cover" />
                         <input value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Escribe un comentario..." className="flex-1 bg-[#2b2b2b] rounded-full px-3 py-1 text-sm outline-none" />
                         <button onClick={handleAddComment} className="text-[#9872F0] text-sm font-semibold cursor-pointer">
                             Enviar
