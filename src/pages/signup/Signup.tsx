@@ -69,13 +69,13 @@ export default function Signup() {
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
                     backgroundImage: "url(/trevo/assets/fondop.png)",
-                    backgroundPosition: "center -190px",
+                    backgroundPosition: "center -110px",
                 }}
             ></div>
 
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-[#111] text-white p-8 md:p-24">
-                <h1 className="text-4xl md:text-5xl font-medium mb-4 font-[Neulis] text-center md:text-left">Create account</h1>
-                <h4 className="text-white mb-1 font-[poppins] text-center md:text-left text-sm">We are here to help you reach the peaks</h4>
+                <h1 className="text-4xl md:text-5xl font-medium mb-4 font-[Neulis] text-center">Create account</h1>
+                <h4 className="text-white mb-1 font-[poppins] text-center text-sm">We are here to help you reach the peaks</h4>
                 <h4 className="text-white mb-6 font-[poppins] text-center md:text-left text-sm">of fitness. Are you ready?</h4>
                 <div className="mb-[15px]"></div>
                 <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-3 w-[90%] md:w-[400px] max-w-md font-[poppins]">

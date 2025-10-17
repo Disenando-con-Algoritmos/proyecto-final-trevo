@@ -54,7 +54,6 @@ export default function Login() {
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
                     backgroundImage: "url(/trevo/assets/fondol.png)",
-                    backgroundPosition: "center -190px",
                 }}
             ></div>
 

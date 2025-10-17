@@ -61,7 +61,7 @@ export default function Home() {
     const filteredPosts = selectedHashtag ? posts.filter((post) => post.hashtag === selectedHashtag) : posts;
 
     return (
-        <div id="home-page" className={`min-h-screen m-0 p-0 flex ${matches ? "flex-row" : "flex-col items-center"} font-[neulis] bg-[#1E1E1E] text-white`}>
+        <div id="home-page" className={`min-h-screen m-0 p-0 flex ${matches ? "flex-row justify-center" : "flex-col items-center justify-center"} font-[neulis] bg-[#1E1E1E] text-white`}>
             {matches && (
                 <div id="navbar" className="fixed top-0 left-0 h-full w-[330px]">
                     <NavBar />
@@ -75,10 +75,14 @@ export default function Home() {
             )}
 
             {/* saludo y hashtags */}
-            <div id="info" className={`${matches ? "fixed top-0 left-[330px] w-[580px] h-[200px]" : "left-[20px] fixed w-full px-4 pt-10"} bg-[#1E1E1E] overflow-y-auto`}>
-                <div className={`flex ${matches ? "flex-row gap-35 mt-15 items-center" : "mt-5 items-center flex-row "} mb-2 items-center`}>
-                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left items-start"}`}>Hi, {currentUser.username}</h1>
-                    <Bell className= {`${matches ? "absolute right-20 top-[95px] -translate-y-1/2" : "absolute right-20 top-[85px] -translate-y-1/2"}`} color="white" size={matches ? 28 : 26} />
+            <div
+                id="info"
+                className={`fixed top-0 bg-[#1E1E1E] overflow-y-auto rounded-2xl p-4
+    ${matches ? "left-[50%] transform -translate-x-1/2 max-w-[600px] w-full h-[200px] z-10" : "left-0 w-full px-4 pt-10 h-auto z-20"}`}
+            >
+                <div className={`flex ${matches ? "flex-row gap-8 justify-between items-center mt-10" : "flex-row mt-5 items-center justify-between"} mb-2`}>
+                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left"}`}>Hi, {currentUser.username}</h1>
+                    <Bell className={`${matches ? "absolute right-10 top-[50%] -translate-y-1/2" : "absolute right-5 top-[50px]"} `} color="white" size={matches ? 28 : 26} />
                 </div>
 
                 <div id="containers" className={`flex ${matches ? "flex-row gap-1" : "flex-wrap mt-9"}`}>
