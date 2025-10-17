@@ -1,69 +1,60 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton, } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { BtnLogin } from "../../components/BtnLogin";
-import { getUsers } from "../../services/userServices";
-import type { userType } from "../../types/userTypes";
+
+import fondoLogin from "./FondoL.png";
 
 export default function Login() {
-    const formRef = useRef<HTMLFormElement>(null);
+    const formRef = useRef(null);
     const nav = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [users, setUsers] = useState<userType[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await getUsers();
-            setUsers(data);
-        };
-        fetchData();
-    }, []);
-
-    // alternar visibilidad de la contraseña
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         const formResponse = formRef.current;
-        if (!formResponse) return;
+        if (formResponse) {
+            const formData = new FormData(formResponse);
+            localStorage.setItem("username", formData.get("username") as string);//No funciono
 
-        const formData = new FormData(formResponse);
-        const usernameOrEmail = formData.get("username") as string;
-        const password = formData.get("password") as string;
-
-        const user = users.find((u) => (u.username === usernameOrEmail || u.email === usernameOrEmail) && u.password === password);
-        
-        if (user) {
-            localStorage.setItem("activeUser", JSON.stringify(user));
             nav("/auth/home");
-        } else {
-            alert("Usuario o contraseña incorrectos.");
         }
     };
 
     return (
-        <div className="flex min-h-screen overflow-hidden">
+
+        <div className="flex min-h-screen">
             <div
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
-                    backgroundImage: "url(/trevo/assets/fondol.png)",
+                    backgroundImage: `url(${fondoLogin})`,
+                    backgroundPosition: "center 92%",
                 }}
             ></div>
 
             <div className="w-1/2 flex flex-col justify-center items-center bg-[#111] text-white p-24">
                 <h1 className="text-5xl font-medium mb-4 font-[Neulis]">Welcome Back</h1>
-                <h4 className="text-white mb-1 text-sm font-[poppins]">Ready to continue your fitness journey?</h4>
+                <h4 className="text-white mb-1 text-sm font-[poppins]">
+                    Ready to continue your fitness journey?
+                </h4>
                 <h4 className="text-white text-sm font-[poppins]">Your path is right here</h4>
-                <div className="mb-[15px]"></div>
-                <div className="mb-[15px]"></div>
-                <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-3 w-[400px] max-w-md font-[poppins] ">
+                <div className="mb-[15px]">
+                </div>
+                <div className="mb-[15px]">
+                </div>
+                <form
+                    ref={formRef}
+                    onSubmit={handleSubmit}
+                    className="flex flex-col justify-center items-center gap-3 w-[400px] max-w-md font-[poppins] ">
+
                     <TextField
                         fullWidth
                         label="Enter email or username"
@@ -136,19 +127,36 @@ export default function Login() {
                         }}
                     />
 
-                    <div className="mb-[2px]"></div>
-                    <div className="flex justify-end items-center w-full mb-6">
+                    <div className="mb-[2px]">
+                    </div>
+                    <div className="flex justify-between items-center w-full mb-6">
+                        <div className="flex items-center">
+                            <input
+                                id="remember-me"
+                                type="checkbox"
+                                className="w-4 h-4 text-[#00f328] bg-green-500 border-green-500 rounded"
+                            />
+                            <label
+                                htmlFor="remember-me"
+                                className="ml-2 text-sm font-medium text-green-100 font-[poppins]"
+                            >
+                                Remember me
+                            </label>
+                        </div>
+
                         <a href="" className="text-sm text-white  font-[poppins]">
                             Forgot password?
                         </a>
                     </div>
 
                     <BtnLogin />
+
                 </form>
-                <div className="mb-[15px]"></div>
+                <div className="mb-[15px]">
+                </div>
                 <p className="text-white pt-2 text-[15px] font-[poppins]">
                     Don’t have an account?{" "}
-                    <Link to="/signup" className="pt-2 text-[#9872F0] underline font-[poppins]">
+                    <Link to="/signup" className="pt-2 text-purple-500 underline font-[poppins]">
                         Sign Up
                     </Link>
                 </p>
