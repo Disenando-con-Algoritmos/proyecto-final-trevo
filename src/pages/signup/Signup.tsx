@@ -1,58 +1,83 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
-import { TextField,  InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { BtnSignUp } from "../../components/BtnSignUp";
+import { getUsers } from "../../services/userServices";
+import type { userType } from "../../types/userTypes";
 
-import fondoLogin from "./FondoL.png";
-
-export default function Login() {
-    const formRef = useRef(null);
+export default function Signup() {
+    const formRef = useRef<HTMLFormElement>(null);
     const nav = useNavigate();
+
     const [showPassword, setShowPassword] = useState(false);
+    const [users, setUsers] = useState<userType[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getUsers();
+            setUsers(data);
+        };
+        fetchData();
+    }, []);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         const formResponse = formRef.current;
-        if (formResponse) {
-            const formData = new FormData(formResponse);
-            localStorage.setItem("username", formData.get("username") as string);
-            nav("/auth/home");
+        if (!formResponse) return;
+
+        const formData = new FormData(formResponse);
+        const username = formData.get("username") as string;
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        const existingUser = users.find((u) => u.username === username || u.email === email);
+
+        if (existingUser) {
+            alert("Este usuario o correo ya está registrado");
+            return;
         }
+
+        const newUser: userType = {
+            id: Date.now(),
+            username,
+            email,
+            password,
+            posts: 0,
+            followers: 0,
+            workouts: 0,
+            passwprofilePic: "/assets/default-profile.png",
+        };
+
+        const updatedUsers = [...users, newUser];
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        localStorage.setItem("activeUser", JSON.stringify(newUser));
+
+        nav("/auth/home");
     };
 
     return (
-        <div className="flex flex-col md:flex-row min-h-screen">
+        <div className="flex min-h-screen overflow-hidden">
             <div
-                className="w-full md:w-1/2 h-64 md:h-auto bg-no-repeat bg-cover bg-center"
+                className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
-                    backgroundImage: `url(${fondoLogin})`,
-                    backgroundPosition: "center 92%",
+                    backgroundImage: "url(/trevo/assets/fondop.png)",
                 }}
             ></div>
 
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-[#111] text-white p-8 md:p-24">
-                <h1 className="text-4xl md:text-5xl font-medium mb-4 font-[Neulis] text-center md:text-left">
-                    Create account
-                </h1>
-                <h4 className="text-white mb-1 font-[poppins] text-center md:text-left text-sm">
-                    We are here to help you reach the peaks
-                </h4>
-                <h4 className="text-white mb-6 font-[poppins] text-center md:text-left text-sm">
-                    of fitness. Are you ready?
-                </h4>
-                <div className="mb-[15px]">
-                </div>
-                <form
-                    ref={formRef}
-                    onSubmit={handleSubmit}
-                    className="flex flex-col justify-center items-center gap-3 w-[90%] md:w-[400px] max-w-md font-[poppins]"
-                >
+                <h1 className="text-4xl md:text-5xl font-medium mb-4 font-[Neulis] text-center md:text-left">Create account</h1>
+                <h4 className="text-white mb-1 font-[poppins] text-center md:text-left text-sm">We are here to help you reach the peaks</h4>
+                <h4 className="text-white mb-6 font-[poppins] text-center md:text-left text-sm">of fitness. Are you ready?</h4>
+                <div className="mb-[15px]"></div>
+                <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-3 w-[90%] md:w-[400px] max-w-md font-[poppins]">
                     <TextField
                         fullWidth
                         label="Enter email or username"
@@ -154,18 +179,16 @@ export default function Login() {
                             ),
                         }}
                     />
-                    <div className="mb-[15px]">
-                    </div>
+                    <div className="mb-[15px]"></div>
 
                     <BtnSignUp />
 
-                    <p className="text-white pt-2 text-[11px] font-[poppins]">
+                    <p className="text-white pt-2 text-[12px] font-[poppins]">
                         Don’t have an account?{" "}
-                        <Link to="/signup" className="pt-2 text-purple-500 underline font-[poppins]">
+                        <Link to="/signup" className="pt-2 text-[#9872F0] underline font-[poppins]">
                             Sign Up
                         </Link>
                     </p>
-
                 </form>
             </div>
         </div>
