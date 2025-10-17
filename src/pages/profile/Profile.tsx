@@ -4,7 +4,7 @@ import NavBar from "../../components/NavBar";
 
 export default function Profile() {
     return (
-        <div id="full-page" className="fixed top-0 left-0 w-full h-full bg-cover bg-center" style={{ backgroundImage: "url(/trevo/assets/background.png)"}}>
+        <div id="full-page" className="fixed top-0 left-0 w-full h-full bg-cover bg-center" style={{ backgroundImage: "url(/trevo/assets/backgroundProfile.png)"}}>
             <div id="navbar" className="fixed top-0 left-0 h-full w-[330px]">
                 <NavBar />
             </div>
