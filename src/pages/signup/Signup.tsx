@@ -58,7 +58,7 @@ export default function Signup() {
 
         const updatedUsers = [...users, newUser];
         localStorage.setItem("users", JSON.stringify(updatedUsers));
-        localStorage.setItem("activeUser", JSON.stringify(newUser));
+        localStorage.setItem("user", JSON.stringify(newUser));
 
         nav("/auth/home");
     };
@@ -80,7 +80,7 @@ export default function Signup() {
                 <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-3 w-[90%] md:w-[400px] max-w-md font-[poppins]">
                     <TextField
                         fullWidth
-                        label="Enter email or username"
+                        label="Enter username"
                         variant="outlined"
                         className="font-[poppins]"
                         name="username"
@@ -113,7 +113,8 @@ export default function Signup() {
                         label="Enter email"
                         variant="outlined"
                         className="font-[poppins]"
-                        name="username"
+                        name="email"
+                        type="email"
                         sx={{
                             input: { color: "white" },
                             "& .MuiOutlinedInput-root": {
@@ -184,9 +185,9 @@ export default function Signup() {
                     <BtnSignUp />
 
                     <p className="text-white pt-2 text-[12px] font-[poppins]">
-                        Don’t have an account?{" "}
-                        <Link to="/signup" className="pt-2 text-[#9872F0] underline font-[poppins]">
-                            Sign Up
+                        Already have an account?{" "}
+                        <Link to="/login" className="pt-2 text-[#9872F0] underline font-[poppins]">
+                            Log in
                         </Link>
                     </p>
                 </form>
