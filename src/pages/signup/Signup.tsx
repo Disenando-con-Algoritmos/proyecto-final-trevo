@@ -69,6 +69,7 @@ export default function Signup() {
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
                     backgroundImage: "url(/trevo/assets/fondop.png)",
+                    backgroundPosition: "center -190px",
                 }}
             ></div>
 

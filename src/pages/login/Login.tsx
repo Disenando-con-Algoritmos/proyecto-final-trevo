@@ -39,7 +39,7 @@ export default function Login() {
         const password = formData.get("password") as string;
 
         const user = users.find((u) => (u.username === usernameOrEmail || u.email === usernameOrEmail) && u.password === password);
-        
+
         if (user) {
             localStorage.setItem("user", JSON.stringify(user));
             nav("/auth/home");
@@ -54,6 +54,7 @@ export default function Login() {
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
                     backgroundImage: "url(/trevo/assets/fondol.png)",
+                    backgroundPosition: "center -190px",
                 }}
             ></div>
 
