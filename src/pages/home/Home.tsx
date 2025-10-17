@@ -82,7 +82,7 @@ export default function Home() {
             >
                 <div className={`flex ${matches ? "flex-row gap-8 justify-between items-center mt-10" : "flex-row mt-5 items-center justify-between"} mb-2`}>
                     <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left"}`}>Hi, {currentUser.username}</h1>
-                    <Bell className={`${matches ? "absolute right-10 top-[50%] -translate-y-1/2" : "absolute right-5 top-[50px]"} `} color="white" size={matches ? 28 : 26} />
+                    <Bell className={`${matches ? "absolute right-10 top-[50%] -translate-y-1/2" : "absolute right-9 top-[70px]"} `} color="white" size={matches ? 28 : 26} />
                 </div>
 
                 <div id="containers" className={`flex ${matches ? "flex-row gap-1" : "flex-wrap mt-9"}`}>
