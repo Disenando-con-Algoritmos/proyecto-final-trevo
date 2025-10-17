@@ -41,7 +41,7 @@ export default function Login() {
         const user = users.find((u) => (u.username === usernameOrEmail || u.email === usernameOrEmail) && u.password === password);
         
         if (user) {
-            localStorage.setItem("activeUser", JSON.stringify(user));
+            localStorage.setItem("user", JSON.stringify(user));
             nav("/auth/home");
         } else {
             alert("Usuario o contraseña incorrectos.");
@@ -146,7 +146,7 @@ export default function Login() {
                     <BtnLogin />
                 </form>
                 <div className="mb-[15px]"></div>
-                <p className="text-white pt-2 text-[15px] font-[poppins]">
+                <p className="text-white pt-2 text-[12px] font-[poppins]">
                     Don’t have an account?{" "}
                     <Link to="/signup" className="pt-2 text-[#9872F0] underline font-[poppins]">
                         Sign Up
