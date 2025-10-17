@@ -5,18 +5,26 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import NavBar from "../../components/NavBar";
 import PostCard from "../../components/PostCard";
 import type { Posttype } from "../../types/postTypes";
+import type { instructorType } from "../../types/instructorTypes";
 import { getPosts } from "../../services/postServices";
 import InstructorCard from "../../components/InstructorCard";
+import { getInstructors } from "../../services/instructorServices";
 import WorkoutCard from "../../components/WorkoutCard";
 import NavBarResponsive from "../../components/NavBarResponsive";
+import { getWorkouts } from "../../services/workoutServices";
+import type { workoutType } from "../../types/workoutTypes";
 
 import ContainerHashtag from "./ContainerHashtag";
 
 export default function Home() {
+    // estados
     const [posts, setPosts] = useState<Posttype[]>([]);
     const [selectedHashtag, setSelectedHashtag] = useState<string | null>(null);
     const matches = useMediaQuery("(min-width:600px)");
+    const [instructors, setInstructors] = useState<instructorType[]>([]);
+    const [workouts, setWorkouts] = useState<workoutType[]>([]);
 
+    // cargar posts
     useEffect(() => {
         const fetchData = async () => {
             const data = await getPosts();
@@ -25,13 +33,31 @@ export default function Home() {
         fetchData();
     }, []);
 
+    // cargar instructores
+    useEffect(() => {
+        const fetchInstructors = async () => {
+            const data = await getInstructors();
+            setInstructors(data);
+        };
+        fetchInstructors();
+    }, []);
+
+    // cargar ejercicios
+    useEffect(() => {
+        const fetchWorkouts = async () => {
+            const data = await getWorkouts();
+            setWorkouts(data);
+        };
+        fetchWorkouts();
+    }, []);
+
+    //seleccion de hashtag
     const handleHashtagClick = (hashtag: string) => {
         setSelectedHashtag((prevHashtag) => (prevHashtag === hashtag ? null : hashtag));
     };
 
-    const filteredPosts = selectedHashtag
-        ? posts.filter((post) => post.hashtag === selectedHashtag)
-        : posts;
+    //filtrar posts
+    const filteredPosts = selectedHashtag ? posts.filter((post) => post.hashtag === selectedHashtag) : posts;
 
     return (
         <div id="home-page" className={`min-h-screen m-0 p-0 flex ${matches ? "flex-row" : "flex-col items-center"} font-[neulis] bg-[#1E1E1E] text-white`}>
@@ -47,10 +73,12 @@ export default function Home() {
                 </div>
             )}
 
+            {/* saludo y hashtags */}
             <div id="info" className={`${matches ? "fixed top-0 left-[330px] w-[580px] h-[200px]" : "left-[20px] fixed w-full px-4 pt-10 pb-2"} bg-[#1E1E1E] overflow-y-auto`}>
                 <div className={`flex ${matches ? "flex-row gap-35 mt-15 items-center" : "mt-5 items-center flex-row "} mb-2 items-left`}>
                     <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left items-start"}`}>Hi, sophiarose!</h1>
                     <Bell className={matches ? "" : "ml-6"} color="white" size={matches ? 28 : 26} />
+                    <span className="absolute top-25 right-10 block w-3 h-3 bg-[#9872F0] rounded-full border-2 border-[#1E1E1E]" />
                 </div>
 
                 <div id="containers" className={`flex ${matches ? "flex-row gap-2" : "flex-wrap gap-2 mt-9"}`}>
@@ -61,25 +89,27 @@ export default function Home() {
                 </div>
             </div>
 
+            {/* posts */}
             <div className={`${matches ? "ml-[320px] mt-[200px] w-[600px]" : "mt-[25vh] mb-[20vh] w-[90%] mx-auto"}`}>
                 {filteredPosts.map((post: Posttype) => (
                     <PostCard key={post.id} post={post} />
                 ))}
             </div>
 
+            {/* seccion lateral*/}
             {matches && (
                 <div className="mt-25 ml-8 mr-2" id="extra-info">
                     <p className="text-[#CAD83B] text-[17px] mb-1">Instructors</p>
                     <div className="flex gap-5 flex-col">
-                        <InstructorCard />
-                        <InstructorCard />
+                        {instructors.slice(0, 2).map((instructor, index) => (
+                            <InstructorCard key={index} instructor={instructor} />
+                        ))}
                     </div>
                     <p className="text-[#CAD83B] text-[17px] mb-1 mt-7">Workouts</p>
                     <div className="grid grid-cols-2 gap-4 mb-4">
-                        <WorkoutCard />
-                        <WorkoutCard />
-                        <WorkoutCard />
-                        <WorkoutCard />
+                        {workouts.slice(0, 4).map((workout, index) => (
+                            <WorkoutCard key={index} workout={workout} />
+                        ))}
                     </div>
                 </div>
             )}

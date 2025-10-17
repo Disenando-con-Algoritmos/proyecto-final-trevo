@@ -1,23 +1,34 @@
 import { Star } from "lucide-react";
 
-export default function InstructorCard() {
+import type { instructorType } from "../types/instructorTypes";
+
+export default function InstructorCard({ instructor }: { instructor: instructorType }) {
     return (
-        <div className="bg-[#151515] h-min w-[300px] p-4 rounded-2xl shadow-2xl flex flex-row gap-2 items-center  cursor-pointer hover:scale-[1.02] transition-transform duration-300">
+        <div className="bg-[#151515] h-min w-[300px] p-4 rounded-2xl shadow-2xl flex flex-row gap-2 items-center cursor-pointer hover:scale-[1.02] transition-transform duration-300">
             <div>
-                <img src="../public/images/instructorhome1.png" alt="" className="w-[200px] h-[90px] rounded-full object-cover" />
+                <img
+                    src={instructor.image}
+                    alt={instructor.trainer}
+                    className="w-[185px] h-[100px] rounded-full object-cover"
+                />
             </div>
 
             <div className="font-[poppins] flex flex-col gap-1">
-                <h1 className="text-[10px]">Kayla Manousselis</h1>
-                <p className="text-[8px]">$20.00/month</p>
+                <h1 className="text-[13px] font-medium">{instructor.trainer}</h1>
+                <p className="text-[11px]">{instructor.price}</p>
+
                 <div className="flex flex-row">
-                    <Star size={15} color="#CAD83B" fill="#CAD83B"/>
-                    <Star size={15} color="#CAD83B" fill="#CAD83B"/>
-                    <Star size={15} color="#CAD83B" fill="#CAD83B"/>
-                    <Star size={15} color="#CAD83B" fill="#CAD83B"/>
-                    <Star size={15} color="#CAD83B" fill="#CAD83B"/>
+                    {[...Array(5)].map((_, i) => (
+                        <Star
+                            key={i}
+                            size={15}
+                            color={i < instructor.rating ? "#CAD83B" : "#555"}
+                            fill={i < instructor.rating ? "#CAD83B" : "none"}
+                        />
+                    ))}
                 </div>
-                <p className="text-[8px]">Transform your body and mind with personalized, high-energy workouts...</p>
+
+                <p className="text-[9.5px]">{instructor.description}</p>
             </div>
         </div>
     );
