@@ -7,7 +7,7 @@ export function BtnSignUp() {
             variant="contained"
             sx={{
                 fontFamily: "Poppins",
-                borderRadius: "12px",
+                borderRadius: "18px",
                 backgroundColor: "#9b7ff5",
                 color: "white",
                 paddingY: "10px",
