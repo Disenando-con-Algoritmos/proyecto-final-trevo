@@ -68,11 +68,15 @@ export default function Signup() {
             <div
                 className="w-1/2 bg-no-repeat bg-cover bg-center"
                 style={{
-                    backgroundImage: "url(/trevo/assets/fondop.png)",
-                    backgroundPosition: "center -110px",
+                    backgroundImage: "url(/trevo/assets/backgroundsignup.png)",
                 }}
             ></div>
-
+            <div className="absolute left-[150px] flex flex-col items-start translate-y-[200px]">
+                <img src="/trevo/assets/logintitle.png" alt="signup title" className="w-[260px] md:w-[320px] lg:w-[380px] mb-6 object-contain" />
+            </div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex translate-y-[14px]">
+                <img src="/trevo/assets/signupilustration.png" alt="signup ilustration" className="absolute bottom-0 left-[90px] w-[35%] " />
+            </div>
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-[#111] text-white p-8 md:p-24">
                 <h1 className="text-4xl md:text-5xl font-medium mb-4 font-[Neulis] text-center">Create account</h1>
                 <h4 className="text-white mb-1 font-[poppins] text-center text-sm">We are here to help you reach the peaks</h4>

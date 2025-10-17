@@ -37,7 +37,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype, curren
         setComments((prevComments) =>
             prevComments.map((comment) => {
                 if (comment.id === id) {
-                    const liked = comment.liked ?? false; 
+                    const liked = comment.liked ?? false;
                     const updatedLikes = liked ? comment.likes - 1 : comment.likes + 1;
                     return { ...comment, likes: updatedLikes, liked: !liked };
                 }
@@ -52,7 +52,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype, curren
             <div className="flex items-center gap-3 mb-3">
                 <img src={post.profilepic} alt="profile" className="w-10 h-10 rounded-full object-cover" />
                 <div>
-                    <h2 className="text-[15px] font-semibold">{post.username}</h2>
+                    <h2 className="text-[15px] font-medium">{post.username}</h2>
                     <p className="text-[10px] text-gray-400">{post.date}</p>
                 </div>
             </div>
@@ -82,7 +82,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype, curren
                     <ContainerHashtag text={post.hashtag} onClick={() => console.info(`Hashtag: #${post.hashtag}`)} />
 
                     <Share2 className="w-5 h-5 cursor-pointer hover:text-gray-200" />
-                
+
                 </div>
             </div>
 
