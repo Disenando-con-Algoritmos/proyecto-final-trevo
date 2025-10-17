@@ -1,11 +1,7 @@
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 
-export default function AuthLayout () {
-    return(
-        <div id="auth-page">
-            <div className="">
-                <Outlet />
-            </div>
-        </div>
-    );
+export default function AuthLayout() {
+    const isAuthenticated = localStorage.getItem("user");
+
+    return <>{isAuthenticated ? <Outlet /> : <Navigate to="/" />}</>;
 }
