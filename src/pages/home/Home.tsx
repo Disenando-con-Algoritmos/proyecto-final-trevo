@@ -23,6 +23,7 @@ export default function Home() {
     const matches = useMediaQuery("(min-width:600px)");
     const [instructors, setInstructors] = useState<instructorType[]>([]);
     const [workouts, setWorkouts] = useState<workoutType[]>([]);
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
 
     // cargar posts
     useEffect(() => {
@@ -74,14 +75,13 @@ export default function Home() {
             )}
 
             {/* saludo y hashtags */}
-            <div id="info" className={`${matches ? "fixed top-0 left-[330px] w-[580px] h-[200px]" : "left-[20px] fixed w-full px-4 pt-10 pb-2"} bg-[#1E1E1E] overflow-y-auto`}>
-                <div className={`flex ${matches ? "flex-row gap-35 mt-15 items-center" : "mt-5 items-center flex-row "} mb-2 items-left`}>
-                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left items-start"}`}>Hi, sophiarose!</h1>
-                    <Bell className={matches ? "" : "ml-6"} color="white" size={matches ? 28 : 26} />
-                    <span className="absolute top-25 right-10 block w-3 h-3 bg-[#9872F0] rounded-full border-2 border-[#1E1E1E]" />
+            <div id="info" className={`${matches ? "fixed top-0 left-[330px] w-[580px] h-[200px]" : "left-[20px] fixed w-full px-4 pt-10"} bg-[#1E1E1E] overflow-y-auto`}>
+                <div className={`flex ${matches ? "flex-row gap-35 mt-15 items-center" : "mt-5 items-center flex-row "} mb-2 items-center`}>
+                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left items-start"}`}>Hi, {currentUser.username}</h1>
+                    <Bell className= {`${matches ? "absolute right-20 top-[95px] -translate-y-1/2" : "absolute right-20 top-[85px] -translate-y-1/2"}`} color="white" size={matches ? 28 : 26} />
                 </div>
 
-                <div id="containers" className={`flex ${matches ? "flex-row gap-2" : "flex-wrap gap-2 mt-9"}`}>
+                <div id="containers" className={`flex ${matches ? "flex-row gap-1" : "flex-wrap mt-9"}`}>
                     <ContainerHashtag text="#gym" onClick={() => handleHashtagClick("#gym")} />
                     <ContainerHashtag text="#foodie" onClick={() => handleHashtagClick("#foodie")} />
                     <ContainerHashtag text="#motivation" onClick={() => handleHashtagClick("#motivation")} />
@@ -92,7 +92,7 @@ export default function Home() {
             {/* posts */}
             <div className={`${matches ? "ml-[320px] mt-[200px] w-[600px]" : "mt-[25vh] mb-[20vh] w-[90%] mx-auto"}`}>
                 {filteredPosts.map((post: Posttype) => (
-                    <PostCard key={post.id} post={post} />
+                    <PostCard key={post.id} post={post} currentUser={currentUser} />
                 ))}
             </div>
 

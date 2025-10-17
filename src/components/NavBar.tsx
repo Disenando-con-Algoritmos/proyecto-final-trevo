@@ -1,7 +1,13 @@
 import { Home, Search, Dumbbell, User, Plus, LogOut } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function NavBar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("user"); 
+        navigate("/"); 
+    };
     return (
         <div className="min-h-screen w-[300px] bg-[#121212] flex flex-col font-[neulis] text-white">
             <h1 className="text-[42px] font-bold text-[#CAD83B] px-6 pt-8 pb-2 pl-7">Trevo</h1>
@@ -46,7 +52,7 @@ export default function NavBar() {
 
             <div className="flex flex-col ">
                 <img src="../public/assets/homecharacter.png" alt="" className="w-[170px]" />
-                <button className="flex items-center justify-center mt-16 gap-5 text-white hover:opacity-80 transition cursor-pointer">
+                <button className="flex items-center justify-center mt-16 gap-5 text-white hover:opacity-80 transition cursor-pointer" onClick={handleLogout}>
                     <LogOut size={18} />
                     <span>Log out</span>
                 </button>

@@ -53,7 +53,7 @@ export default function Signup() {
             posts: 0,
             followers: 0,
             workouts: 0,
-            passwprofilePic: "/assets/default-profile.png",
+            profilePic: "https://thumbs.dreamstime.com/b/vector-de-perfil-avatar-predeterminado-foto-usuario-medios-sociales-icono-183042379.jpg",
         };
 
         const updatedUsers = [...users, newUser];

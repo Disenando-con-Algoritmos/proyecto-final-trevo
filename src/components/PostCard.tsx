@@ -3,8 +3,9 @@ import { Heart, MessageCircle, Share2 } from "lucide-react";
 
 import type { Posttype, comment } from "../types/postTypes";
 import ContainerHashtag from "../pages/home/ContainerHashtag";
+import type { userType } from "../types/userTypes";
 
-export default function PostCard({ post }: { post: Posttype }) {
+export default function PostCard({ post, currentUser }: { post: Posttype, currentUser: userType }) {
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes);
     const [showComments, setShowComments] = useState(false);
@@ -21,8 +22,8 @@ export default function PostCard({ post }: { post: Posttype }) {
 
         const commentToAdd: comment = {
             id: Date.now(),
-            username: "Tú",
-            profilepic: "/assets/default-profile.png",
+            username: currentUser.username,
+            profilepic: currentUser.profilePic,
             comment: newComment,
             likes: 0,
             liked: false,
@@ -103,7 +104,7 @@ export default function PostCard({ post }: { post: Posttype }) {
 
                     {/* nuevo comentario */}
                     <div className="flex gap-2 mt-2">
-                        <img src="/assets/default-profile.png" alt="you" className="w-8 h-8 rounded-full object-cover" />
+                        <img src={currentUser.profilePic} alt="you" className="w-8 h-8 rounded-full object-cover" />
                         <input value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Escribe un comentario..." className="flex-1 bg-[#2b2b2b] rounded-full px-3 py-1 text-sm outline-none" />
                         <button onClick={handleAddComment} className="text-[#9872F0] text-sm font-semibold cursor-pointer">
                             Enviar
