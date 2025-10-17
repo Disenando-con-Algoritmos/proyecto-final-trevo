@@ -2,11 +2,9 @@ import { Upload, Settings } from "lucide-react";
 
 import NavBar from "../../components/NavBar";
 
-import background from "./background.png";
-
 export default function Profile() {
     return (
-        <div id="full-page" className="h-screen w-screen relative" style={{ backgroundImage: `url(${background})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+        <div id="full-page" className="fixed top-0 left-0 w-full h-full bg-cover bg-center" style={{ backgroundImage: "url(/trevo/assets/background.png)"}}>
             <div id="navbar" className="fixed top-0 left-0 h-full w-[330px]">
                 <NavBar />
             </div>
@@ -32,7 +30,7 @@ export default function Profile() {
                                     <p className="text-[18px] text-gray-300">Workouts</p>
                                 </div>
                             </div>
-                            <div id="icons" className="flex items-center space-x-6 ml-3">
+                            <div id="icons" className="flex items-center space-x-8 ml-[150px]">
                                 <Upload size={30} color="#C8F442" />
                                 <Settings size={30} color="#C8F442" />
                             </div>
