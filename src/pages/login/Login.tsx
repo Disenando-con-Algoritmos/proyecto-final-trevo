@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { BtnLogin } from "../../components/BtnLogin";
 import { getUsers } from "../../services/userServices";
@@ -10,6 +11,7 @@ import type { userType } from "../../types/userTypes";
 export default function Login() {
     const formRef = useRef<HTMLFormElement>(null);
     const nav = useNavigate();
+    const matches = useMediaQuery("(min-width:768px)"); 
 
     const [showPassword, setShowPassword] = useState(false);
     const [users, setUsers] = useState<userType[]>([]);
@@ -22,7 +24,6 @@ export default function Login() {
         fetchData();
     }, []);
 
-    // alternar visibilidad de la contraseña
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -38,7 +39,9 @@ export default function Login() {
         const usernameOrEmail = formData.get("username") as string;
         const password = formData.get("password") as string;
 
-        const user = users.find((u) => (u.username === usernameOrEmail || u.email === usernameOrEmail) && u.password === password);
+        const user = users.find(
+            (u) => (u.username === usernameOrEmail || u.email === usernameOrEmail) && u.password === password
+        );
 
         if (user) {
             localStorage.setItem("user", JSON.stringify(user));
@@ -49,54 +52,52 @@ export default function Login() {
     };
 
     return (
-        <div className="flex min-h-screen overflow-hidden">
-            <div
-                className="w-1/2 bg-no-repeat bg-cover bg-center"
-                style={{
-                    backgroundImage: "url(/trevo/assets/backgroundlogin.png)",
-                }}
-            ></div>
-            <div className="absolute left-[150px] flex flex-col items-start translate-y-[200px]">
-                <img src="/trevo/assets/logintitle.png" alt="login title" className="w-[260px] md:w-[320px] lg:w-[380px] mb-6 object-contain" />
-            </div>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex">
-                <img src="/trevo/assets/loginilustration.png" alt="login ilustration" className="absolute bottom-0 left-[90px] w-[35%] " />
-            </div>
+        <div className={`flex min-h-screen overflow-hidden ${matches ? "flex-row" : "flex-col bg-[#111]"}`}>
+            {matches && (
+                <div
+                    className="w-1/2 bg-no-repeat bg-cover bg-center"
+                    style={{
+                        backgroundImage: "url(/trevo/assets/backgroundlogin.png)",
+                    }}
+                ></div>
+            )}
 
-            <div className="w-1/2 flex flex-col justify-center items-center bg-[#111] text-white p-24">
-                <h1 className="text-5xl font-medium mb-4 font-[Neulis]">Welcome Back</h1>
-                <h4 className="text-white mb-1 text-sm font-[poppins]">Ready to continue your fitness journey?</h4>
-                <h4 className="text-white text-sm font-[poppins]">Your path is right here</h4>
-                <div className="mb-[15px]"></div>
-                <div className="mb-[15px]"></div>
-                <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-3 w-[400px] max-w-md font-[poppins] ">
+            {!matches && (
+                <div className="relative w-full bg-[#9872F0] h-[220px] flex flex-col justify-center items-center rounded-b-[40px]">
+                    <img src="/trevo/assets/arrowleft.png" alt="back" className="absolute left-6 top-8 w-5" />
+                    <h1 className="text-[36px] font-[Neulis] text-[#CAD83B] mt-10">Trevo</h1>
+                </div>
+            )}
+
+            <div className={`flex flex-col justify-center items-center text-white ${matches ? "w-1/2 p-24 bg-[#111]" : "w-full px-8 py-10 bg-[#111]"}`}>
+                <h1 className={`${matches ? "text-5xl mb-4" : "text-3xl mb-2"} font-medium font-[Neulis] text-center`}>
+                    Welcome Back
+                </h1>
+                <p className="text-white mb-1 text-sm font-[poppins] text-center">
+                    Ready to continue your fitness journey?
+                </p>
+                <p className="text-white text-sm font-[poppins] text-center mb-6">Your path is right here</p>
+
+                <form
+                    ref={formRef}
+                    onSubmit={handleSubmit}
+                    className="flex flex-col justify-center items-center gap-3 w-[90%] md:w-[400px] max-w-md font-[poppins]"
+                >
                     <TextField
                         fullWidth
                         label="Enter email or username"
                         variant="outlined"
-                        className="font-[poppins]"
                         name="username"
                         sx={{
                             input: { color: "white" },
                             "& .MuiOutlinedInput-root": {
                                 borderRadius: "15px",
                                 backgroundColor: "transparent",
-                                "&:hover": {
-                                    backgroundColor: "transparent",
-                                },
-                                "& fieldset": {
-                                    borderColor: "#9b7ff5",
-                                },
-                                "&:hover fieldset": {
-                                    borderColor: "#9b7ff5",
-                                },
-                                "&.Mui-focused fieldset": {
-                                    borderColor: "#9b7ff5",
-                                },
+                                "& fieldset": { borderColor: "#9b7ff5" },
+                                "&:hover fieldset": { borderColor: "#9b7ff5" },
+                                "&.Mui-focused fieldset": { borderColor: "#9b7ff5" },
                             },
-                            "& .MuiInputLabel-root": {
-                                color: "gray",
-                            },
+                            "& .MuiInputLabel-root": { color: "gray" },
                         }}
                     />
 
@@ -105,59 +106,65 @@ export default function Login() {
                         type={showPassword ? "text" : "password"}
                         label="Password"
                         variant="outlined"
-                        className="font-[poppins]"
                         name="password"
                         sx={{
                             input: { color: "white" },
                             "& .MuiOutlinedInput-root": {
                                 borderRadius: "15px",
                                 backgroundColor: "transparent",
-                                "&:hover": {
-                                    backgroundColor: "transparent",
-                                },
-                                "& fieldset": {
-                                    borderColor: "#9b7ff5",
-                                },
-                                "&:hover fieldset": {
-                                    borderColor: "#9b7ff5",
-                                },
-                                "&.Mui-focused fieldset": {
-                                    borderColor: "#9b7ff5",
-                                },
+                                "& fieldset": { borderColor: "#9b7ff5" },
+                                "&:hover fieldset": { borderColor: "#9b7ff5" },
+                                "&.Mui-focused fieldset": { borderColor: "#9b7ff5" },
                             },
-                            "& .MuiInputLabel-root": {
-                                color: "gray",
-                            },
+                            "& .MuiInputLabel-root": { color: "gray" },
                         }}
-                        //InputProps sirve para personalizar el campo de entrada interno
                         InputProps={{
-                            //endAdornment sirve para agregar elementos visuales al final de un campo de entrada
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword}>
-                                        {showPassword ? <Visibility sx={{ color: "purple" }} /> : <VisibilityOff sx={{ color: "white" }} />}
+                                    <IconButton
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                    >
+                                        {showPassword ? (
+                                            <Visibility sx={{ color: "purple" }} />
+                                        ) : (
+                                            <VisibilityOff sx={{ color: "white" }} />
+                                        )}
                                     </IconButton>
                                 </InputAdornment>
                             ),
                         }}
                     />
 
-                    <div className="mb-[2px]"></div>
-                    <div className="flex justify-end items-center w-full mb-6">
-                        <a href="" className="text-sm text-white  font-[poppins]">
+                    <div className="flex justify-between items-center w-full mb-4 mt-1">
+                        <div className="flex items-center">
+                            <input
+                                id="remember-me"
+                                type="checkbox"
+                                className="w-4 h-4 text-[#00f328] border-green-500 rounded"
+                            />
+                            <label
+                                htmlFor="remember-me"
+                                className="ml-2 text-sm font-medium text-green-100 font-[poppins]"
+                            >
+                                Remember me
+                            </label>
+                        </div>
+
+                        <a href="" className="text-sm text-purple-500 underline font-[poppins]">
                             Forgot password?
                         </a>
                     </div>
 
                     <BtnLogin />
+
+                    <p className="text-white pt-2 text-[12px] font-[poppins] text-center">
+                        Don’t have an account?{" "}
+                        <Link to="/signup" className="text-[#9872F0] underline font-[poppins]">
+                            Sign Up
+                        </Link>
+                    </p>
                 </form>
-                <div className="mb-[15px]"></div>
-                <p className="text-white pt-2 text-[12px] font-[poppins]">
-                    Don’t have an account?{" "}
-                    <Link to="/signup" className="pt-2 text-[#9872F0] underline font-[poppins]">
-                        Sign Up
-                    </Link>
-                </p>
             </div>
         </div>
     );
