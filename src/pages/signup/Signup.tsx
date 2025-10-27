@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-// Asegúrate de importar desde 'react-router-dom' si usas v6: import { Link, useNavigate } from "react-router-dom";
 import { Link, useNavigate } from "react-router";
 import {
     TextField,
@@ -32,8 +31,6 @@ export default function Signup() {
     }, []);
 
     useEffect(() => {
-        // Evita scroll horizontal en toda la página SOLO cuando estamos en PC
-        // Limpia al desmontar o cambiar breakpoint.
         const prev = document.documentElement.style.overflowX;
         document.documentElement.style.overflowX = matches ? "hidden" : "";
         return () => {
@@ -92,7 +89,6 @@ export default function Signup() {
 
     return (
         <div className={`flex h-screen ${matches ? "flex-row overflow-x-hidden box-border" : "flex-col bg-[#111]"}`}>
-            {/* IZQUIERDA - fondo púrpura */}
             <div
                 className={`relative bg-no-repeat bg-cover bg-center ${matches ? "w-1/2 h-full overflow-hidden" : "w-full h-[220px] rounded-b-[40px] z-0"}`}
                 style={{
@@ -101,7 +97,6 @@ export default function Signup() {
             >
                 <div className={`${matches ? "absolute left-[100px] top-[200px]" : "flex flex-col justify-center items-center h-full"}`}>
                     {matches ? (
-                        // Aseguramos que la imagen no exceda el contenedor: maxWidth y width 100%
                         <img
                             src="/trevo/assets/logintitle.png"
                             alt="Trevo Title"
@@ -124,8 +119,6 @@ export default function Signup() {
                     </div>
                 )}
             </div>
-
-            {/* FORMULARIO - fondo negro */}
             <div
                 className={`flex flex-col justify-center items-center text-white bg-[#111] ${matches ? "w-1/2 px-16 py-12 h-full overflow-y-auto box-border" : "w-full px-8 py-10 rounded-t-[40px] -mt-12 z-10 flex-grow overflow-y-auto"}`}
             >
