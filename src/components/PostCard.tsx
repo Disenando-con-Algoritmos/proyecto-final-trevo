@@ -100,12 +100,12 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
                     {comments.map((comment) => (
                         <div key={comment.id} className="flex items-start gap-2 mb-2">
                             <img src={comment.profilepic} alt="pfp" className="w-8 h-8 rounded-full object-cover" />
-                            <div className="bg-[#2b2b2b] p-2 rounded-lg w-full">
+                            <div className="bg-[#2b2b2b] p-2 rounded-lg flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">
                                     <p className="text-xs font-semibold">{comment.username}</p>
                                     <span className="text-[10px] text-gray-400">• {comment.date}</span>
                                 </div>
-                                <p className="text-[12px] mb-2">{comment.comment}</p>
+                                <p className="text-[12px] mb-2 break-words">{comment.comment}</p>
                                 <button onClick={() => handleLikeComment(comment.id)} className="flex items-center gap-1 text-xs text-gray-400 hover:text-[#9872F0]">
                                     <Heart className={`w-3 h-3 cursor-pointer ${comment.liked ? "fill-[#9872F0] text-[#9872F0]" : ""}`} />
                                     {comment.likes}
