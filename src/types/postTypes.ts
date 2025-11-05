@@ -17,6 +17,7 @@ type comment = {
     comment: string;
     likes: number;
     liked: boolean;
+    date: string;
 }
 
 export type { Posttype, comment };

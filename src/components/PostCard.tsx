@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
 
 import type { Posttype, comment } from "../types/postTypes";
 import ContainerHashtag from "../pages/home/ContainerHashtag";
 import type { userType } from "../types/userTypes";
 
-export default function PostCard({ post, currentUser }: { post: Posttype, currentUser: userType }) {
+export default function PostCard({ post, currentUser }: { post: Posttype; currentUser: userType }) {
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes);
     const [showComments, setShowComments] = useState(false);
@@ -17,8 +17,12 @@ export default function PostCard({ post, currentUser }: { post: Posttype, curren
         setLikeCount(liked ? likeCount - 1 : likeCount + 1);
     };
 
-    const handleAddComment = () => {
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
         if (newComment.trim() === "") return;
+
+        const today = new Date();
+        const dateFormatted = today.toLocaleDateString("es-CO");
 
         const commentToAdd: comment = {
             id: Date.now(),
@@ -27,9 +31,16 @@ export default function PostCard({ post, currentUser }: { post: Posttype, curren
             comment: newComment,
             likes: 0,
             liked: false,
+            date: dateFormatted,
         };
 
-        setComments([...comments, commentToAdd]);
+        const updatedComments = [...comments, commentToAdd];
+        setComments(updatedComments);
+
+        const savedPosts = JSON.parse(localStorage.getItem("posts") || "[]");
+        const updatedPosts = savedPosts.map((p: Posttype) => (p.id === post.id ? { ...p, comments: updatedComments } : p));
+        localStorage.setItem("posts", JSON.stringify(updatedPosts));
+
         setNewComment("");
     };
 
@@ -78,11 +89,8 @@ export default function PostCard({ post, currentUser }: { post: Posttype, curren
                 </div>
 
                 <div className="flex items-center gap-3">
-
                     <ContainerHashtag text={post.hashtag} onClick={() => console.info(`Hashtag: #${post.hashtag}`)} />
-
                     <Share2 className="w-5 h-5 cursor-pointer hover:text-gray-200" />
-
                 </div>
             </div>
 
@@ -93,23 +101,27 @@ export default function PostCard({ post, currentUser }: { post: Posttype, curren
                         <div key={comment.id} className="flex items-start gap-2 mb-2">
                             <img src={comment.profilepic} alt="pfp" className="w-8 h-8 rounded-full object-cover" />
                             <div className="bg-[#2b2b2b] p-2 rounded-lg w-full">
-                                <p className="text-xs font-semibold">{comment.username}</p>
-                                <p className="text-[12px]">{comment.comment}</p>
-                                <button onClick={() => handleLikeComment(comment.id)} className="flex items-center gap-1 text-xs text-gray-400 mt-1 hover:text-[#9872F0]">
-                                    <Heart className={`w-3 h-3 cursor-pointer ${comment.liked ? "fill-[#9872F0] text-[#9872F0]" : ""}`} /> {comment.likes}
+                                <div className="flex items-center gap-2 mb-1">
+                                    <p className="text-xs font-semibold">{comment.username}</p>
+                                    <span className="text-[10px] text-gray-400">• {comment.date}</span>
+                                </div>
+                                <p className="text-[12px] mb-2">{comment.comment}</p>
+                                <button onClick={() => handleLikeComment(comment.id)} className="flex items-center gap-1 text-xs text-gray-400 hover:text-[#9872F0]">
+                                    <Heart className={`w-3 h-3 cursor-pointer ${comment.liked ? "fill-[#9872F0] text-[#9872F0]" : ""}`} />
+                                    {comment.likes}
                                 </button>
                             </div>
                         </div>
                     ))}
 
                     {/* nuevo comentario */}
-                    <div className="flex gap-2 mt-2">
+                    <form onSubmit={handleSubmit} className="flex gap-2 mt-2">
                         <img src={currentUser.profilePic} alt="you" className="w-8 h-8 rounded-full object-cover" />
-                        <input value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Escribe un comentario..." className="flex-1 bg-[#2b2b2b] rounded-full px-3 py-1 text-sm outline-none" />
-                        <button onClick={handleAddComment} className="text-[#9872F0] text-sm font-semibold cursor-pointer">
-                            Enviar
+                        <input value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a comment..." className="flex-1 bg-[#2b2b2b] rounded-full px-3 py-1 text-sm outline-none" />
+                        <button type="submit" className="text-[#9872F0] text-sm font-semibold cursor-pointer">
+                            Send
                         </button>
-                    </div>
+                    </form>
                 </div>
             )}
         </div>
