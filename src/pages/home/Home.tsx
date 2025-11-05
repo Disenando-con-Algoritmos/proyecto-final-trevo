@@ -14,6 +14,7 @@ import NavBarResponsive from "../../components/NavBarResponsive";
 import { getWorkouts } from "../../services/workoutServices";
 import type { workoutType } from "../../types/workoutTypes";
 import CreatePost from "../../components/CreatePost";
+import Alert from "../../components/Alert"; // 
 
 import ContainerHashtag from "./ContainerHashtag";
 
@@ -136,6 +137,7 @@ export default function Home() {
                     </div>
                 </div>
             )}
+            <Alert />
         </div>
     );
 }
