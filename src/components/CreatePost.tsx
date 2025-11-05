@@ -60,14 +60,13 @@ export default function CreatePost({ onClose, onPost, currentUser }: CreatePostP
             <form ref={formRef} onSubmit={handleSubmit}>
                 <textarea name="caption" placeholder="Write a comment..." className="textarea bg-[#000000] textarea-bordered w-full mb-4 border-[#CAD83B]" required />
 
-                {/* Choose a section */}
                 <div className="text-left text-sm text-gray-300 mb-6">
                     <label className="block mb-2">Choose a section :</label>
                     <div className="flex justify-left gap-6">
                         {categories.map((cat: string) => (
                             <label key={cat} className="flex items-center gap-1">
                                 <input type="radio" name="category" value={cat} className="accent-[#D2F200]" required />
-                                <span className="text-white">{cat}</span>
+                                <span className="text-gray-300">{cat}</span>
                             </label>
                         ))}
                     </div>
