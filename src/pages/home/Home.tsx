@@ -73,7 +73,7 @@ export default function Home() {
 
             {!matches && (
                 <div id="navbar-responsive" className="fixed bottom-0 left-0 w-full">
-                    <NavBarResponsive />
+                    <NavBarResponsive onCreateClick={() => setModalOpen(true)}  />
                 </div>
             )}
 
