@@ -1,5 +1,6 @@
 import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useDispatch } from "react-redux";
+import { useMediaQuery } from "@mui/material";
 
 import { setMessage } from "../reducers/slice/MessageSlice";
 import type { AppDispatch } from "../reducers/Store";
@@ -19,6 +20,7 @@ export default function CreatePost({ onClose, onPost, currentUser }: CreatePostP
     const dispatch = useDispatch<AppDispatch>();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const categories = ["#gym", "#foodie", "#motivation", "#running"];
+    const matches = useMediaQuery("(min-width:600px)");
 
     const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -53,7 +55,7 @@ export default function CreatePost({ onClose, onPost, currentUser }: CreatePostP
 
         const newPost: Posttype = {
             id: Date.now(),
-            profilepic:currentUser.profilePic,
+            profilepic: currentUser.profilePic,
             username: currentUser.username || "guest.user",
             date: dateFormatted,
             description: caption,
@@ -74,32 +76,40 @@ export default function CreatePost({ onClose, onPost, currentUser }: CreatePostP
     };
 
     return (
-        <div className="m-0">
+        <div className={`${matches ? "m-0" : "m-2"}`}>
             <div className="">
-                <h3 className="text-xl font-bold mb-4 text-[#CAD83B]">Create a new post</h3>
+                <h3 className={`${matches ? "text-1xl" : "text-xl"} font-bold mb-4 text-[#CAD83B]`}>Create a new post</h3>
             </div>
             <form ref={formRef} onSubmit={handleSubmit}>
-                <textarea name="caption" placeholder="Write a comment..." className="textarea bg-[#000000] textarea-bordered w-full mb-4 border-[#CAD83B]"  />
+                <textarea name="caption" placeholder="Write a comment..." className={`textarea bg-[#000000] textarea-bordered w-full ${matches ? "mb-4 " : "mb-8"} border-[#CAD83B] ${matches ? "h-24" : "h-20"} ${matches ? "text-1xl" : "text-sm"}`} />
 
-                <div className="text-left text-sm text-gray-300 mb-6">
+                <div className={`text-left ${matches ? "text-base" : "text-sm mb-8"} text-gray-300 ${matches ? "mb-6" : "mb-4"}`}>
                     <label className="block mb-2">Choose a section :</label>
-                    <div className="flex justify-left gap-6">
+                    <div className={`flex ${matches ? "justify-left gap-6" : "justify-left gap-3 flex-wrap"}`}>
                         {categories.map((cat: string) => (
                             <label key={cat} className="flex items-center gap-1">
-                                <input type="radio" name="category" value={cat} className="accent-[#D2F200]"  />
-                                <span className="text-gray-300">{cat}</span>
+                                <input type="radio" name="category" value={cat} className="accent-[#D2F200]" />
+                                <span className={`text-gray-300 ${matches ? "text-[13px]" : "text-sm"}`}>{cat}</span>
                             </label>
                         ))}
                     </div>
                 </div>
 
-                <input type="file" name="image" accept="image/*" className="file-input file-input-bordered w-full mb-4 border-[#CAD83B] bg-[#000000]" onChange={handleImageUpload} />
-                {imagePreview && <img src={imagePreview} alt="Preview" className="rounded-xl mb-4 max-h-60 object-cover w-full" />}
-                <div className="flex justify-end gap-2">
-                    <button type="button" onClick={onClose} className="btn rounded-2xl font-[poppins]">
+                <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    className={`file-input file-input-bordered w-full ${matches ? "mb-4" : "mb-8"} border-[#CAD83B] bg-[#000000] ${matches ? "file-input-md" : "file-input-sm"} ${matches ? "text-1xl" : "text-sm"}`}
+                    onChange={handleImageUpload}
+                />
+
+                {imagePreview && <img src={imagePreview} alt="Preview" className={`rounded-xl ${matches ? "mb-4 max-h-60" : "mb-3 max-h-40"} object-cover w-full`} />}
+
+                <div className={`flex ${matches ? "justify-end gap-2" : "justify-center gap-3 flex-col sm:flex-row"}`}>
+                    <button type="button" onClick={onClose} className={`btn rounded-2xl font-[poppins] ${matches ? "btn-md text-[12px]" : " mb-1 btn-sm text-sm w-full sm:w-auto"}`}>
                         Cancel
                     </button>
-                    <button type="submit" className="btn bg-[#CAD83B] rounded-2xl font-[poppins] text-black">
+                    <button type="submit" className={`btn bg-[#CAD83B] rounded-2xl font-[poppins] text-black ${matches ? "btn-md text-[12px]" : "btn-sm text-sm w-full sm:w-auto"}`}>
                         Publish
                     </button>
                 </div>
