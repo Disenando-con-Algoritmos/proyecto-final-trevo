@@ -10,7 +10,7 @@ export default function Onboarding1() {
 
     return (
         <>
-            {/* ====== VISTA DESKTOP (SIN CAMBIOS) ====== */}
+            {/*  VISTA DESKTOP*/}
             {matches && (
                 <div id="full-page" className="h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url(/trevo/assets/background.png)" }}>
                     <div id="boarding1-container" className="w-120 h-150 bg-[#9872F0] rounded-3xl shadow-lg relative">
@@ -39,7 +39,7 @@ export default function Onboarding1() {
                 </div>
             )}
 
-            {/* ====== VISTA RESPONSIVE (MÓVIL) ====== */}
+            {/* VISTA RESPONSIVE */}
             {!matches && (
                 <div
                     className="flex flex-col items-center justify-between h-screen bg-cover bg-center"
