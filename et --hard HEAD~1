@@ -1,0 +1,9 @@
+[33m383b538[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/signUpNew2[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m543ebfb[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{1}: checkout: moving from dev to feature/signUpNew2
+[33m543ebfb[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{2}: reset: moving to f3e41e1^
+[33m3ca644d[m HEAD@{3}: pull --tags origin dev: Fast-forward
+[33mfcacbb7[m HEAD@{4}: reset: moving to HEAD~1
+[33m3ca644d[m HEAD@{5}: checkout: moving from feature/signUpNew2 to dev
+[33m543ebfb[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{6}: reset: moving to HEAD~1
+[33mf3e41e1[m[33m ([m[1;31morigin/feature/signUpNew2[m[33m)[m HEAD@{7}: checkout: moving from main to feature/signUpNew2
+[33m285dcfb[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{8}: clone: from https://github.com/Disenando-con-Algoritmos/proyecto-final-trevo.git

@@ -14,6 +14,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { BtnSignUp } from "../../components/BtnSignUp";
 import { getUsers } from "../../services/userServices";
 import type { userType } from "../../types/userTypes";
+import { ChevronLeft } from "lucide-react";
 
 export default function Signup() {
     const formRef = useRef<HTMLFormElement>(null);
@@ -99,6 +100,9 @@ export default function Signup() {
                     backgroundImage: "url(/trevo/assets/backgroundlogin.png)",
                 }}
             >
+                <Link to="/entrypoint" className="absolute top-6 left-6 p-2 mt-15 bg-opacity-20 backdrop-blur-sm z-10 hover:bg-opacity-30 transition">
+                    <ChevronLeft size={40} color="#CAD83B" strokeWidth={2.2} className="hover:scale-105 transition-transform" />
+                </Link>
                 <div className={`${matches ? "absolute left-[100px] top-[200px]" : "flex flex-col justify-center items-center h-full"}`}>
                     {matches ? (
                         // Aseguramos que la imagen no exceda el contenedor: maxWidth y width 100%
