@@ -42,7 +42,10 @@ export default function NavBar({ onCreateClick }: { onCreateClick?: () => void }
                 </li>
 
                 <li className="py-2">
-                    <button onClick={onCreateClick} className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                    <button
+                        onClick={onCreateClick} 
+                        className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition"
+                    >
                         <Plus size={20} />
                         <span>Create</span>
                     </button>
