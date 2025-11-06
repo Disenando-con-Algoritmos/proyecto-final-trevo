@@ -57,7 +57,7 @@ export default function Onboarding2() {
                 </div>
             )}
 
-            {/* 📱 VISTA RESPONSIVE */}
+            {/* VISTA RESPONSIVE */}
             {!matches && (
                 <div
                     className="flex flex-col items-center justify-between h-screen bg-cover bg-center"
@@ -75,7 +75,7 @@ export default function Onboarding2() {
                             <img
                                 src="/trevo/assets/image3.png"
                                 alt="Onboarding illustration"
-                                className="object-contain w-full max-w-[300px] h-auto"
+                                className="object-contain w-full max-w-[380px] h-auto"
                             />
                         </div>
                     </div>
