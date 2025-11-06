@@ -4,7 +4,10 @@ import { Link } from "react-router";
 export default function NavBarResponsive({ onCreateClick }: { onCreateClick?: () => void }) {
     return (
         <div className="relative">
-            <button onClick={onCreateClick} className="absolute right-6 -top-42 w-17 h-17 rounded-full bg-[#CAD83B] text-black flex items-center justify-center shadow-lg z-10">
+            <button 
+                onClick={onCreateClick}
+                className="absolute right-6 -top-42 w-17 h-17 rounded-full bg-[#CAD83B] text-black flex items-center justify-center shadow-lg z-10"
+            >
                 <Plus size={38} />
             </button>
 
@@ -12,15 +15,15 @@ export default function NavBarResponsive({ onCreateClick }: { onCreateClick?: ()
                 <Link to="/auth/home" className="text-white hover:opacity-80 transition">
                     <Home size={34} />
                 </Link>
-
+                
                 <Link to="/auth/discover/instructors" className="text-white hover:opacity-80 transition">
                     <Search size={34} />
                 </Link>
-
+                
                 <Link to="/auth/myworkouts" className="text-white hover:opacity-80 transition">
                     <Dumbbell size={34} />
                 </Link>
-
+                
                 <Link to="/auth/profile" className="text-white hover:opacity-80 transition">
                     <User size={34} />
                 </Link>
