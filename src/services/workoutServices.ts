@@ -1,5 +1,5 @@
 const getWorkouts = async () => {
-    const response = await fetch("../data/workouts.json");
+    const response = await fetch("/trevo/data/workouts.json");
     const data = await response.json();
     return data;
 };
