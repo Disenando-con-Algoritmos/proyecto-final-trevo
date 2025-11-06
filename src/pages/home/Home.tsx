@@ -13,6 +13,8 @@ import WorkoutCard from "../../components/WorkoutCard";
 import NavBarResponsive from "../../components/NavBarResponsive";
 import { getWorkouts } from "../../services/workoutServices";
 import type { workoutType } from "../../types/workoutTypes";
+import CreatePost from "../../components/CreatePost";
+import Alert from "../../components/Alert"; // 
 
 import ContainerHashtag from "./ContainerHashtag";
 
@@ -24,6 +26,7 @@ export default function Home() {
     const [instructors, setInstructors] = useState<instructorType[]>([]);
     const [workouts, setWorkouts] = useState<workoutType[]>([]);
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const [modalOpen, setModalOpen] = useState(false);
 
     // cargar posts
     useEffect(() => {
@@ -64,13 +67,13 @@ export default function Home() {
         <div id="home-page" className={`min-h-screen m-0 p-0 flex ${matches ? "flex-row justify-center" : "flex-col items-center justify-center"} font-[neulis] bg-[#1E1E1E] text-white`}>
             {matches && (
                 <div id="navbar" className="fixed top-0 left-0 h-full w-[330px]">
-                    <NavBar />
+                    <NavBar onCreateClick={() => setModalOpen(true)} />
                 </div>
             )}
 
             {!matches && (
                 <div id="navbar-responsive" className="fixed bottom-0 left-0 w-full">
-                    <NavBarResponsive />
+                    <NavBarResponsive onCreateClick={() => setModalOpen(true)}  />
                 </div>
             )}
 
@@ -100,6 +103,23 @@ export default function Home() {
                 ))}
             </div>
 
+            {/* modal de crear post */}
+            {modalOpen && (
+                <dialog className="modal modal-open">
+                    <div className="modal-box bg-[#000000] border-white border-[0.1px]">
+                        <CreatePost
+                            onClose={() => setModalOpen(false)}
+                            onPost={(newPost) => {
+                                setPosts((prev) => [newPost, ...prev]);
+                                localStorage.setItem("posts", JSON.stringify([newPost, ...posts]));
+                                console.info("Nuevo post agregado:", newPost);
+                            }}
+                            currentUser={currentUser} 
+                        />
+                    </div>
+                </dialog>
+            )}
+
             {/* seccion lateral*/}
             {matches && (
                 <div className="mt-25 ml-8 mr-2" id="extra-info">
@@ -117,6 +137,7 @@ export default function Home() {
                     </div>
                 </div>
             )}
+            <Alert />
         </div>
     );
 }

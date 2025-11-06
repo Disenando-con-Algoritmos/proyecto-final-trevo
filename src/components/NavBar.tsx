@@ -1,19 +1,18 @@
 import { Home, Search, Dumbbell, User, Plus, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 
-export default function NavBar() {
+export default function NavBar({ onCreateClick }: { onCreateClick?: () => void }) {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem("user"); 
-        navigate("/"); 
+        localStorage.removeItem("user");
+        navigate("/");
     };
     return (
         <div className="min-h-screen w-[300px] bg-[#121212] flex flex-col font-[neulis] text-white">
             <h1 className="text-[42px] font-bold text-[#CAD83B] px-6 pt-8 pb-2 pl-7">Trevo</h1>
 
             <ul className="menu p-4 pl-12 flex flex-col justify-center w-full divide-y divide-[#9872F0]">
-
                 <li className="py-2">
                     <Link to="/auth/home" className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
                         <Home size={20} />
@@ -43,10 +42,13 @@ export default function NavBar() {
                 </li>
 
                 <li className="py-2">
-                    <a className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition">
+                    <button
+                        onClick={onCreateClick} 
+                        className="text-[16px] flex items-center gap-5 px-4 py-2 hover:bg-[#8D6BDE] rounded-lg transition"
+                    >
                         <Plus size={20} />
                         <span>Create</span>
-                    </a>
+                    </button>
                 </li>
             </ul>
 

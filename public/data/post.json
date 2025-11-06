@@ -4,7 +4,7 @@
         "profilepic": "https://randomuser.me/api/portraits/women/44.jpg",
         "username": "hellen.ramirez24",
         "date": "28/10/25",
-        "description": "Just completed the pull + Abs workout, let’s keep goingg!!",
+        "description": "Just completed the pull + Abs workout, let's keep goingg!!",
         "image": "https://i.pinimg.com/736x/6b/20/33/6b20330c8d99b7693db57da5a927dea7.jpg",
         "likes": 10,
         "hashtag": "#gym",
@@ -13,8 +13,9 @@
                 "id": 1,
                 "username": "andrea.melendez10",
                 "profilepic": "https://randomuser.me/api/portraits/women/47.jpg",
-                "comment": "You’re killing it 🔥 I tried that workout last week and my abs were on fire!",
-                "likes": 4
+                "comment": "You're killing it 🔥 I tried that workout last week and my abs were on fire!",
+                "likes": 4,
+                "date": "29/10/25"
             }
         ]
     },
@@ -32,15 +33,17 @@
                 "id": 1,
                 "username": "carlos.blond99",
                 "profilepic": "https://randomuser.me/api/portraits/men/47.jpg",
-                "comment": "That looks amazing! What’s in the salad? 🥗",
-                "likes": 2
+                "comment": "That looks amazing! What's in the salad? 🥗",
+                "likes": 2,
+                "date": "16/09/25"
             },
             {
                 "id": 2,
                 "username": "hellen.ramirez24",
                 "profilepic": "https://randomuser.me/api/portraits/women/44.jpg",
                 "comment": "I need this recipe ASAP 😍",
-                "likes": 1
+                "likes": 1,
+                "date": "17/09/25"
             }
         ]
     },
@@ -69,17 +72,19 @@
                 "id": 1,
                 "username": "andrea.melendez10",
                 "profilepic": "https://randomuser.me/api/portraits/women/47.jpg",
-                "comment": "Let’s gooo! I’m down for a weekend run 🏃‍♀️",
+                "comment": "Let's gooo! I'm down for a weekend run 🏃‍♀️",
                 "likes": 3,
-                "liked": false
+                "liked": false,
+                "date": "06/07/25"
             },
             {
                 "id": 2,
                 "username": "manu.rodriguez04",
                 "profilepic": "https://randomuser.me/api/portraits/women/50.jpg",
-                "comment": "That’s awesome! Keep it up 💪",
+                "comment": "That's awesome! Keep it up 💪",
                 "likes": 2,
-                "liked": false
+                "liked": false,
+                "date": "07/07/25"
             }
         ]
     },
@@ -108,9 +113,10 @@
                 "id": 1,
                 "username": "joha_palacios15",
                 "profilepic": "https://randomuser.me/api/portraits/women/45.jpg",
-                "comment": "You’re inspiring me to start meal prepping again 👏",
+                "comment": "You're inspiring me to start meal prepping again 👏",
                 "likes": 2,
-                "liked": false
+                "liked": false,
+                "date": "13/05/25"
             }
         ]
     },
@@ -130,7 +136,8 @@
                 "profilepic": "https://randomuser.me/api/portraits/women/44.jpg",
                 "comment": "That sounds so relaxing 😌 I need a pilates day soon!",
                 "likes": 5,
-                "liked": false
+                "liked": false,
+                "date": "02/04/25"
             },
             {
                 "id": 2,
@@ -138,23 +145,26 @@
                 "profilepic": "https://randomuser.me/api/portraits/women/45.jpg",
                 "comment": "Love that vibe 💕 family workouts are the best!",
                 "likes": 4,
-                "liked": false
+                "liked": false,
+                "date": "02/04/25"
             },
             {
                 "id": 3,
                 "username": "carlos.blond99",
                 "profilepic": "https://randomuser.me/api/portraits/men/47.jpg",
-                "comment": "Never tried pilates but you’re convincing me 😅",
+                "comment": "Never tried pilates but you're convincing me 😅",
                 "likes": 3,
-                "liked": false
+                "liked": false,
+                "date": "03/04/25"
             },
             {
                 "id": 4,
                 "username": "andrea.melendez10",
                 "profilepic": "https://randomuser.me/api/portraits/women/47.jpg",
-                "comment": "I totally agree! It’s like therapy for the body 🧘‍♀️",
+                "comment": "I totally agree! It's like therapy for the body 🧘‍♀️",
                 "likes": 6,
-                "liked": false
+                "liked": false,
+                "date": "04/04/25"
             },
             {
                 "id": 5,
@@ -162,7 +172,8 @@
                 "profilepic": "https://randomuser.me/api/portraits/men/46.jpg",
                 "comment": "You all make me want to join 😎",
                 "likes": 2,
-                "liked": false
+                "liked": false,
+                "date": "05/04/25"
             }
         ]
     }
