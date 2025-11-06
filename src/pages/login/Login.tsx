@@ -51,7 +51,7 @@ export default function Login() {
     };
 
     return (
-        <div className={`flex min-h-screen overflow-hidden ${matches ? "flex-row" : "flex-col bg-[#111]"}`}>
+        <div className={`flex h-screen overflow-hidden ${matches ? "flex-row" : "flex-col bg-[#111]"}`}>
             {matches && (
                 <div
                     className="w-1/2 bg-no-repeat bg-cover bg-center relative"
