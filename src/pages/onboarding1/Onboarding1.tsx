@@ -9,7 +9,7 @@ export default function Onboarding1() {
     const matches = useMediaQuery("(min-width:768px)");
 
     return (
-        <>
+        <div>
             {/*  VISTA DESKTOP*/}
             {matches && (
                 <div id="full-page" className="h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url(/trevo/assets/background.png)" }}>
@@ -75,6 +75,6 @@ export default function Onboarding1() {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 }
