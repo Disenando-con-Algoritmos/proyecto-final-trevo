@@ -12,6 +12,7 @@ import Instructors from "../pages/discover/instructors/Instructors";
 import Workouts from "../pages/discover/workouts/Workouts";
 import Myworkouts from "../pages/myworkouts/myworkouts";
 import AuthLayout from "../layout/AuthLayout";
+import password from "../pages/password/Password";
 
 const router = createBrowserRouter(
     [
@@ -38,6 +39,10 @@ const router = createBrowserRouter(
         {
             path: "signup",
             Component: Signup,
+        },
+        {
+            path: "password",
+            Component: password,
         },
         {
             path: "auth",
