@@ -8,14 +8,7 @@ export default function Profile() {
 
     const matches = useMediaQuery("(min-width:768px)");
 
-    const currentUser = {
-        username: "sophita123",
-        name: "Sophia Rose",
-        posts: 2,
-        followers: 13,
-        workouts: 2,
-        pic: "/trevo/assets/profilepic.png"
-    };
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
 
     return (
         <>
@@ -41,7 +34,7 @@ export default function Profile() {
                         >
                             {/* FOTO */}
                             <img
-                                src={currentUser.pic}
+                                src={currentUser.profilePic}
                                 alt="profile"
                                 className="w-[10vw] h-[10vw] rounded-full object-cover mr-[2vw]"
                             />
@@ -50,9 +43,9 @@ export default function Profile() {
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center space-x-[3vw]">
 
-                                        {/* nombre */}
+                                        {/* USERNAME */}
                                         <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">
-                                            {currentUser.name}
+                                            {currentUser.username}
                                         </h2>
 
                                         {/* STATS */}
@@ -112,20 +105,19 @@ export default function Profile() {
 
                             {/* FOTO */}
                             <img
-                                src={currentUser.pic}
+                                src={currentUser.profilePic}
                                 className="w-[22vw] h-[22vw] rounded-full object-cover mr-4 mt-22 ml-6"
                             />
 
                             <div className="flex flex-col mt-1">
 
                                 {/* USERNAME */}
-                                <p className="text-[4vw] font-semibold text-center mt-10 mr-18 mb-4">{currentUser.username}</p>
-
-                                {/* NAME */}
-                                <p className="text-[4vw] text-[#C8F442] mt-2">{currentUser.name}</p>
+                                <p className="text-[4vw] font-semibold text-center mt-10 mr-18 mb-4 text-[#C8F442]">
+                                    {currentUser.username}
+                                </p>
 
                                 {/* STATS */}
-                                <div className="flex space-x-6 mt-3">
+                                <div className="flex space-x-5 mt-8">
                                     <div className="text-center">
                                         <p className="text-[4vw] font-bold text-[#A480FF]">{currentUser.posts}</p>
                                         <p className="text-[3vw] text-gray-300">Posts</p>
