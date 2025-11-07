@@ -1,56 +1,152 @@
 import { Upload, Settings } from "lucide-react";
+import { useMediaQuery } from "@mui/material";
 
 import NavBar from "../../components/NavBar";
+import NavBarResponsive from "../../components/NavBarResponsive";
 
 export default function Profile() {
-    
-    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+    const matches = useMediaQuery("(min-width:768px)");
+
+    const currentUser = {
+        username: "sophita123",
+        name: "Sophia Rose",
+        posts: 2,
+        followers: 13,
+        workouts: 2,
+        pic: "/trevo/assets/profilepic.png"
+    };
 
     return (
-        <div id="full-page" className="fixed top-0 left-0 w-full h-full bg-cover bg-center" style={{ backgroundImage: "url(/trevo/assets/backgroundProfile.png)" }}>
-            <div id="navbar" className="fixed top-0 left-0 h-full w-[20%] min-w-[280px] max-w-[330px]">
-                <NavBar />
-            </div>
+        <>
+            {/*  VISTA DESKTOP  */}
+            {matches && (
+                <div
+                    id="full-page"
+                    className="fixed top-0 left-0 w-full h-full bg-cover bg-center"
+                    style={{ backgroundImage: "url(/trevo/assets/backgroundProfile.png)" }}
+                >
+                    {/* NAVBAR */}
+                    <div id="navbar" className="fixed top-0 left-0 h-full w-[20%] min-w-[280px] max-w-[330px]">
+                        <NavBar />
+                    </div>
 
-            <div id="content" className=" ml-[300px] flex flex-col min-h-screen text-white font-[neulis] transition-all duration-300">
-                <div id="info" className="flex items-center bg-[#000000] p-[2vw] rounded-b-[2vw] h-[200px] w-[calc(100%-300px)] fixed top-0 m-0 z-20">
-                    <img
-                        src={currentUser.profilePic || "/trevo/assets/profilepic.png"}
-                        alt="profile"
-                        className="w-[10vw] h-[10vw] rounded-full object-cover mr-[2vw]"
-                    />
+                    {/* CONTENIDO */}
+                    <div id="content" className="ml-[20%] flex flex-col p-6 min-h-screen text-white font-[neulis]">
 
-                    <div className="flex flex-col flex-1">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-[3vw]">
-                                <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">
-                                    {currentUser.username || "Usuario"}
-                                </h2>
+                        {/* CONTENEDOR NEGRO */}
+                        <div
+                            id="info"
+                            className="flex items-center bg-black p-[2vw] rounded-b-[2vw] h-[200px] w-[calc(100%-300px)] fixed top-0 m-0 z-20"
+                        >
+                            {/* FOTO */}
+                            <img
+                                src={currentUser.pic}
+                                alt="profile"
+                                className="w-[10vw] h-[10vw] rounded-full object-cover mr-[2vw]"
+                            />
 
-                                <div id="profile-data" className="flex space-x-[4vw] ml-[5vw]">
-                                    <div className="text-center">
-                                        <p className="text-[1.8vw] font-bold text-[#A480FF]">{currentUser.posts ?? 0}</p>
-                                        <p className="text-[1vw] text-gray-300">Posts</p>
+                            <div className="flex flex-col flex-1">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-[3vw]">
+
+                                        {/* USERNAME */}
+                                        <h2 className="text-[1.8vw] font-semibold ml-[1vw]">
+                                            {currentUser.username}
+                                        </h2>
+
+                                        {/* STATS */}
+                                        <div id="profile-data" className="flex space-x-[4vw] ml-[5vw]">
+                                            <div className="text-center">
+                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{currentUser.posts}</p>
+                                                <p className="text-[1vw] text-gray-300">Posts</p>
+                                            </div>
+                                            <div className="text-center">
+                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{currentUser.followers}</p>
+                                                <p className="text-[1vw] text-gray-300">Followers</p>
+                                            </div>
+                                            <div className="text-center">
+                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{currentUser.workouts}</p>
+                                                <p className="text-[1vw] text-gray-300">Workouts</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="text-center">
-                                        <p className="text-[1.8vw] font-bold text-[#A480FF]">{currentUser.followers ?? 0}</p>
-                                        <p className="text-[1vw] text-gray-300">Followers</p>
-                                    </div>
-                                    <div className="text-center">
-                                        <p className="text-[1.8vw] font-bold text-[#A480FF]">{currentUser.workouts ?? 0}</p>
-                                        <p className="text-[1vw] text-gray-300">Workouts</p>
+
+                                    {/* ICONOS */}
+                                    <div id="icons" className="flex items-center space-x-[2vw] mr-[2vw]">
+                                        <Upload size={30} color="#C8F442" />
+                                        <Settings size={30} color="#C8F442" />
                                     </div>
                                 </div>
-                            </div>
 
-                            <div id="icons" className="flex items-center space-x-[2vw] mr-[2vw]">
-                                <Upload size={30} color="#C8F442" />
-                                <Settings size={30} color="#C8F442" />
+                                {/* NAME (segunda línea, estilo Prime) */}
+                                <p className="text-[1.3vw] text-[#C8F442] mt-2">{currentUser.name}</p>
                             </div>
                         </div>
                     </div>
-                </div>              
-            </div>         
-        </div>        
-    );  
+                </div>
+            )}
+
+            {/*  VISTA RESPONSIVE  */}
+            {!matches && (
+                <div
+                    id="full-page-mobile"
+                    className="w-full min-h-screen bg-cover bg-center pb-24"
+                    style={{ backgroundImage: "url(/trevo/assets/backgroundProfile.png)" }}
+                >
+
+                    {/* NAVBAR RESPONSIVE */}
+                    <div className="fixed bottom-0 w-full z-50">
+                        <NavBarResponsive />
+                    </div>
+
+                    {/* CONTENIDO */}
+                    <div className="flex flex-col text-white font-[neulis] p-4">
+
+                        {/* CONTENEDOR NEGRO MÁS PEQUEÑO */}
+                        <div className="absolute top-0 left-0 w-full bg-black rounded-b-[100px] h-[250px] p-4 flex items-start">
+
+                            {/* ICONOS ARRIBA DERECHA */}
+                            <div className="absolute top-4 right-4 flex space-x-4 mt-10">
+                                <Upload size={20} color="#C8F442" />
+                                <Settings size={20} color="#C8F442" />
+                            </div>
+
+                            {/* FOTO */}
+                            <img
+                                src={currentUser.pic}
+                                className="w-[22vw] h-[22vw] rounded-full object-cover mr-4 mt-22 ml-6"
+                            />
+
+                            <div className="flex flex-col mt-1">
+
+                                {/* USERNAME */}
+                                <p className="text-[4vw] font-semibold text-center mt-10 mr-18 mb-4">{currentUser.username}</p>
+
+                                {/* NAME EN VERDE */}
+                                <p className="text-[4vw] text-[#C8F442] mt-2">{currentUser.name}</p>
+
+                                {/* STATS */}
+                                <div className="flex space-x-6 mt-3">
+                                    <div className="text-center">
+                                        <p className="text-[4vw] font-bold text-[#A480FF]">{currentUser.posts}</p>
+                                        <p className="text-[3vw] text-gray-300">Posts</p>
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="text-[4vw] font-bold text-[#A480FF]">{currentUser.followers}</p>
+                                        <p className="text-[3vw] text-gray-300">Followers</p>
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="text-[4vw] font-bold text-[#A480FF]">{currentUser.workouts}</p>
+                                        <p className="text-[3vw] text-gray-300">Workouts</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
+    );
 }
