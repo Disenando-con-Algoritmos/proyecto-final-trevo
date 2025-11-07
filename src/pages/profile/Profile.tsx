@@ -37,7 +37,7 @@ export default function Profile() {
                         {/* CONTENEDOR NEGRO */}
                         <div
                             id="info"
-                            className="flex items-center bg-black p-[2vw] rounded-b-[2vw] h-[200px] w-[calc(100%-300px)] fixed top-0 m-0 z-20"
+                            className="flex items-center bg-black p-[2vw] rounded-b-[2vw] h-[200px] left-[300px] right-0 w-auto fixed top-0 m-0 z-20"
                         >
                             {/* FOTO */}
                             <img
@@ -50,9 +50,9 @@ export default function Profile() {
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center space-x-[3vw]">
 
-                                        {/* USERNAME */}
-                                        <h2 className="text-[1.8vw] font-semibold ml-[1vw]">
-                                            {currentUser.username}
+                                        {/* nombre */}
+                                        <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">
+                                            {currentUser.name}
                                         </h2>
 
                                         {/* STATS */}
@@ -79,8 +79,6 @@ export default function Profile() {
                                     </div>
                                 </div>
 
-                                {/* NAME (segunda línea, estilo Prime) */}
-                                <p className="text-[1.3vw] text-[#C8F442] mt-2">{currentUser.name}</p>
                             </div>
                         </div>
                     </div>
@@ -103,10 +101,10 @@ export default function Profile() {
                     {/* CONTENIDO */}
                     <div className="flex flex-col text-white font-[neulis] p-4">
 
-                        {/* CONTENEDOR NEGRO MÁS PEQUEÑO */}
+                        {/* CONTENEDOR NEGRO */}
                         <div className="absolute top-0 left-0 w-full bg-black rounded-b-[100px] h-[250px] p-4 flex items-start">
 
-                            {/* ICONOS ARRIBA DERECHA */}
+                            {/* ICONOS */}
                             <div className="absolute top-4 right-4 flex space-x-4 mt-10">
                                 <Upload size={20} color="#C8F442" />
                                 <Settings size={20} color="#C8F442" />
@@ -123,7 +121,7 @@ export default function Profile() {
                                 {/* USERNAME */}
                                 <p className="text-[4vw] font-semibold text-center mt-10 mr-18 mb-4">{currentUser.username}</p>
 
-                                {/* NAME EN VERDE */}
+                                {/* NAME */}
                                 <p className="text-[4vw] text-[#C8F442] mt-2">{currentUser.name}</p>
 
                                 {/* STATS */}
