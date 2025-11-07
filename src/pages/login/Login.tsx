@@ -158,6 +158,9 @@ export default function Login() {
                                 },
                             }}
                         />
+                        <Link to="/password" className="text-sm text-[#9b7ff5] underline font-[poppins]">
+                            Forgot password?
+                        </Link>
                     </div>
 
                     <BtnLogin />
