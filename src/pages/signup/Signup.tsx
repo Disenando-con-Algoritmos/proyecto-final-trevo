@@ -48,6 +48,11 @@ export default function Signup() {
         const email = (formData.get("email") as string) || "";
         const password = (formData.get("password") as string) || "";
 
+        if (!username || !email || !password) {
+            alert("Completa todos los campos para registrarte");
+            return;
+        }
+
         const existingUser = users.find((u) => u.username === username || u.email === email);
         if (existingUser) {
             alert("Este usuario o correo ya está registrado");
