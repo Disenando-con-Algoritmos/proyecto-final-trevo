@@ -6,7 +6,7 @@ import NavBar from "../../components/NavBar";
 import PostCard from "../../components/PostCard";
 import type { Posttype } from "../../types/postTypes";
 import type { instructorType } from "../../types/instructorTypes";
-import { getPosts } from "../../services/postServices";
+import { getPosts } from "../../services/supabase/postService";
 import InstructorCard from "../../components/InstructorCard";
 import { getInstructors } from "../../services/instructorServices";
 import WorkoutCard from "../../components/WorkoutCard";
@@ -14,7 +14,7 @@ import NavBarResponsive from "../../components/NavBarResponsive";
 import { getWorkouts } from "../../services/workoutServices";
 import type { workoutType } from "../../types/workoutTypes";
 import CreatePost from "../../components/CreatePost";
-import Alert from "../../components/Alert"; // 
+import Alert from "../../components/Alert"; 
 
 import ContainerHashtag from "./ContainerHashtag";
 
@@ -84,15 +84,15 @@ export default function Home() {
     ${matches ? "left-[50%] transform -translate-x-1/2 max-w-[600px] w-full h-[200px] z-10" : "left-0 w-full px-4 pt-10 h-auto z-20"}`}
             >
                 <div className={`flex ${matches ? "flex-row gap-8 justify-between items-center mt-10" : "flex-row mt-5 items-center justify-between"} mb-2`}>
-                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left"}`}>Hi, {currentUser.username}</h1>
+                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left"}`}>Hi, {currentUser?.username || "Guest"}</h1>
                     <Bell className={`${matches ? "absolute right-10 top-[50%] -translate-y-1/2" : "absolute right-9 top-[70px]"} `} color="white" size={matches ? 28 : 26} />
                 </div>
 
                 <div id="containers" className={`flex ${matches ? "flex-row gap-1" : "flex-wrap mt-9"}`}>
-                    <ContainerHashtag text="#gym" onClick={() => handleHashtagClick("#gym")} />
-                    <ContainerHashtag text="#foodie" onClick={() => handleHashtagClick("#foodie")} />
-                    <ContainerHashtag text="#motivation" onClick={() => handleHashtagClick("#motivation")} />
-                    <ContainerHashtag text="#runnies" onClick={() => handleHashtagClick("#runnies")} />
+                    <ContainerHashtag text="#gym" onClick={() => handleHashtagClick("gym")} />
+                    <ContainerHashtag text="#foodie" onClick={() => handleHashtagClick("foodie")} />
+                    <ContainerHashtag text="#motivation" onClick={() => handleHashtagClick("motivation")} />
+                    <ContainerHashtag text="#runnies" onClick={() => handleHashtagClick("runnies")} />
                 </div>
             </div>
 

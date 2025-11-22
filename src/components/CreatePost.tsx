@@ -62,7 +62,7 @@ export default function CreatePost({ onClose, onPost, currentUser }: CreatePostP
             image: imagePreview || "https://placehold.co/600x400",
             likes: 0,
             hashtag: category,
-            comments: [],
+            hashtag_id: 0,
         };
 
         const saved = JSON.parse(localStorage.getItem("posts") || "[]");
