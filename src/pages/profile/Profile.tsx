@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mui/material";
-import { Settings, Upload } from "lucide-react";
+import { Settings, LogOut } from "lucide-react";
 
 import { getProfilePost } from "../../services/profilepostServices";
 import type { Posttype } from "../../types/profilepostTypes";
@@ -51,11 +51,7 @@ export default function Profile() {
         <>
             {/* --------------------------- VISTA DESKTOP --------------------------- */}
             {matches && (
-                <div
-                    id="full-page"
-                    className="fixed top-0 left-0 w-full h-full bg-cover bg-center"
-                    style={{ backgroundImage: "url(/trevo/assets/backgroundProfile.png)" }}
-                >
+                <div id="full-page" className="fixed top-0 left-0 w-full h-full bg-cover bg-center" style={{ backgroundImage: "url(/trevo/assets/backgroundProfile.png)" }}>
                     {/* NAVBAR */}
                     <div id="navbar" className="fixed top-0 left-0 h-full w-[20%] min-w-[280px] max-w-[330px]">
                         <NavBar />
@@ -63,22 +59,14 @@ export default function Profile() {
                     {/* CONTENIDO */}
                     <div id="content" className="ml-[20%] flex flex-col p-6 min-h-screen text-white font-[neulis]">
                         {/* CONTENEDOR NEGRO */}
-                        <div
-                            id="info"
-                            className="flex items-center bg-black p-[2vw] rounded-b-[2vw] h-[200px] left-[300px] right-0 w-auto fixed top-0 m-0 z-20"
-                        >
+                        <div id="info" className="flex items-center bg-black p-[2vw] rounded-b-[2vw] h-[200px] left-[300px] right-0 w-auto fixed top-0 m-0 z-20">
                             {/* FOTO */}
-                            <img
-                                src={currentUser.profilePic || defaultProfilePic}
-                                className="w-[10vw] h-[10vw] rounded-full object-cover mr-[2vw]"
-                            />
+                            <img src={currentUser.profilePic || defaultProfilePic} className="w-[10vw] h-[10vw] rounded-full object-cover mr-[2vw]" />
                             <div className="flex flex-col flex-1">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center space-x-[3vw]">
                                         {/* USERNAME */}
-                                        <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">
-                                            {currentUser.username}
-                                        </h2>
+                                        <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">{currentUser.username}</h2>
                                         {/* STATS */}
                                         <div id="profile-data" className="flex space-x-[4vw] ml-[5vw]">
                                             <div className="text-center">
@@ -97,7 +85,6 @@ export default function Profile() {
                                     </div>
                                     {/* ICONOS */}
                                     <div id="icons" className="flex items-center space-x-[2vw] mr-[2vw]">
-                                        <Upload size={30} color="#C8F442" />
                                         <Settings size={30} color="#C8F442" />
                                     </div>
                                 </div>
@@ -123,11 +110,7 @@ export default function Profile() {
             )}
             {/* --------------------------- VISTA RESPONSIVE --------------------------- */}
             {!matches && (
-                <div
-                    id="full-page-mobile"
-                    className="w-full min-h-screen bg-cover bg-center pb-24"
-                    style={{ backgroundImage: "url(/trevo/assets/backgroundProfile.png)" }}
-                >
+                <div id="full-page-mobile" className="w-full min-h-screen bg-cover bg-center pb-24" style={{ backgroundImage: "url(/trevo/assets/backgroundProfile.png)" }}>
                     {/* NAVBAR RESPONSIVE */}
                     <div className="fixed bottom-0 w-full z-50">
                         <NavBarResponsive />
@@ -145,12 +128,20 @@ export default function Profile() {
                             {/* ICONOS */}
                             <div
                                 className={`
-                                    absolute right-4 flex space-x-4 transition-all duration-300
-                                    ${isSmall ? "top-3" : "top-4 mt-10"}
-                                `}
+        absolute left-4 transition-all duration-300
+        ${isSmall ? "top-3" : "top-4 mt-10"}
+    `}
                             >
-                                <Upload size={20} color="#C8F442" />
                                 <Settings size={20} color="#C8F442" />
+                            </div>
+
+                            <div
+                                className={`
+        absolute right-4 transition-all duration-300
+        ${isSmall ? "top-3" : "top-4 mt-10"}
+    `}
+                            >
+                                <LogOut size={20} color="#C8F442" />
                             </div>
                             {/* FOTO */}
                             <img
