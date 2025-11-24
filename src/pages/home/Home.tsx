@@ -11,7 +11,7 @@ import InstructorCard from "../../components/InstructorCard";
 import { getInstructors } from "../../services/instructorServices";
 import WorkoutCard from "../../components/WorkoutCard";
 import NavBarResponsive from "../../components/NavBarResponsive";
-import { getWorkouts } from "../../services/workoutServices";
+import { getWorkouts } from "../../services/supabase/workoutService";
 import type { workoutType } from "../../types/workoutTypes";
 import CreatePost from "../../components/CreatePost";
 import Alert from "../../components/Alert"; // 
@@ -125,14 +125,14 @@ export default function Home() {
                 <div className="mt-25 ml-8 mr-2" id="extra-info">
                     <p className="text-[#CAD83B] text-[17px] mb-1">Instructors</p>
                     <div className="flex gap-5 flex-col">
-                        {instructors.slice(0, 2).map((instructor, index) => (
-                            <InstructorCard key={index} instructor={instructor} />
+                        {instructors.slice(0, 2).map((instructor) => (
+                            <InstructorCard key={instructor.id} instructor={instructor} />
                         ))}
                     </div>
                     <p className="text-[#CAD83B] text-[17px] mb-1 mt-7">Workouts</p>
                     <div className="grid grid-cols-2 gap-4 mb-4">
-                        {workouts.slice(0, 4).map((workout, index) => (
-                            <WorkoutCard key={index} workout={workout} />
+                        {workouts.slice(0, 4).map((workout) => (
+                            <WorkoutCard key={workout.id} workout={workout} />
                         ))}
                     </div>
                 </div>
