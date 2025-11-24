@@ -4,7 +4,7 @@ import { useMediaQuery } from "@mui/material";
 
 import NavBar from "../../../components/NavBar";
 import NavBarResponsive from "../../../components/NavBarResponsive";
-import { getInstructors } from "../../../services/instructorServices";
+import { getInstructors } from "../../../services/supabase/instructorService";
 import type { instructorType } from "../../../types/instructorTypes";
 import InstructorCard from "../../../components/InstructorCard";
 

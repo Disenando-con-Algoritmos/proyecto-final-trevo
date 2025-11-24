@@ -5,7 +5,7 @@ import { useMediaQuery } from "@mui/material";
 import NavBar from "../../../components/NavBar";
 import NavBarResponsive from "../../../components/NavBarResponsive";
 import WorkoutCard from "../../../components/WorkoutCard";
-import { getWorkouts } from "../../../services/workoutServices";
+import { getWorkouts } from "../../../services/supabase/workoutService";
 import type { workoutType } from "../../../types/workoutTypes";
 
 export default function Workouts() {
@@ -57,8 +57,8 @@ export default function Workouts() {
 
                 <div className="flex-1 p-8 flex justify-center items-center">
                     <div className={`${matches ? "grid grid-cols-4 gap-6 max-w-2xl" : "grid grid-cols-2 gap-6 mb-25 max-w-sm mt-7"} mx-auto`}>
-                        {workouts.map((workout, index) => (
-                            <WorkoutCard key={index} workout={workout} />
+                        {workouts.map((workout) => (
+                            <WorkoutCard key={workout.id} workout={workout} />
                         ))}
                     </div>
                 </div>

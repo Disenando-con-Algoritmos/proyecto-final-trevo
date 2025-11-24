@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mui/material";
 
-import { getMyworkouts } from "../../services/myworkoutsServices";
-import type { WorkoutType } from "../../types/myworkoutsTypes";
+import { getMyworkouts } from "../../services/supabase/myWorkoutService";
+import type { myWorkoutType } from "../../types/myworkoutsTypes";
 import NavBar from "../../components/NavBar";
 import NavBarResponsive from "../../components/NavBarResponsive";
 import MyWorkoutCard from "../../components/MyWorkoutCard"; 
 
 export default function MyWorkouts() {
-    const [myworkouts, setMyworkouts] = useState<WorkoutType[]>([]);
+    const [myworkouts, setMyworkouts] = useState<myWorkoutType[]>([]);
     const matches = useMediaQuery("(min-width:600px)");
 
     useEffect(() => {
@@ -48,8 +48,8 @@ export default function MyWorkouts() {
 
                 <div className="flex-1 px-8 ">
                     <div className={`${matches ? "grid grid-cols-1 gap-6 max-w-2xl" : "grid grid-cols-1 gap-4"}`}>
-                        {myworkouts.map((workout, index) => (
-                            <MyWorkoutCard key={index} workout={workout} onClick={() => console.info("Workout clicked:", workout.title)} />
+                        {myworkouts.map((workout) => (
+                            <MyWorkoutCard key={workout.id} workout={workout} onClick={() => console.info("Workout clicked:", workout.title)} />
                         ))}
                     </div>
                 </div>
