@@ -1,6 +1,6 @@
 import  supabase  from "./config";
 
-const BUCKET_NAME = import.meta.env.VITE_SUPABASE_BUCKET;
+const BUCKET_NAME = import.meta.env.VITE_SUPABASE_BUCKET || "posts";
 
 export interface UploadResult {
     success: boolean;

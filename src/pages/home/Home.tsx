@@ -29,15 +29,15 @@ export default function Home() {
     const [modalOpen, setModalOpen] = useState(false);
 
     // cargar posts
+    const fetchPosts = async () => {
+        const data = await getPosts();
+        setPosts(data);
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await getPosts();
-            setPosts(data);
-        };
-        fetchData();
+        fetchPosts();
     }, []);
 
-    // cargar instructores
     useEffect(() => {
         const fetchInstructors = async () => {
             const data = await getInstructors();
@@ -111,9 +111,8 @@ export default function Home() {
                             onClose={() => setModalOpen(false)}
                             onPost={(newPost) => {
                                 setPosts((prev) => [newPost, ...prev]);
-                                localStorage.setItem("posts", JSON.stringify([newPost, ...posts]));
-                                console.info("Nuevo post agregado:", newPost);
                             }}
+                            onPostCreated={fetchPosts}
                             currentUser={currentUser} 
                         />
                     </div>

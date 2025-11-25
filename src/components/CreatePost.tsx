@@ -1,30 +1,46 @@
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 
 import { setMessage } from "../reducers/slice/MessageSlice";
 import type { AppDispatch } from "../reducers/Store";
 import type { Posttype } from "../types/postTypes";
+import bucketService from "../services/supabase/bucketService";
+import { createPost } from "../services/supabase/postService";
+import authService from "../services/supabase/authService";
+import { getHashtags, type HashtagType } from "../services/supabase/hashtagService";
+import { getUserProfile } from "../services/supabase/userService";
 
 type CreatePostProps = {
     onClose: () => void;
     onPost: (_newPost: Posttype) => void;
+    onPostCreated?: () => void; // Nueva prop para refrescar posts
     currentUser: {
         username: string;
         profilePic: string;
     };
 };
 
-export default function CreatePost({ onClose, onPost, currentUser }: CreatePostProps) {
+export default function CreatePost({ onClose, onPost, onPostCreated, currentUser }: CreatePostProps) {
     const formRef = useRef<HTMLFormElement>(null);
     const dispatch = useDispatch<AppDispatch>();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [hashtags, setHashtags] = useState<HashtagType[]>([]);
     const categories = ["#gym", "#foodie", "#motivation", "#running"];
     const matches = useMediaQuery("(min-width:600px)");
 
+    useEffect(() => {
+        getHashtags().then(setHashtags);
+    }, []);
+
     const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (!file) return setImagePreview(null);
+        if (!file) {
+            setImagePreview(null);
+            setImageFile(null);
+            return;
+        }
 
         // TAMAÑOP :3
         if (file.size > 3 * 1024 * 1024) {
@@ -33,11 +49,14 @@ export default function CreatePost({ onClose, onPost, currentUser }: CreatePostP
         }
 
         const reader = new FileReader();
-        reader.onloadend = () => setImagePreview(reader.result as string);
+        reader.onloadend = () => {
+            setImagePreview(reader.result as string);
+            setImageFile(file);
+        };
         reader.readAsDataURL(file);
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         const formData = new FormData(formRef.current!);
 
@@ -50,29 +69,74 @@ export default function CreatePost({ onClose, onPost, currentUser }: CreatePostP
             return;
         }
 
+        if (!imageFile) {
+             dispatch(setMessage({ message: "Image is required", severity: "warning" }));
+             return;
+        }
+
+        const user = await authService.getCurrentUser();
+        if (!user || !user.email) {
+            dispatch(setMessage({ message: "User not logged in or email missing", severity: "error" }));
+            return;
+        }
+
+        const userProfile = await getUserProfile(user.email);
+        if (!userProfile) {
+            dispatch(setMessage({ message: "User profile not found", severity: "error" }));
+            return;
+        }
+
+        // Upload image
+        const uploadResult = await bucketService.uploadImage(imageFile, "post_images");
+        if (!uploadResult.success || !uploadResult.url) {
+            dispatch(setMessage({ message: "Error uploading image", severity: "error" }));
+            return;
+        }
+        const imageUrl = uploadResult.url;
+
+        // Find hashtag ID
+        const selectedHashtag = hashtags.find(h => h.name === category || h.name === category.replace('#', ''));
+        
+        if (!selectedHashtag) {
+             dispatch(setMessage({ message: "Invalid category", severity: "error" }));
+             return;
+        }
+
         const today = new Date();
         const dateFormatted = today.toLocaleDateString("es-CO");
 
-        const newPost: Posttype = {
-            id: Date.now(),
-            profilepic: currentUser.profilePic,
-            username: currentUser.username || "guest.user",
-            date: dateFormatted,
+        const newPostData = {
+            user_id: userProfile.id,
             description: caption,
-            image: imagePreview || "https://placehold.co/600x400",
-            likes: 0,
-            hashtag: category,
-            hashtag_id: 0,
+            image: imageUrl,
+            hashtag_id: selectedHashtag.id,
+            date: new Date().toISOString(),
         };
 
-        const saved = JSON.parse(localStorage.getItem("posts") || "[]");
-        localStorage.setItem("posts", JSON.stringify([newPost, ...saved]));
+        const createdPost = await createPost(newPostData);
 
-        // MENSAJES EXITOOO
-        dispatch(setMessage({ message: "Published successfully", severity: "success" }));
+        if (createdPost) {
+            const newPost: Posttype = {
+                id: createdPost.id,
+                profilepic: currentUser.profilePic,
+                username: currentUser.username || "guest.user",
+                date: dateFormatted,
+                description: caption,
+                image: imageUrl,
+                likes: 0,
+                hashtag: category,
+                hashtag_id: selectedHashtag.id,
+            };
 
-        onPost(newPost);
-        onClose();
+            // MENSAJES EXITOOO
+            dispatch(setMessage({ message: "Published successfully", severity: "success" }));
+
+            onPost(newPost);
+            if (onPostCreated) onPostCreated(); // Refrescar posts desde Supabase
+            onClose();
+        } else {
+            dispatch(setMessage({ message: "Error creating post", severity: "error" }));
+        }
     };
 
     return (

@@ -13,7 +13,8 @@ const getPosts = async (): Promise<Posttype[]> => {
                 hashtags (
                     name
                 )
-            `);
+            `)
+            .order('id', { ascending: false });
 
         if (error) {
             console.error("Error fetching posts:", error);
@@ -47,4 +48,30 @@ const getPosts = async (): Promise<Posttype[]> => {
     }
 };
 
-export { getPosts };
+const createPost = async (post: {
+    user_id: number;
+    description: string;
+    image: string;
+    hashtag_id: number;
+    date: string;
+}) => {
+    try {
+        const { data, error } = await supabase
+            .from("posts")
+            .insert([post])
+            .select()
+            .single();
+
+        if (error) {
+            console.error("Error creating post:", error);
+            return null;
+        }
+
+        return data;
+    } catch (error) {
+        console.error("Unexpected error creating post:", error);
+        return null;
+    }
+};
+
+export { getPosts, createPost };
