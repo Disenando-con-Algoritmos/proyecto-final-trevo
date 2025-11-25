@@ -13,7 +13,8 @@ const getCommentsByPostId = async (postId: number): Promise<comment[]> => {
                     profile_pic
                 )
             `)
-            .eq("post_id", postId);
+            .eq("post_id", postId)
+            .order("id", { ascending: true });
 
         if (error) {
             console.error("Error fetching comments:", error);
@@ -35,7 +36,7 @@ const getCommentsByPostId = async (postId: number): Promise<comment[]> => {
     }
 };
 
-const createComment = async (postId: number, userId: string | number, text: string): Promise<comment | null> => {
+const createComment = async (postId: number, userId: number, text: string): Promise<comment | null> => {
     try {
         const today = new Date();
         const dateFormatted = today.toLocaleDateString("es-CO");
@@ -47,8 +48,7 @@ const createComment = async (postId: number, userId: string | number, text: stri
                     post_id: postId,
                     user_id: userId,
                     comment: text,
-                    date: dateFormatted,
-                    likes: 0
+                    date: dateFormatted
                 }
             ])
             .select(`

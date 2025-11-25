@@ -14,7 +14,7 @@ const getPosts = async (): Promise<Posttype[]> => {
                     name
                 )
             `)
-            .order('id', { ascending: false });
+            .order("id", { ascending: false });
 
         if (error) {
             console.error("Error fetching posts:", error);
