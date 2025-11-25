@@ -21,15 +21,26 @@ const getCommentsByPostId = async (postId: number): Promise<comment[]> => {
             return [];
         }
 
-        return commentsData?.map((comment) => ({
-            id: comment.id,
-            username: comment.users?.username || "Unknown",
-            profilepic: comment.users?.profile_pic || "",
-            comment: comment.comment || "", 
-            likes: comment.likes || 0,
-            liked: false,
-            date: comment.date
-        })) || [];
+        const commentsWithLikes = await Promise.all(
+            commentsData?.map(async (comment) => {
+                const { count: likesCount } = await supabase
+                    .from("comments_likes")
+                    .select("*", { count: "exact", head: true })
+                    .eq("comment_id", comment.id);
+
+                return {
+                    id: comment.id,
+                    username: comment.users?.username || "Unknown",
+                    profilepic: comment.users?.profile_pic || "",
+                    comment: comment.comment || "",
+                    likes: likesCount || 0,
+                    liked: false,
+                    date: comment.date
+                };
+            }) || []
+        );
+
+        return commentsWithLikes;
     } catch (error) {
         console.error("Unexpected error fetching comments:", error);
         return [];

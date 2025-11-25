@@ -5,6 +5,8 @@ import type { Posttype, comment } from "../types/postTypes";
 import ContainerHashtag from "../pages/home/ContainerHashtag";
 import type { userType } from "../types/userTypes";
 import { getCommentsByPostId, createComment } from "../services/supabase/commentService";
+import { toggleLike, checkIfUserLiked } from "../services/supabase/postLikeService";
+import { toggleCommentLike, checkIfUserLikedComment } from "../services/supabase/commentLikeService";
 
 export default function PostCard({ post, currentUser }: { post: Posttype; currentUser: userType }) {
     const [liked, setLiked] = useState(false);
@@ -26,9 +28,38 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
         }
     }, [showComments, post.id]);
 
-    const toggleLike = () => {
-        setLiked(!liked);
-        setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+    useEffect(() => {
+        if (currentUser && currentUser.id) {
+            checkIfUserLiked(post.id, currentUser.id).then(setLiked);
+        }
+    }, [post.id, currentUser]);
+
+    useEffect(() => {
+        const checkCommentLikes = async () => {
+            if (currentUser && currentUser.id && comments.length > 0) {
+                const updatedComments = await Promise.all(
+                    comments.map(async (comment) => {
+                        const liked = await checkIfUserLikedComment(comment.id, currentUser.id);
+                        return { ...comment, liked };
+                    })
+                );
+                setComments(updatedComments);
+            }
+        };
+        checkCommentLikes();
+    }, [comments.length, currentUser]);
+
+    const handleToggleLike = async () => {
+        if (!currentUser || !currentUser.id) {
+            console.error("User not logged in");
+            return;
+        }
+
+        const result = await toggleLike(post.id, currentUser.id);
+        if (result) {
+            setLiked(result.liked);
+            setLikeCount(result.likeCount);
+        }
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -49,17 +80,27 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
         }
     };
 
-    const handleLikeComment = (id: number) => {
-        setComments((prevComments) =>
-            prevComments.map((comment) => {
-                if (comment.id === id) {
-                    const liked = comment.liked ?? false;
-                    const updatedLikes = liked ? comment.likes - 1 : comment.likes + 1;
-                    return { ...comment, likes: updatedLikes, liked: !liked };
-                }
-                return comment;
-            })
-        );
+    const handleLikeComment = async (commentId: number) => {
+        if (!currentUser || !currentUser.id) {
+            console.error("User not logged in");
+            return;
+        }
+
+        const result = await toggleCommentLike(commentId, currentUser.id);
+        if (result) {
+            setComments((prevComments) =>
+                prevComments.map((comment) => {
+                    if (comment.id === commentId) {
+                        return { 
+                            ...comment, 
+                            likes: result.likeCount, 
+                            liked: result.liked 
+                        };
+                    }
+                    return comment;
+                })
+            );
+        }
     };
 
     return (
@@ -82,7 +123,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
             {/* botones postt */}
             <div className="flex items-center justify-between text-gray-300 text-sm">
                 <div className="flex items-center gap-3">
-                    <button onClick={toggleLike} className="flex items-center gap-1">
+                    <button onClick={handleToggleLike} className="flex items-center gap-1">
                         <Heart className={`w-5 h-5 cursor-pointer ${liked ? "fill-[#9872F0] text-[#9872F0]" : ""}`} />
                         <span>{likeCount}</span>
                     </button>
