@@ -2,38 +2,57 @@ import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mui/material";
 import { Settings, Upload } from "lucide-react";
 
-import { getProfilePost } from "../../services/profilepostServices";
-import type { Posttype } from "../../types/profilepostTypes";
+import { getPosts } from "../../services/supabase/postService";
+import type { Posttype } from "../../types/postTypes";
 import NavBar from "../../components/NavBar";
 import PostCard from "../../components/PostCard";
 import NavBarResponsive from "../../components/NavBarResponsive";
+import authService from "../../services/supabase/authService";
+import { getProfileStats, type ProfileStats } from "../../services/supabase/profileStatsService";
 
 export default function Profile() {
     const matches = useMediaQuery("(min-width:768px)");
     const [userPosts, setUserPosts] = useState<Posttype[]>([]);
+    const [profileStats, setProfileStats] = useState<ProfileStats | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const currentUserId = currentUser?.id ?? null;
-    const currentUsername = currentUser?.username ?? "";
     const defaultProfilePic = "https://i.pinimg.com/736x/3c/ae/07/3cae079ca0b9e55ec6bfc1b358c9b1e2.jpg";
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const allPosts = await getProfilePost();
+                setLoading(true);
+                
+                // Obtener usuario autenticado
+                const authUser = await authService.getCurrentUser();
+                if (!authUser || !authUser.email) {
+                    console.error("No authenticated user");
+                    setLoading(false);
+                    return;
+                }
 
-                const filtered = allPosts.filter((post: Posttype) => post.username === currentUsername || String(post.userId) === String(currentUserId));
+                // Obtener estadísticas del perfil
+                const stats = await getProfileStats(authUser.email);
+                setProfileStats(stats);
 
+                // Obtener todos los posts y filtrar por el usuario actual
+                const allPosts = await getPosts();
+                const filtered = allPosts.filter((post: Posttype) => 
+                    post.username === stats?.username
+                );
                 setUserPosts(filtered);
-                console.info("Posts filtrados:", filtered);
+                
+                setLoading(false);
             } catch (err) {
-                console.error("Error al cargar los posts:", err);
+                console.error("Error al cargar los datos:", err);
                 setUserPosts([]);
+                setLoading(false);
             }
         };
 
         fetchData();
-    }, [currentUserId, currentUsername]);
+    }, []);
 
     return (
         <>
@@ -50,26 +69,28 @@ export default function Profile() {
                         {/* CONTENEDOR NEGRO */}
                         <div id="info" className="flex items-center bg-black p-[2vw] rounded-b-[2vw] h-[200px] left-[300px] right-0 w-auto fixed top-0 m-0 z-20">
                             {/* FOTO */}
-                            <img src={currentUser.profilePic || defaultProfilePic} className="w-[10vw] h-[10vw] rounded-full object-cover mr-[2vw]" />
+                            <img src={profileStats?.profilePic || defaultProfilePic} className="w-[10vw] h-[10vw] rounded-full object-cover mr-[2vw]" />
 
                             <div className="flex flex-col flex-1">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center space-x-[3vw]">
                                         {/* USERNAME */}
-                                        <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">{currentUser.username}</h2>
+                                        <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">
+                                            {loading ? "Loading..." : profileStats?.username || currentUser.username}
+                                        </h2>
 
                                         {/* STATS */}
                                         <div id="profile-data" className="flex space-x-[4vw] ml-[5vw]">
                                             <div className="text-center">
-                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{userPosts.length}</p>
+                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{profileStats?.postsCount || 0}</p>
                                                 <p className="text-[1vw] text-gray-300">Posts</p>
                                             </div>
                                             <div className="text-center">
-                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{currentUser.followers}</p>
+                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{profileStats?.followers || 0}</p>
                                                 <p className="text-[1vw] text-gray-300">Followers</p>
                                             </div>
                                             <div className="text-center">
-                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{currentUser.workouts}</p>
+                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{profileStats?.workouts || 0}</p>
                                                 <p className="text-[1vw] text-gray-300">Workouts</p>
                                             </div>
                                         </div>
@@ -122,26 +143,26 @@ export default function Profile() {
                             </div>
 
                             {/* FOTO */}
-
-                            {/* FOTO */}
-                            <img src={currentUser.profilePic || defaultProfilePic} className="w-[22vw] h-[22vw] rounded-full object-cover mr-4 mt-22 ml-6"  />
+                            <img src={profileStats?.profilePic || defaultProfilePic} className="w-[22vw] h-[22vw] rounded-full object-cover mr-4 mt-22 ml-6"  />
 
                             <div className="flex flex-col mt-1">
                                 {/* USERNAME */}
-                                <p className="text-[5.5vw] font-semibold text-center mt-8 mr-18 mb-4 text-[#C8F442]">{currentUser.username}</p>
+                                <p className="text-[5.5vw] font-semibold text-center mt-8 mr-18 mb-4 text-[#C8F442]">
+                                    {loading ? "Loading..." : profileStats?.username || currentUser.username}
+                                </p>
 
                                 {/* STATS */}
                                 <div className="flex space-x-5 mt-8">
                                     <div className="text-center">
-                                        <p className="text-[4vw] font-bold text-[#A480FF]">{userPosts.length}</p>
+                                        <p className="text-[4vw] font-bold text-[#A480FF]">{profileStats?.postsCount || 0}</p>
                                         <p className="text-[3vw] text-gray-300">Posts</p>
                                     </div>
                                     <div className="text-center">
-                                        <p className="text-[4vw] font-bold text-[#A480FF]">{currentUser.followers}</p>
+                                        <p className="text-[4vw] font-bold text-[#A480FF]">{profileStats?.followers || 0}</p>
                                         <p className="text-[3vw] text-gray-300">Followers</p>
                                     </div>
                                     <div className="text-center">
-                                        <p className="text-[4vw] font-bold text-[#A480FF]">{currentUser.workouts}</p>
+                                        <p className="text-[4vw] font-bold text-[#A480FF]">{profileStats?.workouts || 0}</p>
                                         <p className="text-[3vw] text-gray-300">Workouts</p>
                                     </div>
                                 </div>

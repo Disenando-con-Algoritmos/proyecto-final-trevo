@@ -15,8 +15,9 @@ import { getWorkouts } from "../../services/supabase/workoutService";
 import type { workoutType } from "../../types/workoutTypes";
 import CreatePost from "../../components/CreatePost";
 import Alert from "../../components/Alert"; 
-
 import ContainerHashtag from "./ContainerHashtag";
+import authService from "../../services/supabase/authService";
+import { getUserProfile } from "../../services/supabase/userService";
 
 export default function Home() {
     // estados
@@ -27,6 +28,21 @@ export default function Home() {
     const [workouts, setWorkouts] = useState<workoutType[]>([]);
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
     const [modalOpen, setModalOpen] = useState(false);
+    const [username, setUsername] = useState<string>("Guest");
+
+    // username d
+    useEffect(() => {
+        const fetchUsername = async () => {
+            const authUser = await authService.getCurrentUser();
+            if (authUser && authUser.email) {
+                const userProfile = await getUserProfile(authUser.email);
+                if (userProfile) {
+                    setUsername(userProfile.username);
+                }
+            }
+        };
+        fetchUsername();
+    }, []);
 
     // cargar posts
     const fetchPosts = async () => {
@@ -84,7 +100,7 @@ export default function Home() {
     ${matches ? "left-[50%] transform -translate-x-1/2 max-w-[600px] w-full h-[200px] z-10" : "left-0 w-full px-4 pt-10 h-auto z-20"}`}
             >
                 <div className={`flex ${matches ? "flex-row gap-8 justify-between items-center mt-10" : "flex-row mt-5 items-center justify-between"} mb-2`}>
-                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left"}`}>Hi, {currentUser?.username || "Guest"}</h1>
+                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left"}`}>Hi, {username}</h1>
                     <Bell className={`${matches ? "absolute right-10 top-[50%] -translate-y-1/2" : "absolute right-9 top-[70px]"} `} color="white" size={matches ? 28 : 26} />
                 </div>
 
