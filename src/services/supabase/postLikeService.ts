@@ -24,15 +24,14 @@ const toggleLike = async (postId: number, userId: number): Promise<{ liked: bool
             }
             liked = false;
         } else {
-            const { data: insertData, error: insertError } = await supabase
+            const { error: insertError } = await supabase
                 .from("likes")
                 .insert([
                     {
                         post_id: postId,
                         user_id: userId
                     }
-                ])
-                .select();
+                ]);
 
             if (insertError) {
                 console.error("Error adding like:", insertError);
