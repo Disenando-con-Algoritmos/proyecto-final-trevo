@@ -15,9 +15,10 @@ import { getWorkouts } from "../../services/supabase/workoutService";
 import type { workoutType } from "../../types/workoutTypes";
 import CreatePost from "../../components/CreatePost";
 import Alert from "../../components/Alert"; 
-import ContainerHashtag from "./ContainerHashtag";
 import authService from "../../services/supabase/authService";
 import { getUserProfile } from "../../services/supabase/userService";
+
+import ContainerHashtag from "./ContainerHashtag";
 
 export default function Home() {
     // estados
@@ -28,9 +29,9 @@ export default function Home() {
     const [workouts, setWorkouts] = useState<workoutType[]>([]);
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
     const [modalOpen, setModalOpen] = useState(false);
-    const [username, setUsername] = useState<string>("Guest");
+    const [username, setUsername] = useState<string>("");
 
-    // username d
+    //hi, (user)
     useEffect(() => {
         const fetchUsername = async () => {
             const authUser = await authService.getCurrentUser();
