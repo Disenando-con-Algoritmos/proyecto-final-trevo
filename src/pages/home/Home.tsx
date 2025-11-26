@@ -8,7 +8,7 @@ import type { Posttype } from "../../types/postTypes";
 import type { instructorType } from "../../types/instructorTypes";
 import { getPosts } from "../../services/supabase/postService";
 import InstructorCard from "../../components/InstructorCard";
-import { getInstructors } from "../../services/instructorServices";
+import { getInstructors } from "../../services/supabase/instructorService";
 import WorkoutCard from "../../components/WorkoutCard";
 import NavBarResponsive from "../../components/NavBarResponsive";
 import { getWorkouts } from "../../services/supabase/workoutService";
@@ -17,6 +17,7 @@ import CreatePost from "../../components/CreatePost";
 import Alert from "../../components/Alert"; 
 import authService from "../../services/supabase/authService";
 import { getUserProfile } from "../../services/supabase/userService";
+import Loading from "../../components/Loading";
 
 import ContainerHashtag from "./ContainerHashtag";
 
@@ -30,6 +31,7 @@ export default function Home() {
     const [currentUser, setCurrentUser] = useState<any>(JSON.parse(localStorage.getItem("user") || "{}"));
     const [modalOpen, setModalOpen] = useState(false);
     const [username, setUsername] = useState<string>("");
+    const [loading, setLoading] = useState(true);
 
     //hi, (user)
     useEffect(() => {
@@ -54,7 +56,12 @@ export default function Home() {
     };
 
     useEffect(() => {
-        fetchPosts();
+        const loadData = async () => {
+            setLoading(true);
+            await fetchPosts();
+            setLoading(false);
+        };
+        loadData();
     }, []);
 
     useEffect(() => {
@@ -117,9 +124,13 @@ export default function Home() {
 
             {/* posts */}
             <div className={`${matches ? "ml-[320px] mt-[200px] w-[600px]" : "mt-[25vh] mb-[20vh] w-[90%] mx-auto"}`}>
-                {filteredPosts.map((post: Posttype) => (
-                    <PostCard key={post.id} post={post} currentUser={currentUser} />
-                ))}
+                {loading ? (
+                    <Loading />
+                ) : (
+                    filteredPosts.map((post: Posttype) => (
+                        <PostCard key={post.id} post={post} currentUser={currentUser} />
+                    ))
+                )}
             </div>
 
             {matches && (

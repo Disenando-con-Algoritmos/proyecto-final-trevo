@@ -15,6 +15,7 @@ import supabase from "../../services/supabase/config";
 import bucketService from "../../services/supabase/bucketService";
 import { setMessage } from "../../reducers/slice/MessageSlice";
 import type { AppDispatch } from "../../reducers/Store";
+import Loading from "../../components/Loading";
 
 export default function Profile() {
     const matches = useMediaQuery("(min-width:768px)");
@@ -221,7 +222,9 @@ export default function Profile() {
                         </div>
                         {/* POSTS DESKTOP */}
                         <div className="mt-[170px] ml-[15vw] overflow-y-auto max-h-[70vh] pr-2 ">
-                            {userPosts.length > 0 ? (
+                            {loading ? (
+                                <Loading />
+                            ) : userPosts.length > 0 ? (
                                 <div className="grid grid-cols-1 gap-6 max-w-2xl">
                                     {userPosts.map((post: Posttype) => (
                                         <PostCard key={post.id} post={post} currentUser={currentUser} />
@@ -320,7 +323,9 @@ export default function Profile() {
                         </div>
                         {/* POSTS RESPONSIVE */}
                         <div className="mt-[240px] mb-150">
-                            {userPosts.length > 0 ? (
+                            {loading ? (
+                                <Loading />
+                            ) : userPosts.length > 0 ? (
                                 <div className="mb-420 flex flex-col items-center max-h-[70vh] mt-4 px-2">
                                     {userPosts.map((post: Posttype) => (
                                         <PostCard key={post.id} post={post} currentUser={currentUser} />
