@@ -17,42 +17,36 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
     const [comments, setComments] = useState<comment[]>([]);
     const [newComment, setNewComment] = useState("");
     const [loadingComments, setLoadingComments] = useState(false);
-    const likesChecked = useRef(false);
+
     const commentsLoaded = useRef(false);
     const [userProfilePic, setUserProfilePic] = useState<string>("");
 
     useEffect(() => {
         if (showComments && !commentsLoaded.current) {
             setLoadingComments(true);
-            getCommentsByPostId(post.id).then((data) => {
-                setComments(data);
+            getCommentsByPostId(post.id).then(async (data) => {
+                if (currentUser && currentUser.id) {
+                    const commentsWithLikes = await Promise.all(
+                        data.map(async (comment) => {
+                            const liked = await checkIfUserLikedComment(comment.id, currentUser.id);
+                            return { ...comment, liked };
+                        })
+                    );
+                    setComments(commentsWithLikes);
+                } else {
+                    setComments(data.map(c => ({ ...c, liked: false })));
+                }
                 setLoadingComments(false);
                 commentsLoaded.current = true;
             });
         }
-    }, [showComments, post.id]);
+    }, [showComments, post.id, currentUser]);
 
     useEffect(() => {
         if (currentUser && currentUser.id) {
             checkIfUserLiked(post.id, currentUser.id).then(setLiked);
         }
     }, [post.id, currentUser]);
-
-    useEffect(() => {
-        const checkCommentLikes = async () => {
-            if (currentUser && currentUser.id && comments.length > 0) {
-                likesChecked.current = true; 
-                const updatedComments = await Promise.all(
-                    comments.map(async (comment) => {
-                        const liked = await checkIfUserLikedComment(comment.id, currentUser.id);
-                        return { ...comment, liked };
-                    })
-                );
-                setComments(updatedComments);
-            }
-        };
-        checkCommentLikes();
-    }, [comments, currentUser]);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -92,7 +86,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
         const createdComment = await createComment(post.id, currentUser.id, newComment);
 
         if (createdComment) {
-            setComments([...comments, createdComment]);
+            setComments([...comments, { ...createdComment, liked: false }]);
             setNewComment("");
         }
     };

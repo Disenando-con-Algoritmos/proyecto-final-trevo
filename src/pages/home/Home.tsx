@@ -27,22 +27,24 @@ export default function Home() {
     const matches = useMediaQuery("(min-width:600px)");
     const [instructors, setInstructors] = useState<instructorType[]>([]);
     const [workouts, setWorkouts] = useState<workoutType[]>([]);
-    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const [currentUser, setCurrentUser] = useState<any>(JSON.parse(localStorage.getItem("user") || "{}"));
     const [modalOpen, setModalOpen] = useState(false);
     const [username, setUsername] = useState<string>("");
 
     //hi, (user)
     useEffect(() => {
-        const fetchUsername = async () => {
+        const fetchUser = async () => {
             const authUser = await authService.getCurrentUser();
             if (authUser && authUser.email) {
                 const userProfile = await getUserProfile(authUser.email);
                 if (userProfile) {
                     setUsername(userProfile.username);
+                    setCurrentUser(userProfile);
+                    localStorage.setItem("user", JSON.stringify(userProfile));
                 }
             }
         };
-        fetchUsername();
+        fetchUser();
     }, []);
 
     // cargar posts
@@ -120,23 +122,6 @@ export default function Home() {
                 ))}
             </div>
 
-            {/* modal de crear post */}
-            {modalOpen && (
-                <dialog className="modal modal-open">
-                    <div className="modal-box bg-[#000000] border-white border-[0.1px]">
-                        <CreatePost
-                            onClose={() => setModalOpen(false)}
-                            onPost={(newPost) => {
-                                setPosts((prev) => [newPost, ...prev]);
-                            }}
-                            onPostCreated={fetchPosts}
-                            currentUser={currentUser} 
-                        />
-                    </div>
-                </dialog>
-            )}
-
-            {/* seccion lateral*/}
             {matches && (
                 <div className="mt-25 ml-8 mr-2" id="extra-info">
                     <p className="text-[#CAD83B] text-[17px] mb-1">Instructors</p>
@@ -154,6 +139,21 @@ export default function Home() {
                 </div>
             )}
             <Alert />
+
+            {/* modal de crear post */}
+            {modalOpen && (
+                <dialog className="modal modal-open">
+                    <div className="modal-box bg-[#000000] border-white border-[0.1px]">
+                        <CreatePost
+                            onClose={() => setModalOpen(false)}
+                            onPost={(newPost) => {
+                                setPosts((prev) => [newPost, ...prev]);
+                            }}
+                            currentUser={currentUser} 
+                        />
+                    </div>
+                </dialog>
+            )}
         </div>
     );
 }

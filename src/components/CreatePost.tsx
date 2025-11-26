@@ -17,7 +17,7 @@ type CreatePostProps = {
     onPostCreated?: () => void; // Nueva prop para refrescar posts
     currentUser: {
         username: string;
-        profilePic: string;
+        profile_pic: string;
     };
 };
 
@@ -118,7 +118,7 @@ export default function CreatePost({ onClose, onPost, onPostCreated, currentUser
         if (createdPost) {
             const newPost: Posttype = {
                 id: createdPost.id,
-                profilepic: currentUser.profilePic,
+                profilepic: currentUser.profile_pic,
                 username: currentUser.username || "guest.user",
                 date: dateFormatted,
                 description: caption,

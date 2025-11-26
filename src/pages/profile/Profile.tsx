@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mui/material";
 import { Settings, LogOut } from "lucide-react";
+import { useNavigate } from "react-router";
 
 import { getPosts } from "../../services/supabase/postService";
 import type { Posttype } from "../../types/postTypes";
@@ -9,15 +10,24 @@ import PostCard from "../../components/PostCard";
 import NavBarResponsive from "../../components/NavBarResponsive";
 import authService from "../../services/supabase/authService";
 import { getProfileStats, type ProfileStats } from "../../services/supabase/profileStatsService";
+import supabase from "../../services/supabase/config";
 
 export default function Profile() {
     const matches = useMediaQuery("(min-width:768px)");
+    const navigate = useNavigate();
     const [userPosts, setUserPosts] = useState<Posttype[]>([]);
     const [profileStats, setProfileStats] = useState<ProfileStats | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        localStorage.removeItem("user");
+        navigate("/");
+    };
+
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
     const defaultProfilePic = "https://i.pinimg.com/736x/3c/ae/07/3cae079ca0b9e55ec6bfc1b358c9b1e2.jpg";
+
     /* -------------------------- NAVBAR SCROLL EN RESPONSIVE -------------------------- */
     const [isSmall, setIsSmall] = useState(false);
     useEffect(() => {
@@ -38,7 +48,7 @@ export default function Profile() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                
+
                 // Obtener usuario autenticado
                 const authUser = await authService.getCurrentUser();
                 if (!authUser || !authUser.email) {
@@ -53,11 +63,9 @@ export default function Profile() {
 
                 // Obtener todos los posts y filtrar por el usuario actual
                 const allPosts = await getPosts();
-                const filtered = allPosts.filter((post: Posttype) => 
-                    post.username === stats?.username
-                );
+                const filtered = allPosts.filter((post: Posttype) => post.username === stats?.username);
                 setUserPosts(filtered);
-                
+
                 setLoading(false);
             } catch (err) {
                 console.error("Error al cargar los datos:", err);
@@ -88,9 +96,7 @@ export default function Profile() {
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center space-x-[3vw]">
                                         {/* USERNAME */}
-                                        <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">
-                                            {loading ? "Loading..." : profileStats?.username || currentUser.username}
-                                        </h2>
+                                        <h2 className="text-[1.8vw] font-semibold text-[#C8F442] ml-[1vw]">{loading ? "Loading..." : profileStats?.username || currentUser.username}</h2>
 
                                         {/* STATS */}
                                         <div id="profile-data" className="flex space-x-[4vw] ml-[5vw]">
@@ -157,7 +163,7 @@ export default function Profile() {
         ${isSmall ? "top-3" : "top-4 mt-10"}
     `}
                             >
-                                <Settings size={20} color="#C8F442" />
+                                <Settings size={isSmall ? 0 : 20} color="#C8F442" />
                             </div>
 
                             <div
@@ -166,35 +172,48 @@ export default function Profile() {
         ${isSmall ? "top-3" : "top-4 mt-10"}
     `}
                             >
-                                <LogOut size={20} color="#C8F442" />
+                                <button onClick={handleLogout}>
+                                    <LogOut size={isSmall ? 0 : 20} color="#C8F442" />
+                                </button>
                             </div>
                             {/* FOTO */}
-                            <img src={profileStats?.profilePic || defaultProfilePic} className="w-[22vw] h-[22vw] rounded-full object-cover mr-4 mt-22 ml-6"  />
+                            <img
+                                src={profileStats?.profilePic || defaultProfilePic}
+                                className={`
+                                    rounded-full object-cover mr-4 ml-6 transition-all duration-300
+                                    ${isSmall ? "w-[15vw] h-[15vw] mt-3" : "w-[22vw] h-[22vw] mt-22"}
+                                `}
+                            />
 
                             <div className="flex flex-col mt-1">
                                 {/* USERNAME */}
-                                <p className="text-[5.5vw] font-semibold text-center mt-8 mr-18 mb-4 text-[#C8F442]">
+                                <p
+                                    className={`
+                                    font-semibold text-center mr-18 text-[#C8F442] transition-all duration-300
+                                    ${isSmall ? "text-[4vw] mt-7 mb-1" : "text-[5.5vw] mt-8 mb-4"}
+                                `}
+                                >
                                     {loading ? "Loading..." : profileStats?.username || currentUser.username}
                                 </p>
 
                                 {/* STATS */}
                                 <div
                                     className={`
-                                        flex space-x-5 transition-all duration-300
-                                        ${isSmall ? "mt-2" : "mt-8"}
+                                        flex transition-all duration-300
+                                        ${isSmall ? "space-x-3 mt-1" : "space-x-5 mt-8"}
                                     `}
                                 >
                                     <div className="text-center">
-                                        <p className="text-[4vw] font-bold text-[#A480FF]">{profileStats?.postsCount || 0}</p>
-                                        <p className="text-[3vw] text-gray-300">Posts</p>
+                                        <p className={`font-bold text-[#A480FF] transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[4vw]"}`}>{profileStats?.postsCount || 0}</p>
+                                        <p className={`text-gray-300 transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[3vw]"}`}>Posts</p>
                                     </div>
                                     <div className="text-center">
-                                        <p className="text-[4vw] font-bold text-[#A480FF]">{profileStats?.followers || 0}</p>
-                                        <p className="text-[3vw] text-gray-300">Followers</p>
+                                        <p className={`font-bold text-[#A480FF] transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[4vw]"}`}>{profileStats?.followers || 0}</p>
+                                        <p className={`text-gray-300 transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[3vw]"}`}>Followers</p>
                                     </div>
                                     <div className="text-center">
-                                        <p className="text-[4vw] font-bold text-[#A480FF]">{profileStats?.workouts || 0}</p>
-                                        <p className="text-[3vw] text-gray-300">Workouts</p>
+                                        <p className={`font-bold text-[#A480FF] transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[4vw]"}`}>{profileStats?.workouts || 0}</p>
+                                        <p className={`text-gray-300 transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[3vw]"}`}>Workouts</p>
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +221,7 @@ export default function Profile() {
                         {/* POSTS RESPONSIVE */}
                         <div className="mt-[240px] mb-150">
                             {userPosts.length > 0 ? (
-                                <div className="mb-30 flex flex-col items-center max-h-[70vh] mt-4 px-2">
+                                <div className="mb-420 flex flex-col items-center max-h-[70vh] mt-4 px-2">
                                     {userPosts.map((post: Posttype) => (
                                         <PostCard key={post.id} post={post} currentUser={currentUser} />
                                     ))}

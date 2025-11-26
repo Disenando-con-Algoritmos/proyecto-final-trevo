@@ -31,8 +31,7 @@ const getProfileStats = async (userEmail: string): Promise<ProfileStats | null> 
         // Contar workouts del usuario (tabla myworkouts)
         const { count: workoutsCount } = await supabase
             .from("myworkouts")
-            .select("*", { count: "exact", head: true })
-            .eq("user_id", userData.id);
+            .select("*", { count: "exact", head: true });
 
         // Por ahora followers es 0 (puedes agregar una tabla followers después)
         const followers = 0;
