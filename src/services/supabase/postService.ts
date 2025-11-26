@@ -67,7 +67,46 @@ const createPost = async (post: {
             return { success: false, post: null };
         }
 
-        return { success: true, post: data };
+        const { data: completePost, error: fetchError } = await supabase
+            .from("posts")
+            .select(`
+                *,
+                users (
+                    username,
+                    profile_pic
+                ),
+                hashtags (
+                    name
+                )
+            `)
+            .eq("id", data.id)
+            .single();
+
+        if (fetchError) {
+            console.error("Error fetching complete post:", fetchError);
+            return { success: false, post: null };
+        }
+
+        // Get likes count
+        const { count: likesCount } = await supabase
+            .from("likes")
+            .select("*", { count: "exact", head: true })
+            .eq("post_id", completePost.id);
+
+        // Format post to match Posttype
+        const formattedPost = {
+            id: completePost.id,
+            profilepic: completePost.users?.profile_pic || "",
+            username: completePost.users?.username || "Unknown",
+            date: completePost.date,
+            description: completePost.description,
+            image: completePost.image,
+            likes: likesCount || 0,
+            hashtag_id: completePost.hashtag_id,
+            hashtag: completePost.hashtags?.name || "",
+        };
+
+        return { success: true, post: formattedPost };
     } catch (error) {
         console.error("Unexpected error creating post:", error);
         return { success: false, post: null };

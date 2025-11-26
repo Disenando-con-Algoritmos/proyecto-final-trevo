@@ -102,8 +102,7 @@ export default function CreatePost({ onClose, onPost, onPostCreated }: CreatePos
             return;
         }
 
-        const today = new Date();
-        const dateFormatted = today.toISOString();
+        const dateFormatted = new Date().toISOString();
 
         const newPostData = {
             user_id: userProfile.id,

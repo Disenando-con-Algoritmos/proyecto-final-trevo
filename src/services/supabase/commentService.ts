@@ -49,8 +49,7 @@ const getCommentsByPostId = async (postId: number): Promise<comment[]> => {
 
 const createComment = async (postId: number, userId: number, text: string): Promise<comment | null> => {
     try {
-        const today = new Date();
-        const dateFormatted = today.toLocaleDateString("es-CO");
+        const dateFormatted = new Date().toISOString();
 
         const { data, error } = await supabase
             .from("comments")

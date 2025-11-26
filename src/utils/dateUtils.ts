@@ -2,7 +2,6 @@ export const getRelativeTime = (date: string | Date): string => {
     const now = new Date();
     const past = new Date(date);
 
-    // Verificar si la fecha es válida
     if (isNaN(past.getTime())) {
         console.error("Invalid date:", date);
         return "Invalid date";

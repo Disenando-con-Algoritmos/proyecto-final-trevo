@@ -99,7 +99,7 @@ export default function Profile() {
 
             dispatch(setMessage({ message: "Profile updated successfully", severity: "success" }));
 
-            // PROFILE
+            // PROFILE 
             const stats = await getProfileStats(authUser.email);
             setProfileStats(stats);
 
@@ -109,7 +109,6 @@ export default function Profile() {
             setNewProfilePic(null);
             setPreviewImage(null);
 
-            window.location.reload();
         } catch (error) {
             console.error("Error updating profile:", error);
             dispatch(setMessage({ message: "Unexpected error", severity: "error" }));
