@@ -30,16 +30,13 @@ const getProfileStats = async (userEmail: string): Promise<ProfileStats | null> 
             .from("myworkouts")
             .select("*", { count: "exact", head: true });
 
-        const { count: followersCount } = await supabase
-            .from("followers")
-            .select("*", { count: "exact", head: true })
-            .eq("following_id", userData.id);
+        const followersCount = 0;
 
         return {
             username: userData.username,
             profilePic: userData.profile_pic,
             posts: postsCount || 0,
-            followers: followersCount || 0,
+            followers: followersCount,
             workouts: workoutsCount || 0,
         };
     } catch (error) {

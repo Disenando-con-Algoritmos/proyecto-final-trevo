@@ -21,7 +21,7 @@ type CreatePostProps = {
     };
 };
 
-export default function CreatePost({ onClose, onPost, onPostCreated, currentUser }: CreatePostProps) {
+export default function CreatePost({ onClose, onPost, onPostCreated }: CreatePostProps) {
     const formRef = useRef<HTMLFormElement>(null);
     const dispatch = useDispatch<AppDispatch>();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -86,7 +86,7 @@ export default function CreatePost({ onClose, onPost, onPostCreated, currentUser
             return;
         }
 
-        // Upload image
+        // CARGAR IMAGEN
         const uploadResult = await bucketService.uploadImage(imageFile, "post_images");
         if (!uploadResult.success || !uploadResult.url) {
             dispatch(setMessage({ message: "Error uploading image", severity: "error" }));
@@ -111,8 +111,6 @@ export default function CreatePost({ onClose, onPost, onPostCreated, currentUser
             image: imageUrl,
             hashtag_id: selectedHashtag.id,
             date: dateFormatted,
-            username: currentUser.username,
-            profile_pic: currentUser.profile_pic,
         };
 
         const result = await createPost(newPostData);
