@@ -99,9 +99,19 @@ export default function Profile() {
 
             dispatch(setMessage({ message: "Profile updated successfully", severity: "success" }));
 
-            // PROFILE
+            // PROFILE 
             const stats = await getProfileStats(authUser.email);
             setProfileStats(stats);
+
+            if (updateData.profile_pic || updateData.username) {
+                setUserPosts(prevPosts => 
+                    prevPosts.map(post => ({
+                        ...post,
+                        profilepic: updateData.profile_pic || post.profilepic,
+                        username: updateData.username || post.username
+                    }))
+                );
+            }
 
             // CERRAR Y RESETEARRRR
             setSettingsOpen(false);
@@ -109,7 +119,6 @@ export default function Profile() {
             setNewProfilePic(null);
             setPreviewImage(null);
 
-            window.location.reload();
         } catch (error) {
             console.error("Error updating profile:", error);
             dispatch(setMessage({ message: "Unexpected error", severity: "error" }));
@@ -151,7 +160,6 @@ export default function Profile() {
                 // ESTADISTICAS DEL PERFIL
                 let stats = await getProfileStats(authUser.email);
                 
-                // Si no existe el perfil, intentar crearlo
                 if (!stats) {
                     console.warn("Profile: User profile not found, attempting to create...");
                     const username = authUser.user_metadata?.username || authUser.email.split("@")[0];
