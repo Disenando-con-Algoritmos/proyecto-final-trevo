@@ -15,11 +15,21 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
     const [likeCount, setLikeCount] = useState(post.likes);
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState<comment[]>([]);
+    const [commentCount, setCommentCount] = useState(0);
     const [newComment, setNewComment] = useState("");
     const [loadingComments, setLoadingComments] = useState(false);
 
     const commentsLoaded = useRef(false);
     const [userProfilePic, setUserProfilePic] = useState<string>("");
+
+    // Cargar el conteo de comentarios al inicio
+    useEffect(() => {
+        const fetchCommentCount = async () => {
+            const data = await getCommentsByPostId(post.id);
+            setCommentCount(data.length);
+        };
+        fetchCommentCount();
+    }, [post.id]);
 
     useEffect(() => {
         if (showComments && !commentsLoaded.current) {
@@ -36,6 +46,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
                 } else {
                     setComments(data.map(c => ({ ...c, liked: false })));
                 }
+                setCommentCount(data.length);
                 setLoadingComments(false);
                 commentsLoaded.current = true;
             });
@@ -87,6 +98,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
 
         if (createdComment) {
             setComments([...comments, { ...createdComment, liked: false }]);
+            setCommentCount(prev => prev + 1);
             setNewComment("");
         }
     };
@@ -141,7 +153,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
 
                     <button onClick={() => setShowComments(!showComments)} className="cursor-pointer flex items-center gap-1 hover:text-[#9872F0]">
                         <MessageCircle className="w-5 h-5" />
-                        <span>{comments.length > 0 ? comments.length : ""}</span>
+                        <span>{commentCount > 0 ? commentCount : ""}</span>
                     </button>
                 </div>
 
