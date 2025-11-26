@@ -39,18 +39,18 @@ const authService = {
         try {
             let email = emailOrUsername;
 
-            if (!emailOrUsername.includes('@')) {
+            if (!emailOrUsername.includes("@")) {
                 const { data: userData, error: userError } = await supabase
-                    .from('users')
-                    .select('email')
-                    .eq('username', emailOrUsername)
+                    .from("users")
+                    .select("email")
+                    .eq("username", emailOrUsername)
                     .single();
 
                 if (userError || !userData) {
-                    console.error('Username not found:', userError);
+                    console.error("Username not found:", userError);
                     return {
                         success: false,
-                        error: 'Username not found',
+                        error: "Username not found",
                         user: null,
                     };
                 }

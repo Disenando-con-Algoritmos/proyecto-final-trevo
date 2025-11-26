@@ -1,5 +1,6 @@
-import supabase from "./config";
 import type { workoutType } from "../../types/workoutTypes";
+
+import supabase from "./config";
 
 const getWorkouts = async (): Promise<workoutType[]> => {
     try {

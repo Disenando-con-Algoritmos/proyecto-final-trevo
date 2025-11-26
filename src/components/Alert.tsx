@@ -36,20 +36,18 @@ export default function Alert() {
 
     return (
         <Snackbar open={open} autoHideDuration={4000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-            <MuiAlert 
-                severity={message.severity as AlertColor} 
-                variant="filled" 
-                sx={{ 
+            <MuiAlert
+                severity={message.severity as AlertColor}
+                variant="filled"
+                sx={{
                     width: "100%",
                     fontFamily: "neulis",
-                    backgroundColor: message.severity === "error" ? "#402879ff" : 
-                                   message.severity === "success" ? "#b393ffff" : 
-                                   message.severity === "warning" ? "#8b5ff1ff" : "#8b5ff1ff",
+                    backgroundColor: message.severity === "error" ? "#402879ff" : message.severity === "success" ? "#b393ffff" : message.severity === "warning" ? "#8b5ff1ff" : "#8b5ff1ff",
                     color: "#fff",
                     "& .MuiAlert-icon": {
-                        color: "#fff"
-                    }
-                }} 
+                        color: "#fff",
+                    },
+                }}
                 onClose={handleClose}
             >
                 {message.message}

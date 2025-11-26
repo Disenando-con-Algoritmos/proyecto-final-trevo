@@ -82,10 +82,7 @@ export default function Profile() {
             if (newUsername) updateData.username = newUsername;
             if (profilePicUrl !== currentUser.profile_pic) updateData.profile_pic = profilePicUrl;
 
-            const { error } = await supabase
-                .from("users")
-                .update(updateData)
-                .eq("email", authUser.email);
+            const { error } = await supabase.from("users").update(updateData).eq("email", authUser.email);
 
             if (error) {
                 console.error("Error updating profile:", error);
@@ -96,16 +93,16 @@ export default function Profile() {
             // LOCAL
             const updatedUser = {
                 ...currentUser,
-                ...updateData
+                ...updateData,
             };
             localStorage.setItem("user", JSON.stringify(updatedUser));
 
             dispatch(setMessage({ message: "Profile updated successfully", severity: "success" }));
-            
-            // PROFILE 
+
+            // PROFILE
             const stats = await getProfileStats(authUser.email);
             setProfileStats(stats);
-            
+
             // CERRAR Y RESETEARRRR
             setSettingsOpen(false);
             setNewUsername("");
@@ -195,7 +192,7 @@ export default function Profile() {
                                         {/* STATS */}
                                         <div id="profile-data" className="flex space-x-[4vw] ml-[5vw]">
                                             <div className="text-center">
-                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{profileStats?.postsCount || 0}</p>
+                                                <p className="text-[1.8vw] font-bold text-[#A480FF]">{profileStats?.posts || 0}</p>
                                                 <p className="text-[1vw] text-gray-300">Posts</p>
                                             </div>
                                             <div className="text-center">
@@ -210,12 +207,7 @@ export default function Profile() {
                                     </div>
                                     {/* ICONOS */}
                                     <div id="icons" className="flex items-center space-x-[2vw] mr-[2vw]">
-                                        <Settings 
-                                            size={30} 
-                                            color="#C8F442" 
-                                            className="cursor-pointer hover:opacity-80 transition-opacity"
-                                            onClick={() => setSettingsOpen(true)}
-                                        />
+                                        <Settings size={30} color="#C8F442" className="cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setSettingsOpen(true)} />
                                     </div>
                                 </div>
                             </div>
@@ -307,7 +299,7 @@ export default function Profile() {
                                     `}
                                 >
                                     <div className="text-center">
-                                        <p className={`font-bold text-[#A480FF] transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[4vw]"}`}>{profileStats?.postsCount || 0}</p>
+                                        <p className={`font-bold text-[#A480FF] transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[4vw]"}`}>{profileStats?.posts || 0}</p>
                                         <p className={`text-gray-300 transition-all duration-300 ${isSmall ? "text-[0vw]" : "text-[3vw]"}`}>Posts</p>
                                     </div>
                                     <div className="text-center">
@@ -347,33 +339,24 @@ export default function Profile() {
                 <dialog className="modal modal-open">
                     <div className="modal-box bg-[#1E1E1E] border border-[#C8F442] max-w-md">
                         <h3 className="font-bold text-xl mb-6 text-[#C8F442]">Edit Profile</h3>
-                        
+
                         <div className="space-y-4">
-                            {/* Profile Picture Preview */}
+                            {/* FOTO PERFIL */}
                             <div className="flex flex-col items-center gap-3">
-                                <img 
-                                    src={previewImage || currentUser.profile_pic || defaultProfilePic} 
-                                    alt="Profile Preview" 
-                                    className="w-24 h-24 rounded-full object-cover border-2 border-[#C8F442]"
-                                />
+                                <img src={previewImage || currentUser.profile_pic || defaultProfilePic} alt="Profile Preview" className="w-24 h-24 rounded-full object-cover border-2 border-[#C8F442]" />
                                 <label className="btn btn-sm bg-[#C8F442] text-black hover:bg-[#A3C436] border-none cursor-pointer">
                                     Choose Photo
-                                    <input 
-                                        type="file" 
-                                        accept="image/*" 
-                                        className="hidden"
-                                        onChange={handleImageSelect}
-                                    />
+                                    <input type="file" accept="image/*" className="hidden" onChange={handleImageSelect} />
                                 </label>
                             </div>
 
-                            {/* Username Input */}
+                            {/* INPUTTTT*/}
                             <div>
                                 <label className="label">
                                     <span className="label-text text-gray-300">Username</span>
                                 </label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     placeholder={currentUser.username || "Enter username"}
                                     className="input input-bordered w-full bg-[#2b2b2b] border-[#C8F442] text-white"
                                     value={newUsername}
@@ -383,7 +366,7 @@ export default function Profile() {
                         </div>
 
                         <div className="modal-action">
-                            <button 
+                            <button
                                 className="btn btn-ghost text-white"
                                 onClick={() => {
                                     setSettingsOpen(false);
@@ -394,10 +377,7 @@ export default function Profile() {
                             >
                                 Cancel
                             </button>
-                            <button 
-                                className="btn bg-[#C8F442] text-black hover:bg-[#A3C436] border-none"
-                                onClick={handleUpdateProfile}
-                            >
+                            <button className="btn bg-[#C8F442] text-black hover:bg-[#A3C436] border-none" onClick={handleUpdateProfile}>
                                 Save Changes
                             </button>
                         </div>

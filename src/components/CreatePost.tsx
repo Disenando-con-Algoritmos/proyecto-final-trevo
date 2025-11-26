@@ -14,7 +14,7 @@ import { getUserProfile } from "../services/supabase/userService";
 type CreatePostProps = {
     onClose: () => void;
     onPost: (_newPost: Posttype) => void;
-    onPostCreated?: () => void; // Nueva prop para refrescar posts
+    onPostCreated?: () => void;
     currentUser: {
         username: string;
         profile_pic: string;
@@ -42,7 +42,7 @@ export default function CreatePost({ onClose, onPost, onPostCreated, currentUser
             return;
         }
 
-        // TAMAÑOP :3
+        // TAMAÑO :3
         if (file.size > 3 * 1024 * 1024) {
             dispatch(setMessage({ message: "Image exceeds 3MB limit", severity: "error" }));
             return;
@@ -70,8 +70,8 @@ export default function CreatePost({ onClose, onPost, onPostCreated, currentUser
         }
 
         if (!imageFile) {
-             dispatch(setMessage({ message: "Image is required", severity: "warning" }));
-             return;
+            dispatch(setMessage({ message: "Image is required", severity: "warning" }));
+            return;
         }
 
         const user = await authService.getCurrentUser();
@@ -94,44 +94,32 @@ export default function CreatePost({ onClose, onPost, onPostCreated, currentUser
         }
         const imageUrl = uploadResult.url;
 
-        // Find hashtag ID
-        const selectedHashtag = hashtags.find(h => h.name === category || h.name === category.replace('#', ''));
-        
+        //hashtag ID
+        const selectedHashtag = hashtags.find((h) => h.name === category || h.name === category.replace("#", ""));
+
         if (!selectedHashtag) {
-             dispatch(setMessage({ message: "Invalid category", severity: "error" }));
-             return;
+            dispatch(setMessage({ message: "Invalid category", severity: "error" }));
+            return;
         }
 
         const today = new Date();
-        const dateFormatted = today.toLocaleDateString("es-CO");
+        const dateFormatted = today.toISOString();
 
         const newPostData = {
             user_id: userProfile.id,
             description: caption,
             image: imageUrl,
             hashtag_id: selectedHashtag.id,
-            date: new Date().toISOString(),
+            date: dateFormatted,
+            username: currentUser.username,
+            profile_pic: currentUser.profile_pic,
         };
 
-        const createdPost = await createPost(newPostData);
+        const result = await createPost(newPostData);
 
-        if (createdPost) {
-            const newPost: Posttype = {
-                id: createdPost.id,
-                profilepic: currentUser.profile_pic,
-                username: currentUser.username || "guest.user",
-                date: dateFormatted,
-                description: caption,
-                image: imageUrl,
-                likes: 0,
-                hashtag: category,
-                hashtag_id: selectedHashtag.id,
-            };
-
-            // MENSAJES EXITOOO
-            dispatch(setMessage({ message: "Published successfully", severity: "success" }));
-
-            onPost(newPost);
+        if (result.success && result.post) {
+            dispatch(setMessage({ message: "Post created successfully", severity: "success" }));
+            onPost(result.post);
             if (onPostCreated) onPostCreated(); // Refrescar posts desde Supabase
             onClose();
         } else {

@@ -16,7 +16,7 @@ import type { workoutType } from "../../types/workoutTypes";
 import CreatePost from "../../components/CreatePost";
 import Alert from "../../components/Alert"; 
 import authService from "../../services/supabase/authService";
-import { getUserProfile } from "../../services/supabase/userService";
+import { getUserProfile, type UserProfile } from "../../services/supabase/userService";
 import Loading from "../../components/Loading";
 
 import ContainerHashtag from "./ContainerHashtag";
@@ -28,7 +28,7 @@ export default function Home() {
     const matches = useMediaQuery("(min-width:600px)");
     const [instructors, setInstructors] = useState<instructorType[]>([]);
     const [workouts, setWorkouts] = useState<workoutType[]>([]);
-    const [currentUser, setCurrentUser] = useState<any>(JSON.parse(localStorage.getItem("user") || "{}"));
+    const [currentUser, setCurrentUser] = useState<UserProfile>(JSON.parse(localStorage.getItem("user") || "{}"));
     const [modalOpen, setModalOpen] = useState(false);
     const [username, setUsername] = useState<string>("");
     const [loading, setLoading] = useState(true);
@@ -110,7 +110,7 @@ export default function Home() {
     ${matches ? "left-[50%] transform -translate-x-1/2 max-w-[600px] w-full h-[200px] z-10" : "left-0 w-full px-4 pt-10 h-auto z-20"}`}
             >
                 <div className={`flex ${matches ? "flex-row gap-8 justify-between items-center mt-10" : "flex-row mt-5 items-center justify-between"} mb-2`}>
-                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left"}`}>Hi, {username}</h1>
+                    <h1 className={`text-[#CAD83B] ${matches ? "text-[50px]" : "text-[35px] text-left"}`}>{loading ? "Loading..." : `Hi, ${username}`}</h1>
                     <Bell className={`${matches ? "absolute right-10 top-[50%] -translate-y-1/2" : "absolute right-9 top-[70px]"} `} color="white" size={matches ? 28 : 26} />
                 </div>
 

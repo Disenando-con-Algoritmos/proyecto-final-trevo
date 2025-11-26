@@ -1,16 +1,15 @@
 import supabase from "./config";
 
-interface ProfileStats {
+export type ProfileStats = {
     username: string;
     profilePic: string;
-    postsCount: number;
+    posts: number;
     followers: number;
     workouts: number;
-}
+};
 
 const getProfileStats = async (userEmail: string): Promise<ProfileStats | null> => {
     try {
-        // Obtener info del usuario
         const { data: userData, error: userError } = await supabase
             .from("users")
             .select("id, username, profile_pic")
@@ -22,32 +21,31 @@ const getProfileStats = async (userEmail: string): Promise<ProfileStats | null> 
             return null;
         }
 
-        // Contar posts del usuario
         const { count: postsCount } = await supabase
             .from("posts")
             .select("*", { count: "exact", head: true })
             .eq("user_id", userData.id);
 
-        // Contar workouts del usuario (tabla myworkouts)
         const { count: workoutsCount } = await supabase
             .from("myworkouts")
             .select("*", { count: "exact", head: true });
 
-        // Por ahora followers es 0 (puedes agregar una tabla followers después)
-        const followers = 0;
+        const { count: followersCount } = await supabase
+            .from("followers")
+            .select("*", { count: "exact", head: true })
+            .eq("following_id", userData.id);
 
         return {
             username: userData.username,
             profilePic: userData.profile_pic,
-            postsCount: postsCount || 0,
-            followers: followers,
-            workouts: workoutsCount || 0
+            posts: postsCount || 0,
+            followers: followersCount || 0,
+            workouts: workoutsCount || 0,
         };
     } catch (error) {
-        console.error("Error getting profile stats:", error);
+        console.error("Error in getProfileStats:", error);
         return null;
     }
 };
 
 export { getProfileStats };
-export type { ProfileStats };

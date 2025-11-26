@@ -7,8 +7,6 @@ import { ChevronLeft } from "lucide-react";
 
 import authService from "../../services/supabase/authService";
 import { BtnSignUp } from "../../components/BtnSignUp";
-//import { getUsers } from "../../services/userServices";
-//import type { userType } from "../../types/userTypes";
 
 export default function Signup() {
     const formRef = useRef<HTMLFormElement>(null);
@@ -17,8 +15,6 @@ export default function Signup() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false); // Estado para evitar doble click
-
-    // Eliminé el useEffect que traía 'users' ya que Supabase maneja la validación de duplicados.
 
     useEffect(() => {
         const prev = document.documentElement.style.overflowX;
@@ -48,16 +44,12 @@ export default function Signup() {
         try {
             console.info("Intentando registrar usuario:", { username, email });
             
-            // Llamada al servicio de Supabase (Igual que el profesor)
-            // Pasamos username y una foto por defecto. Necesito la imagen por URL para cargarlo
             const result = await authService.signUp(email, password, {
                 username: username,
-                //profile_pic: "https://i.pinimg.com/736x/3c/ae/07/3cae079ca0b9e55ec6bfc1b358c9b1e2.jpg",
             });
 
             if (result.success) {
                 console.info("Usuario registrado con éxito:", result);
-                // Redirigir al home o al login (depende si requieren confirmar email)
                 nav("/login"); 
             } else {
                 console.error("Fallo en registro:", result);
@@ -67,7 +59,7 @@ export default function Signup() {
             console.error("Error inesperado:", error);
             alert("Ocurrió un error inesperado.");
         } finally {
-            setLoading(false); // Desactivamos carga
+            setLoading(false); 
         }
     };
 
@@ -140,7 +132,6 @@ export default function Signup() {
                         />
                     </div>
 
-                    {/* Nota: Asegúrate que BtnSignUp tenga un botón type="submit" o maneje el click externamente */}
                     {loading ? <p className="text-[#CAD83B]">Loading...</p> : <BtnSignUp />}
 
                     <p className="text-white pt-2 text-[12px] font-[poppins] text-center">

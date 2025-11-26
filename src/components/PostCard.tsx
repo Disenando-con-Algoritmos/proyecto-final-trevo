@@ -3,14 +3,14 @@ import { Heart, MessageCircle, Share2 } from "lucide-react";
 
 import type { Posttype, comment } from "../types/postTypes";
 import ContainerHashtag from "../pages/home/ContainerHashtag";
-import type { userType } from "../types/userTypes";
 import { getCommentsByPostId, createComment } from "../services/supabase/commentService";
 import { toggleLike, checkIfUserLiked } from "../services/supabase/postLikeService";
 import { toggleCommentLike, checkIfUserLikedComment } from "../services/supabase/commentLikeService";
 import authService from "../services/supabase/authService";
-import { getUserProfile } from "../services/supabase/userService";
+import { getUserProfile, type UserProfile } from "../services/supabase/userService";
+import { getRelativeTime } from "../utils/dateUtils";
 
-export default function PostCard({ post, currentUser }: { post: Posttype; currentUser: userType }) {
+export default function PostCard({ post, currentUser }: { post: Posttype; currentUser: UserProfile }) {
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likes);
     const [showComments, setShowComments] = useState(false);
@@ -22,7 +22,6 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
     const commentsLoaded = useRef(false);
     const [userProfilePic, setUserProfilePic] = useState<string>("");
 
-    // Cargar el conteo de comentarios al inicio
     useEffect(() => {
         const fetchCommentCount = async () => {
             const data = await getCommentsByPostId(post.id);
@@ -133,7 +132,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
                 <img src={post.profilepic} alt="profile" className="w-10 h-10 rounded-full object-cover" />
                 <div>
                     <h2 className="text-[15px] font-medium">{post.username}</h2>
-                    <p className="text-[10px] text-gray-400">{post.date}</p>
+                    <p className="text-[10px] text-gray-400">{getRelativeTime(post.date)}</p>
                 </div>
             </div>
 
@@ -175,7 +174,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
                                 <div className="bg-[#2b2b2b] p-2 rounded-lg flex-1 min-w-0">
                                     <div className="flex items-center gap-2 mb-1">
                                         <p className="text-xs font-semibold">{comment.username}</p>
-                                        <span className="text-[10px] text-gray-400">• {comment.date}</span>
+                                        <span className="text-[10px] text-gray-400">• {getRelativeTime(comment.date)}</span>
                                     </div>
                                     <p className="text-[12px] mb-2 break-words">{comment.comment}</p>
                                     <button onClick={() => handleLikeComment(comment.id)} className="flex items-center gap-1 text-xs text-gray-400 hover:text-[#9872F0]">
