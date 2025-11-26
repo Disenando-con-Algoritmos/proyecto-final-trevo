@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "@mui/material";
 import { Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 
 import { getPosts } from "../../services/supabase/postService";
 import type { Posttype } from "../../types/postTypes";
@@ -11,18 +12,110 @@ import NavBarResponsive from "../../components/NavBarResponsive";
 import authService from "../../services/supabase/authService";
 import { getProfileStats, type ProfileStats } from "../../services/supabase/profileStatsService";
 import supabase from "../../services/supabase/config";
+import bucketService from "../../services/supabase/bucketService";
+import { setMessage } from "../../reducers/slice/MessageSlice";
+import type { AppDispatch } from "../../reducers/Store";
 
 export default function Profile() {
     const matches = useMediaQuery("(min-width:768px)");
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
     const [userPosts, setUserPosts] = useState<Posttype[]>([]);
     const [profileStats, setProfileStats] = useState<ProfileStats | null>(null);
     const [loading, setLoading] = useState(true);
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const [newUsername, setNewUsername] = useState("");
+    const [newProfilePic, setNewProfilePic] = useState<File | null>(null);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
         localStorage.removeItem("user");
         navigate("/");
+    };
+
+    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (file.size > 3 * 1024 * 1024) {
+            dispatch(setMessage({ message: "Image exceeds 3MB limit", severity: "error" }));
+            return;
+        }
+
+        setNewProfilePic(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreviewImage(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleUpdateProfile = async () => {
+        if (!newUsername && !newProfilePic) {
+            dispatch(setMessage({ message: "No changes to save", severity: "warning" }));
+            return;
+        }
+
+        try {
+            const authUser = await authService.getCurrentUser();
+            if (!authUser || !authUser.email) {
+                dispatch(setMessage({ message: "User not authenticated", severity: "error" }));
+                return;
+            }
+
+            let profilePicUrl = currentUser.profile_pic;
+
+            // FOTOKKK
+            if (newProfilePic) {
+                const uploadResult = await bucketService.uploadImage(newProfilePic, "profile_pictures");
+                if (!uploadResult.success || !uploadResult.url) {
+                    dispatch(setMessage({ message: "Error uploading image", severity: "error" }));
+                    return;
+                }
+                profilePicUrl = uploadResult.url;
+            }
+
+            // USER EN SUPABASE
+            const updateData: { username?: string; profile_pic?: string } = {};
+            if (newUsername) updateData.username = newUsername;
+            if (profilePicUrl !== currentUser.profile_pic) updateData.profile_pic = profilePicUrl;
+
+            const { error } = await supabase
+                .from("users")
+                .update(updateData)
+                .eq("email", authUser.email);
+
+            if (error) {
+                console.error("Error updating profile:", error);
+                dispatch(setMessage({ message: "Error updating profile", severity: "error" }));
+                return;
+            }
+
+            // LOCAL
+            const updatedUser = {
+                ...currentUser,
+                ...updateData
+            };
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+            dispatch(setMessage({ message: "Profile updated successfully", severity: "success" }));
+            
+            // PROFILE 
+            const stats = await getProfileStats(authUser.email);
+            setProfileStats(stats);
+            
+            // CERRAR Y RESETEARRRR
+            setSettingsOpen(false);
+            setNewUsername("");
+            setNewProfilePic(null);
+            setPreviewImage(null);
+
+            window.location.reload();
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            dispatch(setMessage({ message: "Unexpected error", severity: "error" }));
+        }
     };
 
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
@@ -116,7 +209,12 @@ export default function Profile() {
                                     </div>
                                     {/* ICONOS */}
                                     <div id="icons" className="flex items-center space-x-[2vw] mr-[2vw]">
-                                        <Settings size={30} color="#C8F442" />
+                                        <Settings 
+                                            size={30} 
+                                            color="#C8F442" 
+                                            className="cursor-pointer hover:opacity-80 transition-opacity"
+                                            onClick={() => setSettingsOpen(true)}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +261,9 @@ export default function Profile() {
         ${isSmall ? "top-3" : "top-4 mt-10"}
     `}
                             >
-                                <Settings size={isSmall ? 0 : 20} color="#C8F442" />
+                                <button onClick={() => setSettingsOpen(true)}>
+                                    <Settings size={isSmall ? 0 : 20} color="#C8F442" />
+                                </button>
                             </div>
 
                             <div
@@ -235,6 +335,69 @@ export default function Profile() {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {/* Settings Modal */}
+            {settingsOpen && (
+                <dialog className="modal modal-open">
+                    <div className="modal-box bg-[#1E1E1E] border border-[#C8F442] max-w-md">
+                        <h3 className="font-bold text-xl mb-6 text-[#C8F442]">Edit Profile</h3>
+                        
+                        <div className="space-y-4">
+                            {/* Profile Picture Preview */}
+                            <div className="flex flex-col items-center gap-3">
+                                <img 
+                                    src={previewImage || currentUser.profile_pic || defaultProfilePic} 
+                                    alt="Profile Preview" 
+                                    className="w-24 h-24 rounded-full object-cover border-2 border-[#C8F442]"
+                                />
+                                <label className="btn btn-sm bg-[#C8F442] text-black hover:bg-[#A3C436] border-none cursor-pointer">
+                                    Choose Photo
+                                    <input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        className="hidden"
+                                        onChange={handleImageSelect}
+                                    />
+                                </label>
+                            </div>
+
+                            {/* Username Input */}
+                            <div>
+                                <label className="label">
+                                    <span className="label-text text-gray-300">Username</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    placeholder={currentUser.username || "Enter username"}
+                                    className="input input-bordered w-full bg-[#2b2b2b] border-[#C8F442] text-white"
+                                    value={newUsername}
+                                    onChange={(e) => setNewUsername(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="modal-action">
+                            <button 
+                                className="btn btn-ghost text-white"
+                                onClick={() => {
+                                    setSettingsOpen(false);
+                                    setNewUsername("");
+                                    setNewProfilePic(null);
+                                    setPreviewImage(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                className="btn bg-[#C8F442] text-black hover:bg-[#A3C436] border-none"
+                                onClick={handleUpdateProfile}
+                            >
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </dialog>
             )}
         </>
     );

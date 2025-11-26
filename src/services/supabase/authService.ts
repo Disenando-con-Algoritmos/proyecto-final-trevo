@@ -35,8 +35,29 @@ const authService = {
         }
     },
 
-    signIn: async (email: string, password: string) => {
+    signIn: async (emailOrUsername: string, password: string) => {
         try {
+            let email = emailOrUsername;
+
+            if (!emailOrUsername.includes('@')) {
+                const { data: userData, error: userError } = await supabase
+                    .from('users')
+                    .select('email')
+                    .eq('username', emailOrUsername)
+                    .single();
+
+                if (userError || !userData) {
+                    console.error('Username not found:', userError);
+                    return {
+                        success: false,
+                        error: 'Username not found',
+                        user: null,
+                    };
+                }
+
+                email = userData.email;
+            }
+
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password,
@@ -53,14 +74,14 @@ const authService = {
 
             return {
                 success: true,
+                error: null,
                 user: data.user,
-                session: data.session,
             };
         } catch (error) {
-            console.error("Unexpected error:", error);
+            console.error("Unexpected error during sign in:", error);
             return {
                 success: false,
-                error: "Error inesperado al iniciar sesión",
+                error: "An unexpected error occurred",
                 user: null,
             };
         }

@@ -7,8 +7,6 @@ import { ChevronLeft } from "lucide-react";
 
 import authService from "../../services/supabase/authService";
 import { BtnLogin } from "../../components/BtnLogin";
-//import { getUsers } from "../../services/userServices";
-//import type { userType } from "../../types/userTypes";
 
 export default function Login() {
     const formRef = useRef<HTMLFormElement>(null);
@@ -16,13 +14,13 @@ export default function Login() {
     const matches = useMediaQuery("(min-width:768px)");
 
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false); // Estado de carga
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const prev = document.documentElement.style.overflowX;
         document.documentElement.style.overflowX = matches ? "hidden" : "";
         return () => {
-            document.documentElement.style.overflowX = prev ?? "";
+            document.documentElement.style.overflowX = prev?? "";
         };
     }, [matches]);
 
@@ -38,14 +36,12 @@ export default function Login() {
         if (!formResponse) return;
 
         const formData = new FormData(formResponse);
-        // Nota: CambiE el name del input a "email" para ser IGUALITO con Supabase
         const email = (formData.get("email") as string) || ""; 
         const password = (formData.get("password") as string) || "";
 
         setLoading(true);
 
         try {
-            // Llamada a Supabase
             const result = await authService.signIn(email, password);
 
             if (result.success) {
@@ -67,7 +63,7 @@ export default function Login() {
         <div className={`flex h-screen overflow-hidden ${matches ? "flex-row" : "flex-col bg-[#111]"}`}>
             {matches && (
                 <div
-                    className="w-1/2 bg-no-repeat bg-cover bg-center relative"
+               className="w-1/2 bg-no-repeat bg-cover bg-center relative"
                     style={{
                         backgroundImage: "url(/trevo/assets/backgroundlogin.png)",
                     }}
@@ -107,13 +103,11 @@ export default function Login() {
 
                 <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-3 w-[90%] md:w-[400px] max-w-md font-[poppins]">
                     
-                    {/* CAMBIO IMPORTANTE: name="email" en lugar de "username" */}
                     <TextField
                         fullWidth
-                        label="Enter email" 
+                        label="Username or Email" 
                         variant="outlined"
                         name="email"
-                        type="email"
                         required
                         sx={{
                             input: { color: "white" },
@@ -181,11 +175,10 @@ export default function Login() {
                         </Link>
                     </div>
 
-                    {/* Mostramos carga o el botón */}
                     {loading ? <p className="text-white">Iniciando sesión</p> : <BtnLogin />}
 
                     <p className="text-white pt-2 text-[12px] font-[poppins] text-center">
-                        Don’t have an account?{" "}
+                        Don't have an account?{" "}
                         <Link to="/signup" className="text-[#9872F0] underline font-[poppins]">
                             Sign Up
                         </Link>
