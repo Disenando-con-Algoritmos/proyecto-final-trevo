@@ -16,7 +16,7 @@ import type { workoutType } from "../../types/workoutTypes";
 import CreatePost from "../../components/CreatePost";
 import Alert from "../../components/Alert"; 
 import authService from "../../services/supabase/authService";
-import { getUserProfile, type UserProfile } from "../../services/supabase/userService";
+import { getUserProfile, createUserProfile, type UserProfile } from "../../services/supabase/userService";
 import Loading from "../../components/Loading";
 
 import ContainerHashtag from "./ContainerHashtag";
@@ -37,13 +37,25 @@ export default function Home() {
     useEffect(() => {
         const fetchUser = async () => {
             const authUser = await authService.getCurrentUser();
+
             if (authUser && authUser.email) {
-                const userProfile = await getUserProfile(authUser.email);
+                let userProfile = await getUserProfile(authUser.email);
+                
+                if (!userProfile) {
+                    console.warn("Home: User profile not found, attempting to create...");
+                    const username = authUser.user_metadata?.username || authUser.email.split("@")[0];
+                    userProfile = await createUserProfile(authUser.email, username);
+                }
+
                 if (userProfile) {
                     setUsername(userProfile.username);
                     setCurrentUser(userProfile);
                     localStorage.setItem("user", JSON.stringify(userProfile));
+                } else {
+                    console.error("Home: Failed to get or create user profile.");
                 }
+            } else {
+                console.warn("Home: No auth user or email found.");
             }
         };
         fetchUser();

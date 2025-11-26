@@ -64,13 +64,13 @@ const createPost = async (post: {
 
         if (error) {
             console.error("Error creating post:", error);
-            return null;
+            return { success: false, post: null };
         }
 
-        return data;
+        return { success: true, post: data };
     } catch (error) {
         console.error("Unexpected error creating post:", error);
-        return null;
+        return { success: false, post: null };
     }
 };
 

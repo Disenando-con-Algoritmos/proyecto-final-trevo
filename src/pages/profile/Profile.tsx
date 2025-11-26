@@ -140,7 +140,7 @@ export default function Profile() {
             try {
                 setLoading(true);
 
-                // Obtener usuario autenticado
+                // USUARIO AUTENTICADO
                 const authUser = await authService.getCurrentUser();
                 if (!authUser || !authUser.email) {
                     console.error("No authenticated user");
@@ -148,11 +148,23 @@ export default function Profile() {
                     return;
                 }
 
-                // Obtener estadísticas del perfil
-                const stats = await getProfileStats(authUser.email);
+                // ESTADISTICAS DEL PERFIL
+                let stats = await getProfileStats(authUser.email);
+                
+                // Si no existe el perfil, intentar crearlo
+                if (!stats) {
+                    console.warn("Profile: User profile not found, attempting to create...");
+                    const username = authUser.user_metadata?.username || authUser.email.split("@")[0];
+                    const { createUserProfile } = await import("../../services/supabase/userService");
+                    const newProfile = await createUserProfile(authUser.email, username);
+                    if (newProfile) {
+                        stats = await getProfileStats(authUser.email);
+                    }
+                }
+                
                 setProfileStats(stats);
 
-                // Obtener todos los posts y filtrar por el usuario actual
+                // POSTS
                 const allPosts = await getPosts();
                 const filtered = allPosts.filter((post: Posttype) => post.username === stats?.username);
                 setUserPosts(filtered);
@@ -318,7 +330,7 @@ export default function Profile() {
                             {loading ? (
                                 <Loading />
                             ) : userPosts.length > 0 ? (
-                                <div className="mb-420 flex flex-col items-center max-h-[70vh] mt-4 px-2">
+                                <div className="mb-80 flex flex-col items-center max-h-[70vh] mt-4 px-2">
                                     {userPosts.map((post: Posttype) => (
                                         <PostCard key={post.id} post={post} currentUser={currentUser} />
                                     ))}

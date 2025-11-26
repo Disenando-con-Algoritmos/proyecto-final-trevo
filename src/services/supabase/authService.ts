@@ -1,4 +1,4 @@
-import  supabase  from "./config";
+import supabase from "./config";
 
 const authService = {
     signUp: async (email: string, password: string, metadata?: { username?: string }) => {
@@ -7,7 +7,7 @@ const authService = {
                 email,
                 password,
                 options: {
-                    data: metadata, 
+                    data: metadata,
                 },
             });
 
@@ -18,6 +18,20 @@ const authService = {
                     error: error.message,
                     user: null,
                 };
+            }
+
+            if (data.user) {
+                const { error: insertError } = await supabase.from("users").insert({
+                    email: email,
+                    username: metadata?.username,
+                    profile_pic: "",
+                });
+
+                if (insertError) {
+                    console.error("SignUp: Failed to create user record:", JSON.stringify(insertError, null, 2));
+                } else {
+                    console.info("SignUp: User record created successfully!");
+                }
             }
 
             return {
@@ -40,11 +54,7 @@ const authService = {
             let email = emailOrUsername;
 
             if (!emailOrUsername.includes("@")) {
-                const { data: userData, error: userError } = await supabase
-                    .from("users")
-                    .select("email")
-                    .eq("username", emailOrUsername)
-                    .single();
+                const { data: userData, error: userError } = await supabase.from("users").select("email").eq("username", emailOrUsername).single();
 
                 if (userError || !userData) {
                     console.error("Username not found:", userError);
