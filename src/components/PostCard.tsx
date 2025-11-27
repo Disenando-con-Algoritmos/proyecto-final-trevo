@@ -21,6 +21,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
 
     const commentsLoaded = useRef(false);
     const [userProfilePic, setUserProfilePic] = useState<string>("");
+    const defaultProfilePic = "https://i.pinimg.com/736x/3c/ae/07/3cae079ca0b9e55ec6bfc1b358c9b1e2.jpg";
 
     useEffect(() => {
         const fetchCommentCount = async () => {
@@ -129,7 +130,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
         <div className="w-full max-w-md mx-auto text-white rounded-2xl p-4 mt-4">
             {/* info de usuario post */}
             <div className="flex items-center gap-3 mb-3">
-                <img src={post.profilepic} alt="profile" className="w-10 h-10 rounded-full object-cover" />
+                <img src={post.profilepic || defaultProfilePic} alt="profile" className="w-10 h-10 rounded-full object-cover" />
                 <div>
                     <h2 className="text-[15px] font-medium">{post.username}</h2>
                     <p className="text-[10px] text-gray-400">{getRelativeTime(post.date)}</p>
@@ -170,7 +171,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
                     ) : (
                         comments.map((comment) => (
                             <div key={comment.id} className="flex items-start gap-2 mb-2">
-                                <img src={comment.profilepic} alt="pfp" className="w-8 h-8 rounded-full object-cover" />
+                                <img src={comment.profilepic || defaultProfilePic} alt="pfp" className="w-8 h-8 rounded-full object-cover" />
                                 <div className="bg-[#2b2b2b] p-2 rounded-lg flex-1 min-w-0">
                                     <div className="flex items-center gap-2 mb-1">
                                         <p className="text-xs font-semibold">{comment.username}</p>
