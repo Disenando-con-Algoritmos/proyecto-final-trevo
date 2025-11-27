@@ -189,7 +189,7 @@ export default function PostCard({ post, currentUser }: { post: Posttype; curren
 
                     {/* nuevo comentario */}
                     <form onSubmit={handleSubmit} className="flex gap-2 mt-2">
-                        <img src={userProfilePic || "https://placehold.co/400"} alt="you" className="w-8 h-8 rounded-full object-cover" />
+                        <img src={userProfilePic || defaultProfilePic} alt="you" className="w-8 h-8 rounded-full object-cover" />
                         <input value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a comment..." className="flex-1 bg-[#2b2b2b] rounded-full px-3 py-1 text-sm outline-none" />
                         <button type="submit" className="text-[#9872F0] text-sm font-semibold cursor-pointer">
                             Send
