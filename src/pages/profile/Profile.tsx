@@ -338,7 +338,7 @@ export default function Profile() {
                             {loading ? (
                                 <Loading />
                             ) : userPosts.length > 0 ? (
-                                <div className="mb-80 flex flex-col items-center max-h-[70vh] mt-4 px-2">
+                                <div className="mb-180 flex flex-col items-center max-h-[70vh] mt-4 px-2">
                                     {userPosts.map((post: Posttype) => (
                                         <PostCard key={post.id} post={post} currentUser={currentUser} />
                                     ))}

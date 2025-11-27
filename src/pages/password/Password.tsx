@@ -16,14 +16,13 @@ export default function Password() {
         setMessage("");
         setError("");
 
-        // Lógica oficial Supabase con redirect personalizado
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: "http://localhost:3000/trevo/update-password"//Esto se cambiara cuando ya sea una web entonces en ese momento seria asi: https://NUESTRO_DOMINIO/trevo/update-password
+            redirectTo: "https://trevo-kis5.onrender.com/trevo/update-password"
         });
 
         if (!error) {
             setMessage("Te hemos enviado un correo de recuperación. ¡Revisa tu bandeja!");
-            setEmail(""); // Limpia el campo
+            setEmail(""); 
         } else {
             setError(error.message || "Error al enviar el correo");
         }
